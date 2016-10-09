@@ -2,8 +2,11 @@
 <html lang="en">
     <head>
     </head>
-    {{ $teste }}
-    Testando
     <body> 
+ 		{!! Form::open(['url' => 'foo/bar']) !!}
+		    {!! Form::text('username') !!}
+		    {!! Form::submit('Click Me!') !!}
+		{!! Form::close() !!}
+ 		@yield('content')    
     </body>
 </html>
