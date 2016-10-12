@@ -2,11 +2,11 @@
 <html lang="en">
     <head>
     </head>
-    <body> 
- 		{!! Form::open(['url' => 'foo/bar']) !!}
-		    {!! Form::text('username') !!}
+    <body>
+ 		{!! Form::open(['url' => route('postSearch')]) !!}
+		    {!! Form::text('product') !!}
 		    {!! Form::submit('Click Me!') !!}
 		{!! Form::close() !!}
- 		@yield('content')    
+ 		@yield('content')
     </body>
 </html>
