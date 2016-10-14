@@ -14,7 +14,7 @@ class HomeController extends Controller
 		}
 
 	public function search($keyword)
-		{			
+		{
 			//$request->product Request $request
 			$buscape = $this->buscape($keyword);
 			return $buscape;
@@ -33,7 +33,7 @@ class HomeController extends Controller
 			$xml->product->count()
 			*/
 
-			dd($xml->product[0]->productName);
+			dd($xml->product);
 
 			return 'teste';
 		}
