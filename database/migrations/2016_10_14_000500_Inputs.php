@@ -11,9 +11,8 @@ class Inputs extends Migration
         Schema::create('inputs', function (Blueprint $table) {
             $table->increments('id');
             $table->string('text');
-            $table->integer('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users');
-            $table->timestamps();
+            $table->integer('id_user')->unsigned()->nullable();
+            $table->dateTime('created_at');
         });
     }
 
