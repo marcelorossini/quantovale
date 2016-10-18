@@ -12,9 +12,6 @@ class ProductsHist extends Migration
             $table->increments('id');
             $table->integer('id_product')->unsigned();
             $table->foreign('id_product')->references('id')->on('products');
-            $table->integer('id_provider')->unsigned();
-            $table->foreign('id_provider')->references('id')->on('providers');
-            $table->integer('provider_cod')->unsigned();
             $table->date('date');
             $table->double('price_min', 15, 8);
             $table->double('price_max', 15, 8);

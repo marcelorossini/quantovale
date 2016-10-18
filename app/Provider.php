@@ -4,11 +4,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Provider extends Model
 {
-  protected $table = 'products';
+  protected $table = 'providers';
   protected $fillable = [
-      'name','short_name','id_category','provider_cod'
+      'name'
   ];
   public $timestamps = false;
 }

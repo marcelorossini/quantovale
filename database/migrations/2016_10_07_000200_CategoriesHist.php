@@ -11,7 +11,7 @@ class CategoriesHist extends Migration
         Schema::create('categories_hist', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_category')->unsigned();
-            $table->foreign('id_category')->references('id')->on('categories');
+            //$table->foreign('id_category')->references('id')->on('categories');
             $table->double('percent');
             $table->date('date');
         });

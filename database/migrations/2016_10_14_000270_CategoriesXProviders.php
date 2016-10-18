@@ -11,9 +11,9 @@ class CategoriesXProviders extends Migration
         Schema::create('categories_providers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('id_category')->unsigned();
-            $table->foreign('id_category')->references('id')->on('categories');
+            //$table->foreign('id_category')->references('id')->on('categories');
             $table->integer('id_provider')->unsigned();
-            $table->foreign('id_provider')->references('id')->on('providers');
+            //$table->foreign('id_provider')->references('id')->on('providers');
         });
     }
 
