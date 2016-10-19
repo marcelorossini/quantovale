@@ -2,10 +2,13 @@
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
-Route::get('/home','HomeController@index');
+Route::get('/','HomeController@index');
 
-Route::post('/home/search/product', [
+Route::post('/search/product', [
        'as' => 'postSearch', function (Request $request) {
           return redirect(route('getSearch',$request->product));
        }]);
-Route::get('/home/search/product/{keyword?}','HomeController@search')->name('getSearch');
+
+Route::get('/search/product/{keyword?}','SearchController@index')->name('getSearch');
+
+Route::get('/product/{id?}','ProductController@index')->name('getProduct');
