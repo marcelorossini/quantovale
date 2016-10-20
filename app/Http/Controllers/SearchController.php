@@ -47,7 +47,7 @@ class SearchController extends Controller
 			$obj = json_decode($json);
 
 			$products = [];
-			dd('http://sandbox.buscape.com.br/service/findProductList/554163674d2f57624d676f3d/BR/?keyword='.urlencode($keyword).'&results=100&format=json');
+		
 			if ($obj->totalresultsreturned > 0) {
 					foreach($obj->product as $item)
 					{

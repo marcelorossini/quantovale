@@ -9,9 +9,12 @@ class Categories extends Migration
     public function up()
     {
         Schema::create('categories', function (Blueprint $table) {
-            $table->integer('id');
+            $table->increments('id');
             //$table->primary('id');
             $table->string('name');
+            $table->integer('id_parent');
+            $table->integer('id_provider')->unsigned();
+            $table->integer('provider_category')->unsigned();
         });
     }
 
