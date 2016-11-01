@@ -8,6 +8,7 @@ use DB;
 
 use App\Input as InputTable;
 use App\Product;
+use App\ProductHist;
 use App\Category;
 
 class SearchController extends Controller
@@ -23,11 +24,10 @@ class SearchController extends Controller
 
 			//Procura produto no buscapé
 			$buscape = $this->buscape($keyword);
-
-			return $this->result($buscape, $keyword);
+			return $this->result_page($buscape, $keyword);
 		}
 
-	public function result($ids, $keyword) {
+	public function result_page($ids, $keyword) {
 			$products = DB::table('products')
 			              ->select('*')
 										->whereIn('id',$ids)
@@ -41,44 +41,97 @@ class SearchController extends Controller
 			$url = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/554163674d2f57624d676f3d/BR/?keyword='.urlencode($keyword).'&results=100');
 			$xml = new \SimpleXMLElement($url);
 			*/
-			$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
-			$context = stream_context_create($opts);
-			$json = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/554163674d2f57624d676f3d/BR/?keyword='.urlencode($keyword).'&results=100&format=json',false,$context);
-			$obj = json_decode($json);
-
+			// Array para produtos
 			$products = [];
-		
-			if ($obj->totalresultsreturned > 0) {
-					foreach($obj->product as $item)
-					{
-							if (Category::find($item->product->categoryid) == null) {
-									$category = new Category();
-									$category->id = $item->product->categoryid;
-									$category->name = '53w53';
-									$category->save();
+			// Contador de oáginas
+			$totalpages = 1;
+			// E inicia a brincadeira
+			for ($pages = 1; $pages <= $totalpages; $pages++) {
+					//try {
+							// Busca produtos
+							$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
+							$context = stream_context_create($opts);
+							$json = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/554163674d2f57624d676f3d/BR/?keyword='.urlencode($keyword).'&results=100&format=json'.($pages>1?'&page='.$pages:''),false,$context);
+							$obj = json_decode($json);
+							
+							// Quantidade de páginas
+							if (isset($obj->totalpages)) {
+									$totalpages = $obj->totalpages;
 							}
 
-							$provider_cod = Product::where('provider_cod',$item->product->id)->get(['id']);
+							// Se houver resultados
+							if ($obj->totalresultsreturned > 0) {
+									foreach($obj->product as $item)
+									{
+											// Cadastra a categoria
+		/*
+											if (Category::find($item->product->categoryid) == null) {
+													$category = new Category();
+													$category->id = $item->product->categoryid;
+													$category->name = '53w53';
+													//$category->id_parent = 1;
+													$category->save();
+													dd('');
+											}
+		*/
+											// Código do produto do buscapé
+											$provider_cod = Product::where('provider_cod',$item->product->id)->get(['id']);
+		//dd($item);
+											// Código do produto no sistema
+											$product_id = 0;
+											if ($provider_cod->toArray() == null) {
+													$product = new Product();
+													$product->id_provider  = 1;
+													$product->provider_cod = $item->product->id;
+													$product->name         = $item->product->productname;
 
-							$product_id = 0;
-							if ($provider_cod->toArray() == null) {
-									$product = new Product();
-									$product->id_provider  = 1;
-									$product->provider_cod = $item->product->id;
-									$product->name         = $item->product->productname;
-					 				$product->short_name   = $item->product->productshortname;
-					 				$product->id_category  = $item->product->categoryid;
-					 				$product->created_at   = date("Y-m-d H:i:s");
-					 				$product->save();
-									$product_id = $product->id;
-							} else {
-									$product_id = $provider_cod->toArray()[0]['id'];
+													$product->short_name   = '';
+													if (isset($item->product->productshortname)) {
+															$product->short_name   = $item->product->productshortname;
+													}
+									 				$product->id_category  = $item->product->categoryid;
+									 				$product->created_at   = date("Y-m-d H:i:s");
+									 				$product->save();
+													$product_id = $product->id;
+											// Se já existir
+											} else {
+													$product_id = $provider_cod->toArray()[0]['id'];
+											}
+
+											// Verifica se o produto já está com o preço cadastrado no dia
+											$product_hist_table = DB::table('products_hist')
+																		->select('id')
+																		->where('id_product',$product_id)
+																		->where('date',date("Y-m-d"))
+																		->first();
+
+											// Grava o valor no produto
+											if ($product_hist_table == null) {
+													$product_hist = new ProductHist();
+													$product_hist->id_product = $product_id;
+													$product_hist->date       = date("Y-m-d");
+
+													$product_hist->price_min = 0;
+													if (isset($item->product->pricemin)) {
+															$product_hist->price_min = $item->product->pricemin;
+													}
+													$product_hist->price_max = 0;
+													if (isset($item->product->pricemax)) {
+															$product_hist->price_max = $item->product->pricemax;
+													}
+
+													$product_hist->save();
+											}
+
+											// Adiciona o produto no array
+											$products[] = $product_id;
+									}
 							}
-							$products[] = $product_id;
+					//} catch (\Exception $e) {
+
+					//}
 					}
-			}
-
-			return $products;
+					return $products;
 			/*
 			$item->product->id
 

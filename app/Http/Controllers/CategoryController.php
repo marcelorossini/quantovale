@@ -22,8 +22,8 @@ class CategoryController extends Controller
 				$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
 				$context = stream_context_create($opts);
 
-				for ($i = 10000; $i <= 15000; $i++) {
-						$json = file_get_contents('http://sandbox.buscape.com.br/service/findCategoryList/554163674d2f57624d676f3d/BR/?categoryId='.$i.'&format=json',false,$context);
+				for ($i = 12000; $i <= 15000; $i++) {
+						$json = file_get_contents('http://sandbox.buscape.com.br/service/findCategoryList/3949646a646c52444374413d/BR/?categoryId='.$i.'&format=json',false,$context);
 						$obj = json_decode($json);
 						//dd($obj);
 
