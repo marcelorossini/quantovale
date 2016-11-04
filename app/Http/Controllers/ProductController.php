@@ -10,11 +10,29 @@ class ProductController extends Controller
 {
 	public function index($id)
 		{
-				$product = DB::table('products')
-											->select('*')
-											->where('id',$id)
+				// Dados produto
+				$product = DB::table('products as p')
+											->select('p.*')
+											->where('p.id',$id)
 											->first();
-				return view('product.index',['product' => $product]);
+
+				// Marca
+				$marca = "";
+				if (isset($product->id_category)){
+						$marca = DB::table('manufacturers as m')
+						            ->select('m.name')
+												->where('m.provider_category',$product->id_category)
+												->whereRaw('find_in_set(m.name,replace(?," ",","))',$product->name)
+												->first();
+						$marca = $marca->name;
+				}
+
+				// Calcula valor produto
+				$valor = CalcValProduct($id);
+
+				dd($valor);
+
+				return view('product.index',['product' => $product,'marca' => $marca]);
 		}
 
 	public function create($keyword)

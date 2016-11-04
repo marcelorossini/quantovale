@@ -53,7 +53,7 @@ class SearchController extends Controller
 							$context = stream_context_create($opts);
 							$json = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/554163674d2f57624d676f3d/BR/?keyword='.urlencode($keyword).'&results=100&format=json'.($pages>1?'&page='.$pages:''),false,$context);
 							$obj = json_decode($json);
-							
+
 							// Quantidade de páginas
 							if (isset($obj->totalpages)) {
 									$totalpages = $obj->totalpages;
