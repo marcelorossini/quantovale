@@ -9,5 +9,5 @@ function CalcValProduct($id)
                   ->where('id_product',$id)
                   ->first();
 
-    return $aProducVal;
+    return $aProducVal->price_min;
 }

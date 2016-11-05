@@ -30,9 +30,7 @@ class ProductController extends Controller
 				// Calcula valor produto
 				$valor = CalcValProduct($id);
 
-				dd($valor);
-
-				return view('product.index',['product' => $product,'marca' => $marca]);
+				return view('product.index',['product' => $product,'marca' => $marca,'valor' => $valor]);
 		}
 
 	public function create($keyword)
