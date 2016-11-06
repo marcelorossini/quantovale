@@ -1,6 +1,6 @@
 <?php
 
-use DB;
+use Illuminate\Support\Facades\DB;
 
 function CalcValProduct($id)
 {
@@ -9,5 +9,12 @@ function CalcValProduct($id)
                   ->where('id_product',$id)
                   ->first();
 
-    return $aProducVal->price_min;
+    $nValor = 0;
+    if (isset($aProducVal->price_min)) {
+        $nValor = $aProducVal->price_min;
+    } elseif (isset($aProducVal->price_max)) {
+        $nValor = $aProducVal->price_max;
+    }
+
+    return $nValor;
 }

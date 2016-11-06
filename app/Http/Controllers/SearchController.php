@@ -47,7 +47,7 @@ class SearchController extends Controller
 			$totalpages = 1;
 			// E inicia a brincadeira
 			for ($pages = 1; $pages <= $totalpages; $pages++) {
-					//try {
+					try {
 							// Busca produtos
 							$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
 							$context = stream_context_create($opts);
@@ -127,9 +127,9 @@ class SearchController extends Controller
 											$products[] = $product_id;
 									}
 							}
-					//} catch (\Exception $e) {
+					} catch (\Exception $e) {
 
-					//}
+					}
 					}
 					return $products;
 			/*
