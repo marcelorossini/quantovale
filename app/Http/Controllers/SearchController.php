@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
+use Storage;
 
 use App\Input as InputTable;
 use App\Product;
@@ -121,6 +122,30 @@ class SearchController extends Controller
 													}
 
 													$product_hist->save();
+											}
+
+											// Grava imagem
+											if (isset($item->product->thumbnail->url) && count(Storage::files('product/images/'.$product_id.'/')) == 0) {
+													// Url da thumbnail
+													$sUrl = $item->product->thumbnail->url;
+
+													// Procura thumbnail com melhor resolução
+													for ($nRes = 6;$nRes >=0;$nRes--) {
+															$cRes = (string)($nRes*100).'x'.(string)($nRes*100);
+															try {
+																	$sUrl = str_replace(["100x100","200x200","300x300","400x400","500x500"],$cRes,$sUrl);
+																	$sTeste = file_get_contents($sUrl);
+
+															} catch (\Exception $e) {
+															}
+															if (!is_null($sTeste)) {
+																	break;
+															}
+													}
+
+													// Grava na pasta
+													$cNomArq = 'bcp_'.$cRes.'.jpg';
+													Storage::disk('local')->put('product/images/'.$product_id.'/'.$cNomArq,$sTeste);
 											}
 
 											// Adiciona o produto no array

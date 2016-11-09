@@ -5,7 +5,7 @@
   <div class="col s12 l12">
     <div class="card horizontal">
       <div class="card-image">
-        <img height="400" src="http://thumbs.buscape.com.br/celular-e-smartphone/smartphone-samsung-galaxy-j7-sm-j700m_600x600-PU96349_1.jpg">
+        <img height="400" src="{{ $image }}">
       </div>
       <div class="card-stacked">
         <div class="card-content">

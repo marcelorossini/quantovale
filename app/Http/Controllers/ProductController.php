@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
+use Storage;
 
 class ProductController extends Controller
 {
@@ -17,17 +18,21 @@ class ProductController extends Controller
 											->first();
 
 				// Marca
-				$tabMarca = "";
 				if (isset($tabProduct->id_category)){
 						$tabMarca = DB::table('manufacturers as m')
 						            ->select('m.name')
 												->where('m.provider_category',$tabProduct->id_category)
 												->whereRaw('find_in_set(m.name,replace(?," ",","))',$tabProduct->name)
 												->first();
-						$tabMarca = $tabMarca->name;
+						if (isset($tabMarca)) {
+								$tabMarca = $tabMarca->name;
+						}
 				}
+
 				// Tags
-				$tags[] = $tabMarca;
+				if (isset($tabMarca) && !is_null($tabMarca)) {
+						$tags[] = $tabMarca;
+				}
 				if (isset($tabProduct->id_category)){
 						$auxCategoria = $tabProduct->id_category;
 						while ($auxCategoria!=null) {
@@ -43,7 +48,15 @@ class ProductController extends Controller
 				// Calcula valor produto
 				$valor = CalcValProduct($id);
 
-				return view('product.index',['product' => $tabProduct,'marca' => $tabMarca,'valor' => $valor,'tags' => $tags]);
+				// Imagem
+				$aImages = Storage::files('product/images/'.$id.'/');
+				if (count($aImages)>0) {
+						$sUrlImage = $aImages[0];
+						$sUrlImage = pathinfo($sUrlImage,PATHINFO_BASENAME);
+				}
+				$sUrlImage = Route("getProductImage",[$id,$sUrlImage]);
+
+				return view('product.index',['product' => $tabProduct,'marca' => $tabMarca,'valor' => $valor,'tags' => $tags,'image' => $sUrlImage]);
 		}
 
 	public function create($keyword)

@@ -13,4 +13,6 @@ Route::get('/search/product/{keyword?}','SearchController@index')->name('getSear
 
 Route::get('/product/{id?}','ProductController@index')->name('getProduct');
 
+Route::get('product/{id?}/images/{filename?}','ImageController@index')->name('getProductImage');
+
 Route::get('/category','CategoryController@update')->name('getCategory');
