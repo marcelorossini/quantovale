@@ -7,11 +7,12 @@
   <link href="{{ asset("/css/materialize.css") }}" rel="stylesheet">
   <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="//cdn.materialdesignicons.com/1.7.22/css/materialdesignicons.min.css" rel="stylesheet">
 
   <script scr="{{ asset("/js/materialize.js") }}"></script>
 </head>
-<body>
-  <nav class="nav-extended orange lighten-2">
+<body id="main">
+  <nav class="nav-extended orange lighten-1">
     <div class="row" style="padding: 0; margin: 0;">
       <div class="col s12 m12 l8 offset-l2">
         <div class="nav-wrapper">
@@ -48,7 +49,7 @@
     </div>
   </main>
 
-  <footer class="page-footer orange lighten-2">
+  <footer class="page-footer grey darken-3">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">

@@ -49,12 +49,14 @@ class ProductController extends Controller
 				$valor = CalcValProduct($id);
 
 				// Imagem
+				/*
 				$aImages = Storage::files('product/images/'.$id.'/');
 				if (count($aImages)>0) {
 						$sUrlImage = $aImages[0];
 						$sUrlImage = pathinfo($sUrlImage,PATHINFO_BASENAME);
 				}
-				$sUrlImage = Route("getProductImage",[$id,$sUrlImage]);
+				*/
+				$sUrlImage = Route("getProductImage",[$id,"bcp_600x600.jpg"]);
 
 				return view('product.index',['product' => $tabProduct,'marca' => $tabMarca,'valor' => $valor,'tags' => $tags,'image' => $sUrlImage]);
 		}
