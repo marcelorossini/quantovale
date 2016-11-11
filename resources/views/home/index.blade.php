@@ -6,10 +6,18 @@
 
   <link href="{{ asset("/css/materialize.css") }}" rel="stylesheet">
   <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
+
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="//cdn.materialdesignicons.com/1.7.22/css/materialdesignicons.min.css" rel="stylesheet">
 
-  <script scr="{{ asset("/js/materialize.js") }}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="{{ asset("/js/materialize.js") }}"></script>
+
+  <script src="{{ asset("/js/pickadate.js-3.5.6/lib/picker.js") }}"></script>
+  <script src="{{ asset("/js/pickadate.js-3.5.6/lib/picker.date.js") }}"></script>
+  <script src="{{ asset("/js/pickadate.js-3.5.6/lib/legacy.js") }}"></script>
+
+
 </head>
 <body id="main">
   <nav class="nav-extended orange lighten-1">
@@ -72,5 +80,14 @@
       </div>
     </div>
   </footer>
+
+  <script>
+        $('select').material_select();
+
+        $('.datepicker').pickadate({
+          selectMonths: true, // Creates a dropdown to control month
+          selectYears: 15 // Creates a dropdown of 15 years to control year
+        });
+  </script>
 </body>
 </html>

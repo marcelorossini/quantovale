@@ -20,17 +20,41 @@
 
               <!--<div style="position: absolute; bottom: 20%;">-->
               <div class="">
-                <h5>Seu produto vale:</h5>
-                <h1 style="margin: 0 0 6px 0;">R$ {{ $valor }}</h1>
+                <div class="flow-text">Valor novo: R$ {{ $valor }}</div>
               </div>
 
             </div>
+            <!--
             <div class="card-action">
               <a href="#"><i class="mdi mdi-heart mdi-24px"></i></a>
               <a href="#"><i class="mdi mdi-share-variant mdi-24px"></i></a>
             </div>
+            -->
           </div>
         </div>
+        <hr>
+        <form action="#">
+          <div class="row">
+              <div class="col s12 l4">
+                  <select>
+                    <option value="" disabled selected>Estado da tela</option>
+                    <option value="1">Perfeita</option>
+                    <option value="2">Pequenos riscos</option>
+                    <option value="3">Vários riscos</option>
+                    <option value="3">Tricada</option>
+                  </select>
+              </div>
+              <div class="col s12 l4">
+                <p>
+                    <input type="checkbox" id="test5" />
+                    <label for="test5" style="display: block;">Red</label>
+                </p>
+              </div>
+              <div class="col s12 l4">
+                <input type="date" class="datepicker" placeholder="Data de compra">
+              </div>
+          </div>
+        </form>
       </span>
     </div>
   </div>

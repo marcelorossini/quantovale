@@ -10,9 +10,9 @@ function CalcValProduct($id)
                   ->first();
 
     $nValor = 0;
-    if (isset($aProducVal->price_min)) {
+    if (isset($aProducVal->price_min) && $aProducVal->price_min > 0) {
         $nValor = $aProducVal->price_min;
-    } elseif (isset($aProducVal->price_max)) {
+    } elseif (isset($aProducVal->price_max) && $aProducVal->price_max > 0) {
         $nValor = $aProducVal->price_max;
     }
 

@@ -17,3 +17,7 @@ main {
 .active {
     border-bottom: 1px solid #fff;
 }
+
+hr {
+    color: #e4e4e4;
+}
