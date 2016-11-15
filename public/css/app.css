@@ -14,7 +14,7 @@ main {
     margin: 0;
 }
 
-.active {
+.active a {
     border-bottom: 1px solid #fff;
 }
 

@@ -45,6 +45,8 @@ class ProductController extends Controller
 						}
 				}
 
+				// Chart
+				$tabProductHist = $this->products_hist($id);
 				// Calcula valor produto
 				$valor = CalcValProduct($id);
 
@@ -58,11 +60,23 @@ class ProductController extends Controller
 				*/
 				$sUrlImage = Route("getProductImage",[$id,"bcp_600x600.jpg"]);
 
-				return view('product.index',['product' => $tabProduct,'marca' => $tabMarca,'valor' => $valor,'tags' => $tags,'image' => $sUrlImage]);
+				return view('product.index',['product' => $tabProduct,'marca' => $tabMarca,'valor' => $valor,'tags' => $tags,'image' => $sUrlImage,'chart' => $tabProductHist]);
 		}
 
-	public function create($keyword)
+	// Retorna dados para uso no grafico
+	public function products_hist($id)
 		{
+				$tabProductHist = DB::table('products_hist')
+		                      ->select('date','price_min','price_max')
+		                      ->where('id_product',$id)
+		                      ->get();
 
+				foreach($tabProductHist as $aProductItem)	{
+			  		$aLabels[] = date('d/m/y',strtotime(str_replace('-','/', $aProductItem->date)));
+						$aMenorPreço[] = $aProductItem->price_min;
+						$aMaiorPReco[] = $aProductItem->price_max;
+				}
+
+				return [$aLabels,$aMenorPreço,$aMaiorPReco];
 		}
 }
