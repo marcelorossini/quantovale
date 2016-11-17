@@ -53,7 +53,7 @@ class SearchController extends Controller
 				// Busca produtos
 				$opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
 				$context = stream_context_create($opts);
-				$json = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/554163674d2f57624d676f3d/BR/?keyword='.urlencode($keyword).'&results=100&format=json'.($pages>1?'&page='.$pages:''),false,$context);
+				$json = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/buscape/3949646a646c52444374413d/BR/?sourceId=35648701&keyword='.urlencode($keyword).'&results=100&format=json'.($pages>1?'&page='.$pages:''),false,$context);
 				$obj = json_decode($json);
 
 				// Quantidade de páginas
