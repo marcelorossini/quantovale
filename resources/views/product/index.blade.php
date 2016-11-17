@@ -12,8 +12,8 @@
           <div class="col s12 m12 l8">
             <div class="">
               <div id="produto_cab">
-                <h5>{{ $product->name }}</h5>
-                @foreach ($tags as $tag)
+                <h5>{{ $aProduct->name }}</h5>
+                @foreach ($aTags as $tag)
                 <div class="chip">
                   {{ $tag }}
                 </div>
@@ -21,7 +21,7 @@
 
                 <!--<div style="position: absolute; bottom: 20%;">-->
                 <div>
-                  <div class="flow-text">Valor novo: R$ {{ number_format($valor,2,",",".") }}</div>
+                  <div class="flow-text">Valor novo: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
                 </div>
               </div>
 
@@ -52,7 +52,7 @@
               var grafico_linha = new Chart(ctx, {
                 type: 'line',
                 data: {
-                  labels: JSON.parse('{!! json_encode($chart[0]) !!}'),
+                  labels: JSON.parse('{!! json_encode($aChart[0]) !!}'),
                   datasets: [
                     {
                       label: "Menor preço",
@@ -73,7 +73,7 @@
                       pointHoverBorderWidth: 2,
                       pointRadius: 1,
                       pointHitRadius: 10,
-                      data: JSON.parse('{!! json_encode($chart[1]) !!}'),
+                      data: JSON.parse('{!! json_encode($aChart[1]) !!}'),
                       spanGaps: false,
                     },
                     {
@@ -95,7 +95,7 @@
                       pointHoverBorderWidth: 2,
                       pointRadius: 1,
                       pointHitRadius: 10,
-                      data: JSON.parse('{!! json_encode($chart[2]) !!}'),
+                      data: JSON.parse('{!! json_encode($aChart[2]) !!}'),
                       spanGaps: false,
                     }
                   ]
@@ -129,43 +129,51 @@
     <hr>
     <form action="#">
       <div class="row">
-        <div class="col s12 l4">
-          <p class="range-field">
-            <label for="test5" style="position: absolute;">Estado</label>
-            <input type="range" id="test5" min="0" max="10" />
-          </p>
+        <div class="col s12 m12 l4">
+          @foreach ($aFilters as $filter)
+            @if ($filter->type === 'date')
+                <div class="col s12 m12 l12">
+                  <label for="date{{ $filter->id }}" style="position: relative; top: 8px;">{{ $filter->name }}</label>
+                  <input type="date" id="date{{ $filter->id }}" class="datepicker">
+                </div>
+            @elseif ($filter->type === 'range')
+                <div class="col s12 m12 l12">
+                  <p class="range-field">
+                    <label for="range{{ $filter->id }}" style="position: absolute; top: -25px;">{{ $filter->name }}</label>
+                    <input type="range" id="range{{ $filter->id }}" min="0" max="10" value="10"/>
+                  </p>
+                </div>
+            @elseif ($filter->type === 'check')
+                <div class="col s12 m12 l12">
+                  <p>
+                    <input type="checkbox" id="checkbox{{ $filter->id }}" />
+                    <label for="checkbox{{ $filter->id }}" style="display: block;">{{ $filter->name }}</label>
+                  </p>
+                </div>
+            @elseif ($filter->type === 'select')
+                <div class="col s12 m12 l12">
+                  <select>
+                    <option value="" disabled selected>{{ $filter->name }}</option>
+                    <option value="1">Perfeita</option>
+                    <option value="2">Pequenos riscos</option>
+                    <option value="3">Vários riscos</option>
+                    <option value="3">Tricada</option>
+                  </select>
+                </div>
+            @endif
+          @endforeach
         </div>
-        <div class="col s12 l4">
-          <select>
-            <option value="" disabled selected>Estado da tela</option>
-            <option value="1">Perfeita</option>
-            <option value="2">Pequenos riscos</option>
-            <option value="3">Vários riscos</option>
-            <option value="3">Tricada</option>
-          </select>
+        <div class="col s12 m12 l8">
+          <div class="hide-on-large-only">
+              <br>
+          </div>
+          <div class="col s12 m12 l12">
+              <a class="waves-effect waves-light btn-large">Calcular</a>
+          </div>
         </div>
-        <div class="col s12 l4">
-          <p>
-            <input type="checkbox" id="test5" />
-            <label for="test5" style="display: block;">Acessórios Originais</label>
-          </p>
-        </div>
-        <!--
-        <div class="col s12 l4">
-        <input type="date" class="datepicker" placeholder="Data de compra">
       </div>
-    -->
-  </div>
-  <div class="row">
-    <div class="col s6 m6 l6">
-      <a class="waves-effect waves-light btn-large">Salvar</a>
-    </div>
-    <div class="col s6 m6 l6">
-
-    </div>
-  </div>
-</form>
-</span>
+    </form>
+  </span>
 </div>
 </div>
 </div>

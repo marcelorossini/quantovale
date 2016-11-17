@@ -50,6 +50,8 @@ class ProductController extends Controller
 				// Calcula valor produto
 				$valor = CalcValProduct($id);
 
+				// Filtros
+				$aFilters = $this->filters((isset($tabProduct->id_category) ? $tabProduct->id_category : 0));
 				// Imagem
 				/*
 				$aImages = Storage::files('product/images/'.$id.'/');
@@ -60,7 +62,7 @@ class ProductController extends Controller
 				*/
 				$sUrlImage = Route("getProductImage",[$id,"bcp_600x600.jpg"]);
 
-				return view('product.index',['product' => $tabProduct,'marca' => $tabMarca,'valor' => $valor,'tags' => $tags,'image' => $sUrlImage,'chart' => $tabProductHist]);
+				return view('product.index',['aProduct' => $tabProduct,'marca' => $tabMarca,'nValorNovo' => $valor,'aTags' => $tags,'image' => $sUrlImage,'aChart' => $tabProductHist,'aFilters' => $aFilters]);
 		}
 
 	// Retorna dados para uso no grafico
@@ -79,4 +81,14 @@ class ProductController extends Controller
 
 				return [$aLabels,$aMenorPreço,$aMaiorPReco];
 		}
+
+	public function filters($nCategory) {
+		$tabCategoriesFilters = DB::table('categories_filters')
+											        ->select('*')
+											        ->where('id_category',$nCategory)
+											        ->orWhere('id_category',0)
+											        ->orderBy('order')
+        											->get();
+		return $tabCategoriesFilters;
+	}
 }

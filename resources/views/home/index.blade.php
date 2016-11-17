@@ -33,10 +33,10 @@
         <div class="nav-wrapper">
           <div class="row" style="padding: 0; margin: 0;">
             <div class="col s11 m11 l11" style="padding: 0; margin: 0;">
-              <ul class=" tabs-transparent">
+              <ul class="tabs tabs-fixed-width tabs-transparent" style="margin-top: 8px">
                 <li class="tab"><a class="active" href="#test1">PRODUTOS</a></li>
-                <li class="tab"><a href="#test2">CARROS</a></li>
-                <li class="tab"><a href="#test3">IMÓVEIS</a></li>
+                <li class="tab disabled"><a href="#test2">CARROS</a></li>
+                <li class="tab disabled"><a href="#test3">IMÓVEIS</a></li>
               </ul>
             </div>
             <div class="col s1 m1 l1" style="padding: 0; margin: 0;">
