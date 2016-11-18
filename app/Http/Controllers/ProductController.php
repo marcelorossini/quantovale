@@ -91,4 +91,16 @@ class ProductController extends Controller
         											->get();
 		return $tabCategoriesFilters;
 	}
+
+	public function calcula(Request $request) {
+		$aRequest = $request->all();
+		//dd($aRequest);
+		while ($sKey = key($aRequest)) {
+		    if ($sKey != '_token') {
+		        echo explode('_',$sKey)[1].' '.current($aRequest).'<br />';
+		    }
+		    next($aRequest);
+		}
+		return 'te';
+	}
 }

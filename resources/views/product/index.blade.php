@@ -127,27 +127,29 @@
       </div>
     </div>
     <hr>
-    <form action="#">
+    <form method="POST" action="{!! route('postProduct',$aProduct->id) !!}">
+      <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <div class="row">
         <div class="col s12 m12 l4">
           @foreach ($aFilters as $filter)
+            {!! !$sNameField = $filter->type.'_'.$filter->id !!}
             @if ($filter->type === 'date')
                 <div class="col s12 m12 l12">
-                  <label for="date{{ $filter->id }}" style="position: relative; top: 8px;">{{ $filter->name }}</label>
-                  <input type="date" id="date{{ $filter->id }}" class="datepicker">
+                  <label for="{{ $sNameField }}" style="position: relative; top: 8px;">{{ $filter->name }}</label>
+                  <input type="date" name="{{ $sNameField }}" id="{{ $sNameField }}" class="datepicker">
                 </div>
             @elseif ($filter->type === 'range')
                 <div class="col s12 m12 l12">
                   <p class="range-field">
-                    <label for="range{{ $filter->id }}" style="position: absolute; top: -25px;">{{ $filter->name }}</label>
-                    <input type="range" id="range{{ $filter->id }}" min="0" max="10" value="10"/>
+                    <label for="{{ $sNameField }}" style="position: absolute; top: -25px;">{{ $filter->name }}</label>
+                    <input type="range" name="{{ $sNameField }}" id="{{ $sNameField }}" min="0" max="10" value="10"/>
                   </p>
                 </div>
             @elseif ($filter->type === 'check')
                 <div class="col s12 m12 l12">
                   <p>
-                    <input type="checkbox" id="checkbox{{ $filter->id }}" />
-                    <label for="checkbox{{ $filter->id }}" style="display: block;">{{ $filter->name }}</label>
+                    <input type="checkbox" name="{{ $sNameField }}" id="{{ $sNameField }}" />
+                    <label for="{{ $sNameField }}" style="display: block;">{{ $filter->name }}</label>
                   </p>
                 </div>
             @elseif ($filter->type === 'select')
@@ -168,7 +170,7 @@
               <br>
           </div>
           <div class="col s12 m12 l12">
-              <a class="waves-effect waves-light btn-large">Calcular</a>
+              <button type="submit" class="waves-effect waves-light btn-large">Calcular</button>
           </div>
         </div>
       </div>
