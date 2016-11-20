@@ -127,7 +127,7 @@
       </div>
     </div>
     <hr>
-    <form method="POST" action="{!! route('postProduct',$aProduct->id) !!}">
+    <form method="POST" action="{!! route('postProduct',[$aProduct->id_catapp,$aProduct->id]) !!}">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <div class="row">
         <div class="col s12 m12 l4">
@@ -148,7 +148,7 @@
             @elseif ($filter->type === 'check')
                 <div class="col s12 m12 l12">
                   <p>
-                    <input type="checkbox" name="{{ $sNameField }}" id="{{ $sNameField }}" />
+                    <input type="checkbox" name="{{ $sNameField }}" {{ $filter->default }} id="{{ $sNameField }}"/>
                     <label for="{{ $sNameField }}" style="display: block;">{{ $filter->name }}</label>
                   </p>
                 </div>

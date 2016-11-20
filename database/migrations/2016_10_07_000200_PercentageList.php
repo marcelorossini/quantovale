@@ -4,13 +4,15 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class FiltersHist extends Migration
+class PercentageList extends Migration
 {
     public function up()
     {
-        Schema::create('filters_hist', function (Blueprint $table) {
+        Schema::create('percentage_list', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('id_filter')->unsigned();
+            $table->integer('id_category')->nullable();
+            $table->integer('id_product')->nullable();
+            $table->integer('id_filter')->nullable();
             //$table->foreign('id_category')->references('id')->on('categories');
             $table->double('percent');
             $table->date('date');
@@ -19,6 +21,6 @@ class FiltersHist extends Migration
 
     public function down()
     {
-        Schema::drop('filters_hist');
+        Schema::drop('percentage_list');
     }
 }

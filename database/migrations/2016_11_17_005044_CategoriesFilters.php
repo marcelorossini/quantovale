@@ -10,11 +10,12 @@ class CategoriesFilters extends Migration
     {
       Schema::create('categories_filters', function (Blueprint $table) {
           $table->increments('id');
-          $table->integer('id_category')->unsigned();
+          $table->integer('id_category')->unsigned()->nullable();
           //$table->foreign('id_category')->references('id')->on('categories');
           $table->string('type');
           $table->string('name');
           $table->integer('order')->unsigned();
+          $table->string('default')->nullable();
       });
     }
 

@@ -13,7 +13,7 @@ class ProductController extends Controller
 		{
 				// Dados produto
 				$tabProduct = DB::table('products as p')
-											->select('p.*')
+											->select(DB::raw('p.*,(select c.id from categories c where c.provider_category = p.id_category) id_catapp'))
 											->where('p.id',$id)
 											->first();
 
@@ -51,7 +51,8 @@ class ProductController extends Controller
 				$valor = CalcValProduct($id);
 
 				// Filtros
-				$aFilters = $this->filters((isset($tabProduct->id_category) ? $tabProduct->id_category : 0));
+				$aFilters = $this->filters((isset($tabProduct->id_catapp) ? $tabProduct->id_catapp : null));
+
 				// Imagem
 				/*
 				$aImages = Storage::files('product/images/'.$id.'/');
@@ -86,21 +87,57 @@ class ProductController extends Controller
 		$tabCategoriesFilters = DB::table('categories_filters')
 											        ->select('*')
 											        ->where('id_category',$nCategory)
-											        ->orWhere('id_category',0)
+											        ->orWhere('id_category',null)
 											        ->orderBy('order')
         											->get();
 		return $tabCategoriesFilters;
 	}
 
-	public function calcula(Request $request) {
+	public function calcula(Request $request, $category, $id) {
+		// Filtros selecionados
 		$aRequest = $request->all();
-		//dd($aRequest);
+		// Valor atual do produto
+		$nValor = DB::table('products_hist')->select(DB::raw('coalesce(price_min,price_max) as valor'))->where('id_product',$id)->orderBy('date','desc')->first()->valor;
+		// Busca a porcertagem de desvalorização
+		$aPorcentage = [];
+		if (!is_null($nAuxPer = DB::table('percentage_list')->select('percent')->where('id_product',$id)->orderBy('date','desc')->first())) {
+			$aPorcentage[] = $nAuxPer->percent;
+		} elseif (!is_null($nAuxPer = DB::table('percentage_list')->select('percent')->where('id_category',$category)->orderBy('date','desc')->first())) {
+			$aPorcentage[] = $nAuxPer->percent;
+		} else {
+			$aPorcentage[] = 10;
+		}
+
 		while ($sKey = key($aRequest)) {
-		    if ($sKey != '_token') {
-		        echo explode('_',$sKey)[1].' '.current($aRequest).'<br />';
+			  $sValue = trim(current($aRequest));
+		    if ($sKey != '_token' && strlen($sValue)>0) {
+						$sType = explode('_',$sKey)[0];
+						$id_filter = explode('_',$sKey)[1];
+
+						$nAuxPer = DB::table('percentage_list')->select('percent')->where('id_filter',$id_filter)->orderBy('date','desc')->first();
+						if (isset($nAuxPer->percent)) {
+							$nAuxPer = $nAuxPer->percent;
+						}
+						if ($sType == 'date') {
+
+						} elseif ($sType == 'range') {
+							//$nAuxPer = (10-intval($sValue));
+							$nAuxPer = $nAuxPer-($nAuxPer*((intval($sValue)*10)/100));
+							$aPorcentage[] = $nAuxPer;
+
+						} elseif ($sType == 'check') {
+							$aPorcentage[] = $nAuxPer;
+
+						} elseif ($sType == 'select') {
+
+						}
 		    }
 		    next($aRequest);
 		}
-		return 'te';
+
+		$nPorcentage = array_sum($aPorcentage);
+		$nValor = $nValor*(100-$nPorcentage)/100;
+		dd($nValor);
+		return '';
 	}
 }
