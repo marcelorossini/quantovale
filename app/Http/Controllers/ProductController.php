@@ -137,7 +137,6 @@ class ProductController extends Controller
 
 		$nPorcentage = array_sum($aPorcentage);
 		$nValor = $nValor*(100-$nPorcentage)/100;
-		dd($nValor);
-		return '';
+		return number_format($nValor,2,",",".");
 	}
 }

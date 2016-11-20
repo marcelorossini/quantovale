@@ -3,16 +3,24 @@
 <head>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
+  <!-- App -->
   <link href="{{ asset("/css/materialize.css") }}" rel="stylesheet">
   <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
 
+  <!-- Fontes -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <!-- Icones -->
   <link href="//cdn.materialdesignicons.com/1.7.22/css/materialdesignicons.min.css" rel="stylesheet">
 
+  <!-- Jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="{{ asset("/js/materialize.js") }}"></script>
 
+  <!-- Ajax -->
+  <script src="{{ asset("/js/ajax/jquery.form.js") }}"></script>
+
+  <!-- Pickdate -->
   <script src="{{ asset("/js/pickadate.js-3.5.6/lib/picker.js") }}"></script>
   <script src="{{ asset("/js/pickadate.js-3.5.6/lib/picker.date.js") }}"></script>
   <script src="{{ asset("/js/pickadate.js-3.5.6/lib/legacy.js") }}"></script>
@@ -21,10 +29,8 @@
   <script src="{{ asset("/js/requirejs/require.js") }}"></script>
   <script src="{{ asset("/js/chart.js/chart.js") }}"></script>
   -->
+  <!-- Grafico -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.js"></script>
-
-
-
 </head>
 <body id="main">
   <nav class="nav-extended orange lighten-1">

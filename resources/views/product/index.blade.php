@@ -113,10 +113,6 @@
                 }
               });
               </script>
-
-
-
-
             </div>
             <!--
             <div class="card-action">
@@ -127,54 +123,96 @@
       </div>
     </div>
     <hr>
-    <form method="POST" action="{!! route('postProduct',[$aProduct->id_catapp,$aProduct->id]) !!}">
+    <form method="POST" action="{!! route('postProduct',[$aProduct->id_catapp,$aProduct->id]) !!}" id="formFilters">
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
       <div class="row">
-        <div class="col s12 m12 l4">
+        <div class="col s12 m12 l4" id="divFilters">
           @foreach ($aFilters as $filter)
-            {!! !$sNameField = $filter->type.'_'.$filter->id !!}
-            @if ($filter->type === 'date')
-                <div class="col s12 m12 l12">
-                  <label for="{{ $sNameField }}" style="position: relative; top: 8px;">{{ $filter->name }}</label>
-                  <input type="date" name="{{ $sNameField }}" id="{{ $sNameField }}" class="datepicker">
-                </div>
-            @elseif ($filter->type === 'range')
-                <div class="col s12 m12 l12">
-                  <p class="range-field">
-                    <label for="{{ $sNameField }}" style="position: absolute; top: -25px;">{{ $filter->name }}</label>
-                    <input type="range" name="{{ $sNameField }}" id="{{ $sNameField }}" min="0" max="10" value="10"/>
-                  </p>
-                </div>
-            @elseif ($filter->type === 'check')
-                <div class="col s12 m12 l12">
-                  <p>
-                    <input type="checkbox" name="{{ $sNameField }}" {{ $filter->default }} id="{{ $sNameField }}"/>
-                    <label for="{{ $sNameField }}" style="display: block;">{{ $filter->name }}</label>
-                  </p>
-                </div>
-            @elseif ($filter->type === 'select')
-                <div class="col s12 m12 l12">
-                  <select>
-                    <option value="" disabled selected>{{ $filter->name }}</option>
-                    <option value="1">Perfeita</option>
-                    <option value="2">Pequenos riscos</option>
-                    <option value="3">Vários riscos</option>
-                    <option value="3">Tricada</option>
-                  </select>
-                </div>
-            @endif
+          {!! !$sNameField = $filter->type.'_'.$filter->id !!}
+          @if ($filter->type === 'date')
+          <div class="col s12 m12 l12">
+            <label for="{{ $sNameField }}" style="position: relative; top: 8px;">{{ $filter->name }}</label>
+            <input type="date" name="{{ $sNameField }}" id="{{ $sNameField }}" class="datepicker">
+          </div>
+          @elseif ($filter->type === 'range')
+          <div class="col s12 m12 l12">
+            <p class="range-field">
+              <label for="{{ $sNameField }}" style="position: absolute; top: -25px;">{{ $filter->name }}</label>
+              <input type="range" name="{{ $sNameField }}" id="{{ $sNameField }}" min="0" max="10" value="10"/>
+            </p>
+          </div>
+          @elseif ($filter->type === 'check')
+          <div class="col s12 m12 l12">
+            <p>
+              <input type="checkbox" name="{{ $sNameField }}" {{ $filter->default }} id="{{ $sNameField }}"/>
+              <label for="{{ $sNameField }}" style="display: block;">{{ $filter->name }}</label>
+            </p>
+          </div>
+          @elseif ($filter->type === 'select')
+          <div class="col s12 m12 l12">
+            <select>
+              <option value="" disabled selected>{{ $filter->name }}</option>
+              <option value="1">Perfeita</option>
+              <option value="2">Pequenos riscos</option>
+              <option value="3">Vários riscos</option>
+              <option value="3">Tricada</option>
+            </select>
+          </div>
+          @endif
           @endforeach
         </div>
-        <div class="col s12 m12 l8">
+        <div class="col s12 m12 l8" id="divCalculo">
           <div class="hide-on-large-only">
-              <br>
+            <br>
           </div>
           <div class="col s12 m12 l12">
-              <button type="submit" class="waves-effect waves-light btn-large">Calcular</button>
+            <div class="center-align">
+                <div class="flow-text">Seu produto vale:</div>
+                <div id="divValorCalculado"></div>
+            </div>
+            <button type="submit" class="waves-effect waves-light btn-large" id="btnCalcular">Calcular</button>
           </div>
         </div>
+        <!-- Corrige o tamanho do grafico-->
+        <script>
+        function resize_calculo() {
+          if ($(window).width()>992) {
+            height_chart = $("#divFilters").height();
+          } else {
+            height_chart = 200;
+          }
+          $("#divCalculo").css("height",height_chart);
+        }
+
+        resize_calculo();
+        $( window ).resize(function() {
+          resize_calculo();
+        });
+        </script>
       </div>
     </form>
+    <script>
+    // prepare the form when the DOM is ready
+    $(document).ready(function() {
+      var options = {
+        target: '#divValorCalculado',
+        success: showResponse  // post-submit callback
+      };
+
+      // bind to the form's submit event
+      $('#formFilters').submit(function() {
+        $(this).ajaxSubmit(options);
+
+        //$("#btnCalcular").hide();
+        return false;
+      });
+    });
+
+    // post-submit callback
+    function showResponse()  {
+
+    }
+    </script>
   </span>
 </div>
 </div>
