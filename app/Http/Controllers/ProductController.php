@@ -48,11 +48,9 @@ class ProductController extends Controller
 				// Chart
 				$tabProductHist = $this->products_hist($id);
 				// Calcula valor produto
-				$valor = CalcValProduct($id);
-
+				$valor = end($tabProductHist[1]);
 				// Filtros
 				$aFilters = $this->filters((isset($tabProduct->id_catapp) ? $tabProduct->id_catapp : null));
-
 				// Imagem
 				/*
 				$aImages = Storage::files('product/images/'.$id.'/');
@@ -72,6 +70,9 @@ class ProductController extends Controller
 				$tabProductHist = DB::table('products_hist')
 		                      ->select('date','price_min','price_max')
 		                      ->where('id_product',$id)
+													->where(function($q) {
+														$q->where('price_min','<>',0)->orWhere('price_max','<>',0);
+													})
 		                      ->get();
 
 				foreach($tabProductHist as $aProductItem)	{
@@ -97,7 +98,15 @@ class ProductController extends Controller
 		// Filtros selecionados
 		$aRequest = $request->all();
 		// Valor atual do produto
-		$nValor = DB::table('products_hist')->select(DB::raw('coalesce(price_min,price_max) as valor'))->where('id_product',$id)->orderBy('date','desc')->first()->valor;
+		$nValor = DB::table('products_hist')
+		            ->select(DB::raw('coalesce(price_min,price_max) as valor'))
+								->where('id_product',$id)
+								->where(function($q) {
+									$q->where('price_min','<>',0)->orWhere('price_max','<>',0);
+								})
+								->orderBy('date','desc')
+								->first()
+								->valor;
 		// Busca a porcertagem de desvalorização
 		$aPorcentage = [];
 		if (!is_null($nAuxPer = DB::table('percentage_list')->select('percent')->where('id_product',$id)->orderBy('date','desc')->first())) {

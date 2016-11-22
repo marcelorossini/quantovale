@@ -167,9 +167,14 @@
           </div>
           <div class="col s12 m12 l12">
             <div class="center-align">
-                <div class="flow-text">Seu produto vale:</div>
-                <div id="divValorCalculado"></div>
+                <div class="flow-text" id="divRetornoCalculo" style="display: none;">
+                  Seu produto vale:
+                  <div class="flow-text" id="divValorCalculado">R$ <span></span></div>
+                  <a class="waves-effect waves-light btn indigo"><i class="fa fa-facebook" aria-hidden="true"></i> Facebook</a>
+                  <a class="waves-effect waves-light btn green"><i class="fa fa-whatsapp" aria-hidden="true"></i> WhatsApp</a>
+                </div>
             </div>
+
             <button type="submit" class="waves-effect waves-light btn-large" id="btnCalcular">Calcular</button>
           </div>
         </div>
@@ -184,9 +189,9 @@
           $("#divCalculo").css("height",height_chart);
         }
 
-        resize_calculo();
+        //resize_calculo();
         $( window ).resize(function() {
-          resize_calculo();
+          //resize_calculo();
         });
         </script>
       </div>
@@ -195,7 +200,7 @@
     // prepare the form when the DOM is ready
     $(document).ready(function() {
       var options = {
-        target: '#divValorCalculado',
+        target: '#divValorCalculado span',
         success: showResponse  // post-submit callback
       };
 
@@ -203,7 +208,8 @@
       $('#formFilters').submit(function() {
         $(this).ajaxSubmit(options);
 
-        //$("#btnCalcular").hide();
+        $("#btnCalcular").hide();
+        $("#divRetornoCalculo").show();
         return false;
       });
     });

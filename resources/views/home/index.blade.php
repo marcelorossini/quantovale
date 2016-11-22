@@ -25,6 +25,7 @@
   <script src="{{ asset("/js/pickadate.js-3.5.6/lib/picker.date.js") }}"></script>
   <script src="{{ asset("/js/pickadate.js-3.5.6/lib/legacy.js") }}"></script>
 
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <!--
   <script src="{{ asset("/js/requirejs/require.js") }}"></script>
   <script src="{{ asset("/js/chart.js/chart.js") }}"></script>

@@ -9,6 +9,11 @@ main {
   flex: 1 0 auto;
 }
 
+input[type="search"] {
+  height: 64px !important; /* or height of nav */
+}
+
+
 .no_padding {
     padding: 0;
     margin: 0;
@@ -23,5 +28,5 @@ hr {
 }
 
 #divValorCalculado {
-    font-size: 6em;
+    font-size: 2em;
 }
