@@ -30,3 +30,20 @@ hr {
 #divValorCalculado {
     font-size: 2em;
 }
+
+#modalCompartilhar a {
+    text-align: center;
+    display: block;
+    overflow: auto;
+}
+
+#modalCompartilhar a span {
+    color: black;
+}
+
+.fa-color-indigo {
+    color: #3b5998;
+}
+.fa-color-green {
+    color: #00e676;
+}
