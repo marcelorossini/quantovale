@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Http\Request;
 use App\Http\Requests;
-
+/*
 Route::group(['middleware' => ['web']], function() {
 
 // Login Routes...
@@ -19,6 +19,8 @@ Route::group(['middleware' => ['web']], function() {
     Route::get('password/reset/{token}', ['as' => 'password.reset.token', 'uses' => 'Auth\ResetPasswordController@showResetForm']);
     Route::post('password/reset', ['as' => 'password.reset.post', 'uses' => 'Auth\ResetPasswordController@reset']);
 });
+*/
+Auth::routes();
 
 Route::get('/','HomeController@index');
 
@@ -35,3 +37,7 @@ Route::post('/product/{category?}/{id?}/calcula','ProductController@calcula')->n
 Route::get('product/{id?}/images/{filename?}','ImageController@index')->name('getProductImage');
 
 Route::get('/category','CategoryController@update')->name('getCategory');
+
+// facebook
+Route::get('/redirect', 'SocialAuthController@redirect');
+Route::get('/callback', 'SocialAuthController@callback');

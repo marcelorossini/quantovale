@@ -179,6 +179,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         // Laravel Collective
         Collective\Html\HtmlServiceProvider::class,
+        // Socialite
+        Laravel\Socialite\SocialiteServiceProvider::class,
 
     ],
 
@@ -230,6 +232,8 @@ return [
         // Laravel Collective
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
+        // Socialite
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];
