@@ -1,6 +1,16 @@
 @extends('home.index')
 
 @section('content')
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.8&appId=689783111181648";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
 <div class="row">
   <div class="col s12 m12 l12">
     <div class="card-panel">
@@ -182,7 +192,15 @@
               <hr>
               <div class="row">
                 <div class="col s4 m4 l2">
-                  <a href="#"><i class="fa fa-facebook-official fa-color-indigo fa-5x" aria-hidden="true"></i><br><span>Facebook</span></a>
+                  <a id="facebook_share"><i class="fa fa-facebook-official fa-color-indigo fa-5x" aria-hidden="true"></i><br><span>Facebook</span></a>
+                  <script>
+                  $( "#facebook_share" ).click(function() {
+                    FB.ui({
+                      method: 'share',
+                      href: 'http://localhost:8000/product/419',
+                    }, function(response){});
+                  });
+                  </script>
                 </div>
                 <div class="col s4 m4 l2">
                   <a href="#"><i class="fa fa-whatsapp fa-color-green fa-5x" aria-hidden="true"></i><br><span>WhatsApp</span></a>

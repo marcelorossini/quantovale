@@ -3,6 +3,12 @@
 <head>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Facebook -->
+  <meta property="og:url"           content="http://localhost:8000"/>
+  <meta property="og:type"          content="website" />
+  <meta property="og:title"         content="MOTO X" />
+  <meta property="og:description"   content="Vendo moto X" />
+  <meta property="og:image"         content=""/>
   <!-- App -->
   <link href="{{ asset("/css/materialize.css") }}" rel="stylesheet">
   <link href="{{ asset("/css/app.css") }}" rel="stylesheet">
