@@ -125,11 +125,12 @@ class ProductController extends Controller
 	}
 
 	// Marca registro como salvo, para aparecer no menu de usuário
-	public function resultSave($idProduct, $idResult) {
+	public function resultSave($idProduct, $idResult, $sTrueFalse) {
 		$tabResult = Result::find($idResult);
-		$tabResult->save = true;
+		$tabResult->save = ($sTrueFalse == 'true' ? true : false );
 		$tabResult->save();
-		return true;
+
+		return '';
 	}
 
 	// Monta pagina de

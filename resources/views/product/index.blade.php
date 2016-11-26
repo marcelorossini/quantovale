@@ -190,21 +190,33 @@ var nResult = 0;
               Seu produto vale:
               <div id="divValorCalculado"></div>
             </div>
-            <a class="waves-effect waves-light btn" href="#modalCompartilhar">Compartilhar</a>
-            <!-- Deixa registro disponivel para o usuário -->
-            <a class="waves-effect waves-light btn" id="btnFormResultSave">Salvar</a>
+            <!-- SALVAR -->
+            <a class="tooltipped" id="btnFormResultSave" data-position="bottom" data-delay="50" data-tooltip="Gostei <3"><i class="mdi mdi-heart"></i>  <!-- bell --></a>
             <script>
             $('#btnFormResultSave').click(function() {
-              var values = {
-                      '_token': '{{ csrf_token() }}'
-              };
+              // Altera para salvo ou não
+              $(this).toggleClass('active');
+              // Variáveis auxiliares
+              var bTrueFalse = $(this).hasClass('active');
+              if (bTrueFalse == true) {
+                Materialize.toast('Adicionado aos favoritos!', 3000);
+              } else if (bTrueFalse == false) {
+                Materialize.toast('Removido dos favoritos!', 3000);
+              }
+              var url = ('{!! route('postResultSave',[$aProduct->id,"nResult","bTrueFalse"]) !!}').replace('nResult',nResult);
+                  url = url.replace('bTrueFalse',bTrueFalse);
+              var values = {'_token': '{{ csrf_token() }}'};
               $.ajax({
-                  url: ('{!! route('postResultSave',[$aProduct->id,"nResult"]) !!}').replace('nResult',nResult),
+                  url: url,
                   type: "POST",
                   data: values,
               });
             });
             </script>
+            <!-- COMPARTILHAR -->
+            <a class="tooltipped" href="#modalCompartilhar" data-position="bottom" data-delay="50" data-tooltip="Compartilhar"><i class="mdi mdi-share"></i></a>
+            <!-- RESTART -->
+            <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Recalcular"><i class="mdi mdi-reload"></i></a>
           </div>
         </div>
 
@@ -214,19 +226,19 @@ var nResult = 0;
             <h4>Compartilhar</h4>
             <hr>
             <div class="row">
-              <div class="col s4 m4 l2">
-                <a id="facebook_share"><i class="fa fa-facebook-official fa-color-indigo fa-5x" aria-hidden="true"></i><br><span>Facebook</span></a>
+              <div class="col s4 m4 l1">
+                <a id="facebook_share"><i class="mdi mdi-facebook-box color-facebook"></i><br><span>Facebook</span></a>
                 <script>
                 $( "#facebook_share" ).click(function() {
                   FB.ui({
                     method: 'share',
-                    href: '{{ route("getShare").'/' }}'+nResult,
+                    href: ('{{ route("getShare","nResult") }}').replace('nResult',nResult)
                   }, function(response){});
                 });
                 </script>
               </div>
-              <div class="col s4 m4 l2">
-                <a href="#"><i class="fa fa-whatsapp fa-color-green fa-5x" aria-hidden="true"></i><br><span>WhatsApp</span></a>
+              <div class="col s4 m4 l1">
+                <a href="#"><i class="mdi mdi-whatsapp color-whatsapp"></i><br><span>WhatsApp</span></a>
               </div>
             </div>
           </div>
@@ -238,6 +250,7 @@ var nResult = 0;
         // Chama o modal de compartilhamento
         $(document).ready(function(){
           $('.modal').modal();
+          $('.tooltipped').tooltip({delay: 50});
         });
         </script>
         <label class="waves-effect waves-light btn-large" for="btnFormCalcular" id="btnCalcular">Calcular</label>

@@ -15,35 +15,46 @@ input[type="search"] {
 
 
 .no_padding {
-    padding: 0;
-    margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 .active a {
-    border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #fff;
 }
 
 hr {
-    color: #e4e4e4;
+  color: #e4e4e4;
 }
 
+/* CALCULO */
 #divValorCalculado {
-    font-size: 2em;
+  font-size: 3em;
+}
+#divRetornoCalculo a {
+  font-size: 3em;
+  color: #424242;
+}
+#btnFormResultSave.active {
+  color: #f44336;
 }
 
+/* SHARE */
 #modalCompartilhar a {
-    text-align: center;
-    display: block;
-    overflow: auto;
+  text-align: center;
+  display: block;
+  overflow: auto;
+  cursor: pointer;
 }
-
 #modalCompartilhar a span {
-    color: black;
+  color: black;
 }
-
-.fa-color-indigo {
-    color: #3b5998;
+#modalCompartilhar a i {
+  font-size: 4em;
 }
-.fa-color-green {
-    color: #00e676;
+.color-facebook {
+  color: #3b5998;
+}
+.color-whatsapp {
+  color: #00e676;
 }

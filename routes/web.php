@@ -33,7 +33,7 @@ Route::get('/search/product/{keyword?}','SearchController@index')->name('getSear
 
 Route::get('/product/{idProduct?}','ProductController@index')->name('getProduct');
 Route::post('/product/{idProduct?}/result','ProductController@result')->name('postResult');
-Route::post('/product/{idProduct?}/result/{idResult?}/save','ProductController@resultSave')->name('postResultSave');
+Route::post('/product/{idProduct?}/result/{idResult?}/save/{bTrueFalse?}','ProductController@resultSave')->name('postResultSave');
 
 Route::get('/product/share/{id?}','ProductController@share')->name('getShare');
 

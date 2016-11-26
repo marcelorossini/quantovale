@@ -27,10 +27,11 @@
   <script src="{{ asset("/js/pickadate.js-3.5.6/lib/picker.date.js") }}"></script>
   <script src="{{ asset("/js/pickadate.js-3.5.6/lib/legacy.js") }}"></script>
 
-  <!-- Font Awesorme-->
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-
+  <!-- Tamanho dos cards -->
   <script src="{{ asset("/js/matchHeight/jquery.matchHeight.js") }}"></script>
+
+  <!-- App -->
+  <link href="{{ asset("/css/materialdesignicons.min.css") }}" media="all" rel="stylesheet" type="text/css" />
   <!--
   <script src="{{ asset("/js/requirejs/require.js") }}"></script>
   <script src="{{ asset("/js/chart.js/chart.js") }}"></script>
