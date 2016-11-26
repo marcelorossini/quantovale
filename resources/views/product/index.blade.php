@@ -132,7 +132,7 @@
     </div>
   </div>
   <hr>
-  <form method="POST" action="{!! route('postProduct',[$aProduct->id_catapp,$aProduct->id]) !!}" id="formFilters">
+  <form method="POST" action="{!! route('postResult',$aProduct->id) !!}" id="formFilters">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="row">
       <div class="col s12 m12 l4 filcal" id="divFilters">
@@ -197,7 +197,7 @@
                   $( "#facebook_share" ).click(function() {
                     FB.ui({
                       method: 'share',
-                      href: 'http://localhost:8000/product/419',
+                      href: 'http://138.197.23.87/product/5885',
                     }, function(response){});
                   });
                   </script>

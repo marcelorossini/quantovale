@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use DB;
 use Storage;
 
+use App\User;
+use App\Result;
+use App\Product;
+use App\Filter;
+
 class ProductController extends Controller
 {
 	public function index($id)
@@ -84,6 +89,7 @@ class ProductController extends Controller
 				return [$aLabels,$aMenorPreço,$aMaiorPReco];
 		}
 
+	// Cria os filtros na tela
 	public function filters($nCategory) {
 		$tabCategoriesFilters = DB::table('categories_filters')
 											        ->select('*')
@@ -94,58 +100,49 @@ class ProductController extends Controller
 		return $tabCategoriesFilters;
 	}
 
-	public function calcula(Request $request, $category, $id) {
-		// Filtros selecionados
-		$aRequest = $request->all();
-		// Valor atual do produto
-		$nValor = DB::table('products_hist')
-		            ->select(DB::raw('coalesce(price_min,price_max) as valor'))
-								->where('id_product',$id)
-								->where(function($q) {
-									$q->where('price_min','<>',0)->orWhere('price_max','<>',0);
-								})
-								->orderBy('date','desc')
-								->first()
-								->valor;
-		// Busca a porcertagem de desvalorização
-		$aPorcentage = [];
-		if (!is_null($nAuxPer = DB::table('percentage_list')->select('percent')->where('id_product',$id)->orderBy('date','desc')->first())) {
-			$aPorcentage[] = $nAuxPer->percent;
-		} elseif (!is_null($nAuxPer = DB::table('percentage_list')->select('percent')->where('id_category',$category)->orderBy('date','desc')->first())) {
-			$aPorcentage[] = $nAuxPer->percent;
-		} else {
-			$aPorcentage[] = 10;
+	// Cria registro  na tabela de resultado
+	public function result(Request $request, $idProduct) {
+		$request = $request->all();
+		unset($request['_token']);
+
+		$idResults = new Result();
+		$request = serialize($request);
+		$idResults->result      = $request;
+		if (\Auth::check())
+		{
+				$idResults->id_user = \Auth::user()->id;
 		}
+		$idResults->id_product  = $idProduct;
+		$idResults->created_at  = date("Y-m-d H:i:s");
+		$idResults->save();
 
-		while ($sKey = key($aRequest)) {
-			  $sValue = trim(current($aRequest));
-		    if ($sKey != '_token' && strlen($sValue)>0) {
-						$sType = explode('_',$sKey)[0];
-						$id_filter = explode('_',$sKey)[1];
+		return calculaResult($idResults->id);
+	}
 
-						$nAuxPer = DB::table('percentage_list')->select('percent')->where('id_filter',$id_filter)->orderBy('date','desc')->first();
-						if (isset($nAuxPer->percent)) {
-							$nAuxPer = $nAuxPer->percent;
-						}
-						if ($sType == 'date') {
-
-						} elseif ($sType == 'range') {
-							//$nAuxPer = (10-intval($sValue));
-							$nAuxPer = $nAuxPer-($nAuxPer*((intval($sValue)*10)/100));
-							$aPorcentage[] = $nAuxPer;
-
-						} elseif ($sType == 'check') {
-							$aPorcentage[] = $nAuxPer;
-
-						} elseif ($sType == 'select') {
-
-						}
-		    }
-		    next($aRequest);
+	// Monta pagina de
+	public function share($idResult) {
+		// Dados do resultado
+		$tabResult = Result::find($idResult);
+		// Array com os filtros serializados
+		$aResult = unserialize($tabResult->result);
+		// Tabela de produtos
+		$tabProduct = Product::find($tabResult->id_product);
+		// Gera um array com os filtros e os valores
+		$aFiltres = [];
+		while ($sKey = key($aResult)) {
+				$sValue = trim(current($aResult));
+				if (strlen($sValue)>0) {
+						$nFilter = explode('_',$sKey)[1];
+						$aFiltres[] = [Filter::find($nFilter)->name,$sValue];
+				}
+				next($aResult);
 		}
+		// Usuário
+		$tabUsuario = User::find($tabResult->id_user);
+		// Calcula valor do produto
+		$nValor = calculaResult($idResult);
 
-		$nPorcentage = array_sum($aPorcentage);
-		$nValor = $nValor*(100-$nPorcentage)/100;
-		return number_format($nValor,2,",",".");
+
+		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => $nValor]);
 	}
 }
