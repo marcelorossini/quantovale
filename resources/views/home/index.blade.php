@@ -17,6 +17,7 @@
   <!-- Jquery -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="{{ asset("/js/materialize.js") }}"></script>
+  <script src="{{ asset("/js/helpers.js") }}"></script>
 
   <!-- Ajax -->
   <script src="{{ asset("/js/ajax/jquery.form.js") }}"></script>

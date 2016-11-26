@@ -13,6 +13,7 @@ class Results extends Migration
           $table->text('result');
           $table->integer('id_product')->unsigned();
           $table->integer('id_user')->unsigned()->nullable();
+          $table->boolean('save')->default(false);
           $table->dateTime('created_at');
       });
     }

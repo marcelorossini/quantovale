@@ -112,5 +112,5 @@ function calculaResult($idResult) {
 
   $nPorcentage = array_sum($aPorcentage);
   $nValor = $nValor*(100-$nPorcentage)/100;
-  return number_format($nValor,2,",",".");
+  return $nValor;
 }

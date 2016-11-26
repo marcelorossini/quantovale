@@ -2,22 +2,27 @@
 
 @section('content')
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
+<script>
+(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v2.8&appId=689783111181648";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+var nResult = 0;
 </script>
 
 <div class="row">
   <div class="col s12 m12 l12">
     <div class="card-panel">
       <div class="row">
+        <!-- Imagem do produto -->
         <div class="col s12 m6 offset-m3 l4" id="produto_img">
           <img style="width: 100%;" src="{{ $image }}">
         </div>
+        <!-- Dados do produto -->
         <div class="col s12 m12 l8">
           <div class="">
             <div id="produto_cab">
@@ -132,6 +137,7 @@
     </div>
   </div>
   <hr>
+  <!-- Filtros -->
   <form method="POST" action="{!! route('postResult',$aProduct->id) !!}" id="formFilters">
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
     <div class="row">
@@ -170,87 +176,97 @@
         @endif
         @endforeach
       </div>
-      <div class="col s12 m12 l8 filcal" id="divCalculo">
-        <div class="hide-on-large-only">
-          <br>
-        </div>
-        <div class="col s12 m12 l12" style="">
-          <div id="divRetornoCalculo" style="display: none;">
-            <div class="center-align">
-              <div class="flow-text">
-                Seu produto vale:
-                <div id="divValorCalculado">R$ <span></span></div>
-              </div>
-              <a class="waves-effect waves-light btn" href="#modalCompartilhar">Modal</a>
-            </div>
-          </div>
+      <button type="submit" id="btnFormCalcular" style="display: none;"></button>
+    </form>
 
-          <!-- Modal Structure -->
-          <div id="modalCompartilhar" class="modal bottom-sheet">
-            <div class="modal-content">
-              <h4>Compartilhar</h4>
-              <hr>
-              <div class="row">
-                <div class="col s4 m4 l2">
-                  <a id="facebook_share"><i class="fa fa-facebook-official fa-color-indigo fa-5x" aria-hidden="true"></i><br><span>Facebook</span></a>
-                  <script>
-                  $( "#facebook_share" ).click(function() {
-                    FB.ui({
-                      method: 'share',
-                      href: 'http://138.197.23.87/product/5885',
-                    }, function(response){});
-                  });
-                  </script>
-                </div>
-                <div class="col s4 m4 l2">
-                  <a href="#"><i class="fa fa-whatsapp fa-color-green fa-5x" aria-hidden="true"></i><br><span>WhatsApp</span></a>
-                </div>
-              </div>
-            </div>
-            <div class="modal-footer">
-              <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
-            </div>
-          </div>
-          <script>
-          $(document).ready(function(){
-            // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-            $('.modal').modal();
-          });
-
-          </script>
-
-          <button type="submit" class="waves-effect waves-light btn-large" id="btnCalcular">Calcular</button>
-        </div>
+    <div class="col s12 m12 l8 filcal" id="divCalculo">
+      <div class="hide-on-large-only">
+        <br>
       </div>
-      <!-- Corrige o tamanho do grafico-->
-      <script>
-      $(document).ready(function(){
-          $('.filcal').matchHeight();
-      });
-      </script>
+      <div class="col s12 m12 l12" style="">
+        <div id="divRetornoCalculo" style="display: none;">
+          <div class="center-align">
+            <div class="flow-text">
+              Seu produto vale:
+              <div id="divValorCalculado"></div>
+            </div>
+            <a class="waves-effect waves-light btn" href="#modalCompartilhar">Compartilhar</a>
+            <!-- Deixa registro disponivel para o usuário -->
+            <a class="waves-effect waves-light btn" id="btnFormResultSave">Salvar</a>
+            <script>
+            $('#btnFormResultSave').click(function() {
+              var values = {
+                      '_token': '{{ csrf_token() }}'
+              };
+              $.ajax({
+                  url: ('{!! route('postResultSave',[$aProduct->id,"nResult"]) !!}').replace('nResult',nResult),
+                  type: "POST",
+                  data: values,
+              });
+            });
+            </script>
+          </div>
+        </div>
+
+        <!-- Modal Structure -->
+        <div id="modalCompartilhar" class="modal bottom-sheet">
+          <div class="modal-content">
+            <h4>Compartilhar</h4>
+            <hr>
+            <div class="row">
+              <div class="col s4 m4 l2">
+                <a id="facebook_share"><i class="fa fa-facebook-official fa-color-indigo fa-5x" aria-hidden="true"></i><br><span>Facebook</span></a>
+                <script>
+                $( "#facebook_share" ).click(function() {
+                  FB.ui({
+                    method: 'share',
+                    href: '{{ route("getShare").'/' }}'+nResult,
+                  }, function(response){});
+                });
+                </script>
+              </div>
+              <div class="col s4 m4 l2">
+                <a href="#"><i class="fa fa-whatsapp fa-color-green fa-5x" aria-hidden="true"></i><br><span>WhatsApp</span></a>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
+          </div>
+        </div>
+        <script>
+        // Chama o modal de compartilhamento
+        $(document).ready(function(){
+          $('.modal').modal();
+        });
+        </script>
+        <label class="waves-effect waves-light btn-large" for="btnFormCalcular" id="btnCalcular">Calcular</label>
+      </div>
     </div>
-  </form>
+    <!-- Corrige o tamanho do grafico-->
+    <script>
+    $(document).ready(function(){
+      $('.filcal').matchHeight();
+    });
+    </script>
+  </div>
+  <!-- AJAX para enviar o formulário -->
   <script>
-  // prepare the form when the DOM is ready
   $(document).ready(function() {
-    var options = {
-      target: '#divValorCalculado span',
-      success: showResponse  // post-submit callback
-    };
-
-    // bind to the form's submit event
-    $('#formFilters').submit(function() {
-      $(this).ajaxSubmit(options);
-
-      $("#btnCalcular").hide();
-      $("#divRetornoCalculo").show();
-      return false;
+    $('#formFilters').ajaxForm({
+      dataType:  'json',
+      success:   processJson
     });
   });
 
-  // post-submit callback
-  function showResponse()  {
+  // Função de tratamento do retorno do JSON
+  function processJson(data) {
+    $("#btnCalcular").hide();
+    $("#divRetornoCalculo").show();
+    $('#divValorCalculado').html('R$ '+(data.valor).formatMoney(2, ',', '.'));
 
+    //Atualiza variável de resultado
+    nResult = data.result;
   }
   </script>
 </div>

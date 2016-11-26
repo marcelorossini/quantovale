@@ -116,13 +116,31 @@ class ProductController extends Controller
 		$idResults->created_at  = date("Y-m-d H:i:s");
 		$idResults->save();
 
-		return calculaResult($idResults->id);
+		$aReturn = [
+			'valor' => calculaResult($idResults->id),
+			'result' => $idResults->id,
+		];
+
+		return json_encode($aReturn);
+	}
+
+	// Marca registro como salvo, para aparecer no menu de usuário
+	public function resultSave($idProduct, $idResult) {
+		$tabResult = Result::find($idResult);
+		$tabResult->save = true;
+		$tabResult->save();
+		return true;
 	}
 
 	// Monta pagina de
 	public function share($idResult) {
 		// Dados do resultado
 		$tabResult = Result::find($idResult);
+		if (is_null($tabResult->id_user))  {
+			abort(403, 'Unauthorized action.');
+		}
+		// Usuário
+		$tabUsuario = User::find($tabResult->id_user);
 		// Array com os filtros serializados
 		$aResult = unserialize($tabResult->result);
 		// Tabela de produtos
@@ -137,11 +155,8 @@ class ProductController extends Controller
 				}
 				next($aResult);
 		}
-		// Usuário
-		$tabUsuario = User::find($tabResult->id_user);
 		// Calcula valor do produto
 		$nValor = calculaResult($idResult);
-
 
 		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => $nValor]);
 	}
