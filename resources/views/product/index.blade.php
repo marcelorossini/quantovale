@@ -188,7 +188,7 @@ var nResult = 0;
           <div class="center-align">
             <div class="flow-text">
               Seu produto vale:
-              <div id="divValorCalculado"></div>
+              <div id="divValorCalculado" style="border-bottom: 1px solid black;"></div>
             </div>
             <!-- SALVAR -->
             <a class="tooltipped" id="btnFormResultSave" data-position="bottom" data-delay="50" data-tooltip="Gostei <3"><i class="mdi mdi-heart"></i>  <!-- bell --></a>
@@ -216,7 +216,7 @@ var nResult = 0;
             <!-- COMPARTILHAR -->
             <a class="tooltipped" href="#modalCompartilhar" data-position="bottom" data-delay="50" data-tooltip="Compartilhar"><i class="mdi mdi-share"></i></a>
             <!-- RESTART -->
-            <a class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Recalcular"><i class="mdi mdi-reload"></i></a>
+            <a class="tooltipped" onclick="location.reload()" data-position="bottom" data-delay="50" data-tooltip="Recalcular"><i class="mdi mdi-reload"></i></a>
           </div>
         </div>
 
@@ -229,7 +229,7 @@ var nResult = 0;
               <div class="col s4 m4 l1">
                 <a id="facebook_share"><i class="mdi mdi-facebook-box color-facebook"></i><br><span>Facebook</span></a>
                 <script>
-                $( "#facebook_share" ).click(function() {
+                $('#facebook_share').click(function() {
                   FB.ui({
                     method: 'share',
                     href: ('{{ route("getShare","nResult") }}').replace('nResult',nResult)
@@ -243,7 +243,7 @@ var nResult = 0;
             </div>
           </div>
           <div class="modal-footer">
-            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
+            <a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
           </div>
         </div>
         <script>

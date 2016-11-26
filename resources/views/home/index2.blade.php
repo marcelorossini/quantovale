@@ -41,11 +41,12 @@
 </head>
 <body id="main">
   <nav class="nav-extended purple lighten-2">
-      <div class="container">
+    <div style="padding: 0; margin: 0;">
+      <div class="col s12 m12 l8 offset-l2">
         <div class="nav-wrapper">
           <div class="row" style="padding: 0; margin: 0;">
             <div class="col s11 m11 l11" style="padding: 0; margin: 0;">
-              <ul class="tabs tabs-transparent" style="margin-top: 8px">
+              <ul class="tabs tabs-fixed-width tabs-transparent" style="margin-top: 8px">
                 <li class="tab"><a class="active" href="#test1">PRODUTOS</a></li>
                 <li class="tab disabled"><a href="#test2">CARROS</a></li>
                 <li class="tab disabled"><a href="#test3">IMÓVEIS</a></li>
@@ -57,7 +58,6 @@
               </ul>
             </div>
           </div>
-
           <form method="POST" action="{!! route('postSearch') !!}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <div class="input-field">
@@ -68,12 +68,6 @@
           </form>
         </div>
       </div>
-      <!--
-                <div class="col s1 m1 l1" style="padding: 0; margin: 0;">
-                  <ul class="right">
-                    <li><a href="#"><i class="material-icons">more_vert</i></a></li>
-                  </ul>
-                </div>
       <div class="col l2">
         <a href="{{ url('/logout') }}"
             onclick="event.preventDefault();
@@ -84,7 +78,7 @@
             {{ csrf_field() }}
         </form>
       </div>
-    -->
+    </div>
   </nav>
 
   <main>
