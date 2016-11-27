@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <!-- Facebook -->
-  <meta property="og:url"           content="{{ url()->full() }}"/>
   <meta property="og:type"          content="website" />
-  <meta property="og:title"         content="QuantoVale: {{ $tabProduct->name }}" />
+  <meta property="og:title"         content="Vendo meu {{ $tabProduct->name }} por " />
   <meta property="og:description"   content="{{ $tabProduct->name }}" />
   <meta property="og:image"         content="{{ route('getProductImage',[$tabProduct->id,'bcp_600x600.jpg']) }}"/>
 
@@ -85,7 +84,7 @@
 
               <!--<div style="position: absolute; bottom: 20%;">-->
               <div>
-                <div class="flow-text">Valor novo: R$ {{ number_format($nValor,2,",",".") }}</div>
+                <div class="flow-text">Valor novo: R$ {{ $nValor }}</div>
               </div>
           </div>
         </div>

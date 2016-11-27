@@ -159,7 +159,7 @@ class ProductController extends Controller
 				next($aResult);
 		}
 		// Calcula valor do produto
-		$nValor = calculaResult($idResult);
+		$nValor = number_format(calculaResult($idResult),2,",",".");
 
 		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => $nValor, 'aFacebook' => $aFacebook]);
 	}
