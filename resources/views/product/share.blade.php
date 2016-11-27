@@ -3,7 +3,7 @@
 <head>
   <!-- Facebook -->
   <meta property="og:type"          content="website" />
-  <meta property="og:title"         content="Vendo meu {{ $tabProduct->name }} por " />
+  <meta property="og:title"         content="Vendo meu {{ $tabProduct->name }} por R$ {{ $nValor }}" />
   <meta property="og:description"   content="{{ $tabProduct->name }}" />
   <meta property="og:image"         content="{{ route('getProductImage',[$tabProduct->id,'bcp_600x600.jpg']) }}"/>
 
@@ -49,7 +49,7 @@
 +"avatar_original": "https://graph.facebook.com/v2.8/100011445248152/picture?width=1920"
 +"profileUrl": "https://www.facebook.com/app_scoped_user_id/1184180524968634/"
  -->
-  <main class="purple lighten-2">
+  <main class="grey lighten-4 valign-wrapper">
     <div class="container">
 
         <div class="card-panel">
@@ -61,12 +61,13 @@
               <div style="margin-top: -30px"><i class="mdi mdi-facebook-box color-facebook"></i></div>
             </div>
             <div class="col s9 m8 l11">
-              <div class="flow-text">
+              <div class="flow-text" style="font-size: 2.5em;">
                 {{ $tabUsuario->name }} está vendendo:
               </div>
             </div>
-
           </div>
+
+          <hr>
 
           <div class="row">
               <!-- Imagem do produto -->
@@ -82,10 +83,11 @@
               @endforeach
               </ul>
 
-              <!--<div style="position: absolute; bottom: 20%;">-->
-              <div>
-                <div class="flow-text">Valor novo: R$ {{ $nValor }}</div>
+              <div class="flow-text" style="min-height: 140px">
+
               </div>
+
+              <div class="flow-text" style="font-size: 2em;">Valor: R$ {{ $nValor }}</div>
           </div>
         </div>
 
