@@ -114,3 +114,23 @@ function calculaResult($idResult) {
   $nValor = $nValor*(100-$nPorcentage)/100;
   return $nValor;
 }
+
+function facebook($idUser) {
+  $tabSocialAccount = \DB::table('social_accounts as sa')
+                         ->select('*')
+                         ->where('sa.user_id',$idUser)
+                         ->where('sa.provider','facebook')
+                         ->first();
+  $aDados = [];
+  if (!is_null($tabSocialAccount)) {
+    $aDados = [
+      'id' => $tabSocialAccount->provider_user_id,
+      'profile' => 'https://www.facebook.com/app_scoped_user_id/'.$tabSocialAccount->provider_user_id.'/',
+      'picture' => 'https://graph.facebook.com/v2.8/'.$tabSocialAccount->provider_user_id.'/picture?width=1920',
+      'picture_480' => 'https://graph.facebook.com/v2.8/'.$tabSocialAccount->provider_user_id.'/picture?width=480',
+
+    ];
+  }
+
+  return $aDados;
+}

@@ -100,14 +100,14 @@ class SearchController extends Controller
 					}
 
 					// Verifica se o produto já está com o preço cadastrado no dia
-					$product_hist_table = DB::table('products_hist')
+					$tabProductHist = DB::table('products_hist')
 					->select('id')
 					->where('id_product',$product_id)
 					->where('date',date("Y-m-d"))
 					->first();
 
 					// Grava o valor no produto
-					if ($product_hist_table == null) {
+					if ($tabProductHist == null) {
 						$product_hist = new ProductHist();
 						$product_hist->id_product = $product_id;
 						$product_hist->date       = date("Y-m-d");

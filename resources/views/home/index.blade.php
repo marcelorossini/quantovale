@@ -39,7 +39,7 @@
   <!-- Grafico -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.js"></script>
 </head>
-<body id="main">
+<body id="main" class="grey lighten-4">
   <nav class="nav-extended purple lighten-2">
       <div class="container">
         <div class="nav-wrapper">
@@ -93,7 +93,7 @@
     </div>
   </main>
 
-  <footer class="page-footer grey darken-3">
+  <footer class="grey darken-3">
     <div class="container">
       <div class="row">
         <div class="col l6 s12">

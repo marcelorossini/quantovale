@@ -142,6 +142,8 @@ class ProductController extends Controller
 		}
 		// Usuário
 		$tabUsuario = User::find($tabResult->id_user);
+		$aFacebook = facebook($tabResult->id_user);
+
 		// Array com os filtros serializados
 		$aResult = unserialize($tabResult->result);
 		// Tabela de produtos
@@ -159,6 +161,6 @@ class ProductController extends Controller
 		// Calcula valor do produto
 		$nValor = calculaResult($idResult);
 
-		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => $nValor]);
+		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => $nValor, 'aFacebook' => $aFacebook]);
 	}
 }

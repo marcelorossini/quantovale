@@ -13,7 +13,7 @@
 
 var nResult = 0;
 </script>
-
+<br>
 <div class="row">
   <div class="col s12 m12 l12">
     <div class="card-panel">
@@ -26,7 +26,7 @@ var nResult = 0;
         <div class="col s12 m12 l8">
           <div class="">
             <div id="produto_cab">
-              <h5>{{ $aProduct->name }}</h5>
+              <h4>{{ $aProduct->name }}</h4>
               @foreach ($aTags as $tag)
               <div class="chip">
                 {{ $tag }}
@@ -214,7 +214,7 @@ var nResult = 0;
             });
             </script>
             <!-- COMPARTILHAR -->
-            <a class="tooltipped" href="#modalCompartilhar" data-position="bottom" data-delay="50" data-tooltip="Compartilhar"><i class="mdi mdi-share"></i></a>
+            <a class="tooltipped" onclick="$('#btnFormResultSave').trigger('click')" href="#modalCompartilhar" data-position="bottom" data-delay="50" data-tooltip="Compartilhar"><i class="mdi mdi-share"></i></a>
             <!-- RESTART -->
             <a class="tooltipped" onclick="location.reload()" data-position="bottom" data-delay="50" data-tooltip="Recalcular"><i class="mdi mdi-reload"></i></a>
           </div>
