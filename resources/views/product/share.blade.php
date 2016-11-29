@@ -3,7 +3,7 @@
 <head>
   <!-- Facebook -->
   <meta property="og:type"          content="website" />
-  <meta property="og:title"         content="Vendo meu {{ $tabProduct->name }} por R$ {{ $nValor }}" />
+  <meta property="og:title"         content="Vendo meu {{ $tabProduct->name }} por R$ {{ $nValor[2] }}" />
   <meta property="og:description"   content="{{ $tabProduct->name }}" />
   <meta property="og:image"         content="{{ route('getProductImage',[$tabProduct->id,'bcp_600x600.jpg']) }}"/>
 
@@ -35,7 +35,7 @@
   <link href="{{ asset("/css/materialdesignicons.min.css") }}" media="all" rel="stylesheet" type="text/css"/>
 </head>
 <body id="main" class="">
-  <nav class="purple lighten-2">
+  <nav class="red lighten-1">
     <div class="nav-wrapper">
       <a href="#" class="brand-logo">Logo</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -45,52 +45,73 @@
       </ul>
     </div>
   </nav>
-<!--
-+"avatar_original": "https://graph.facebook.com/v2.8/100011445248152/picture?width=1920"
-+"profileUrl": "https://www.facebook.com/app_scoped_user_id/1184180524968634/"
- -->
-  <main class="grey lighten-4 valign-wrapper">
-    <div class="container">
+  <!--
+  +"avatar_original": "https://graph.facebook.com/v2.8/100011445248152/picture?width=1920"
+  +"profileUrl": "https://www.facebook.com/app_scoped_user_id/1184180524968634/"
+-->
+<main class="grey lighten-4 valign-wrapper">
+  <div class="container">
 
-        <div class="card-panel">
+    <div class="row valign-wrapper" style="padding-top: 1em;">
+      <div class="col s3 m4 l1">
+        <img src="{{ $aFacebook['picture_480'] }}" alt="" class="circle responsive-img" style="border: 1px solid #bdbdbd;"> <!-- notice the "circle" class -->
+        <div style="margin-top: -30px"><i class="mdi mdi-facebook-box color-facebook"></i></div>
+      </div>
+      <div class="col s9 m8 l11">
+        <div class="flow-text" style="font-size: 2.5em;">
+          {{ $tabUsuario->name }} está vendendo:
+        </div>
+      </div>
+    </div>
 
+    <div class="card-panel">
+      <div class="row">
+        <!-- Imagem do produto -->
+        <div class="col s12 m6 offset-m3 l3" id="produto_img">
+          <img style="width: 100%;" src="{{ route('getProductImage',[$tabProduct->id,'bcp_600x600.jpg']) }}">
+        </div>
+        <!-- Dados do produto -->
+        <div class="col s12 m12 l9">
+          <h4>{{ $tabProduct->name }}</h4>
+          <ul class="">
+            @foreach ($aFiltres as $sFilter)
+            <li class="">{{ $sFilter[0] }}: {{ $sFilter[1] }}</li>
+            @endforeach
+          </ul>
 
-          <div class="row valign-wrapper">
-            <div class="col s3 m4 l1">
-              <img src="{{ $aFacebook['picture_480'] }}" alt="" class="circle responsive-img" style="border: 1px solid #bdbdbd;"> <!-- notice the "circle" class -->
-              <div style="margin-top: -30px"><i class="mdi mdi-facebook-box color-facebook"></i></div>
-            </div>
-            <div class="col s9 m8 l11">
-              <div class="flow-text" style="font-size: 2.5em;">
-                {{ $tabUsuario->name }} está vendendo:
-              </div>
-            </div>
-          </div>
+          <div class="flow-text">
 
-          <hr>
-
-          <div class="row">
-              <!-- Imagem do produto -->
-              <div class="col s12 m6 offset-m3 l3" id="produto_img">
-                <img style="width: 100%;" src="{{ route('getProductImage',[$tabProduct->id,'bcp_600x600.jpg']) }}">
-              </div>
-              <!-- Dados do produto -->
-              <div class="col s12 m12 l9">
-              <h4>{{ $tabProduct->name }}</h4>
-              <ul class="">
-              @foreach ($aFiltres as $sFilter)
-                <li class="">{{ $sFilter[0] }}: {{ $sFilter[1] }}</li>
-              @endforeach
-              </ul>
-
-              <div class="flow-text" style="min-height: 140px">
-
-              </div>
-
-              <div class="flow-text" style="font-size: 2em;">Valor: R$ {{ $nValor }}</div>
           </div>
         </div>
+      </div>
+    </div>
 
+    <div class="row">
+      <div class="col s12 m4 l4">
+        <div class="card">
+          <div class="card-content black-text">
+            <span class="card-title">Lojas físicas</span>
+            <div class="flow-text center" style="font-size: 2.3em;">R$ {{ $nValor[0] }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4 l4">
+        <div class="card">
+          <div class="card-content black-text">
+            <span class="card-title">Lojas virtuais</span>
+            <div class="flow-text center" style="font-size: 2.3em;">R$ {{ $nValor[1] }}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col s12 m4 l4">
+        <div class="card">
+          <div class="card-content black-text">
+            <span class="card-title">Valor de {{ strtok($tabUsuario->name,' ') }}</span>
+            <div class="flow-text center" style="font-size: 2.3em;">R$ {{ $nValor[2] }}</div>
+          </div>
+        </div>
       </div>
     </div>
   </main>

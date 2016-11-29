@@ -40,7 +40,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.js"></script>
 </head>
 <body id="main" class="grey lighten-4">
-  <nav class="nav-extended purple lighten-2">
+  <nav class="nav-extended red lighten-1">
       <div class="container">
         <div class="nav-wrapper">
           <div class="row" style="padding: 0; margin: 0;">

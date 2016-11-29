@@ -35,8 +35,9 @@ class ProductController extends Controller
 				}
 
 				// Tags
+				$aTags = [];
 				if (isset($tabMarca) && !is_null($tabMarca)) {
-						$tags[] = $tabMarca;
+						$aTags[] = $tabMarca;
 				}
 				if (isset($tabProduct->id_category)){
 						$auxCategoria = $tabProduct->id_category;
@@ -45,7 +46,7 @@ class ProductController extends Controller
 															->select('c.name','c.id_parent')
 															->where('c.provider_category',$auxCategoria)
 															->first();
-								$tags[] = $tabCategory->name;
+								$aTags[] = $tabCategory->name;
 								$auxCategoria = $tabCategory->id_parent;
 						}
 				}
@@ -66,7 +67,7 @@ class ProductController extends Controller
 				*/
 				$sUrlImage = Route("getProductImage",[$id,"bcp_600x600.jpg"]);
 
-				return view('product.index',['aProduct' => $tabProduct,'marca' => $tabMarca,'nValorNovo' => $valor,'aTags' => $tags,'image' => $sUrlImage,'aChart' => $tabProductHist,'aFilters' => $aFilters]);
+				return view('product.index',['aProduct' => $tabProduct,'marca' => $tabMarca,'nValorNovo' => $valor,'aTags' => $aTags,'image' => $sUrlImage,'aChart' => $tabProductHist,'aFilters' => $aFilters]);
 		}
 
 	// Retorna dados para uso no grafico
@@ -158,9 +159,12 @@ class ProductController extends Controller
 				}
 				next($aResult);
 		}
-		// Calcula valor do produto
-		$nValor = number_format(calculaResult($idResult),2,",",".");
+		// Calcula valor produto
+		$tabProductHist = $this->products_hist($tabResult->id_product);
+		$nMaiorValor = number_format(end($tabProductHist[1]),2,",",".");
+		$nMenorValor = number_format(end($tabProductHist[2]),2,",",".");
+		$nValorUser = number_format(calculaResult($idResult),2,",",".");
 
-		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => $nValor, 'aFacebook' => $aFacebook]);
+		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => [$nMenorValor,$nMaiorValor,$nValorUser], 'aFacebook' => $aFacebook]);
 	}
 }
