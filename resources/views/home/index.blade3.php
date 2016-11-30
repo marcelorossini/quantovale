@@ -40,41 +40,33 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.js"></script>
 </head>
 <body id="main" class="grey lighten-4">
-  <nav class="nav red lighten-1">
-      <div class="row">
-        <div class="col s12 m12 l2">
-        </div>
-        <div class="col s12 m12 l2">
-          <ul id="nav-mobile">
-            <li><a href="sass.html">PRODUTOS</a></li>
-            <li><a href="badges.html">CARROS</a></li>
-            <li><a href="collapsible.html">IMÓVEIS</a></li>
-          </ul>
-        </div>
-
-        <div class="col s12 m12 l6">
-          <div class="nav-wrapper">
-            <form method="POST" action="{!! route('postSearch') !!}">
-              <input type="hidden" name="_token" value="{{ csrf_token() }}">
-              <div class="input-field">
-                <input name="product" id="search" type="search" value="" required>
-                <label for="search"><i class="material-icons">search</i></label>
-                <i class="material-icons">close</i>
-              </div>
-            </form>
+  <nav class="nav-extended red lighten-1">
+      <div class="container">
+        <div class="nav-wrapper">
+          <div class="row" style="padding: 0; margin: 0;">
+            <div class="col s11 m11 l11" style="padding: 0; margin: 0;">
+              <ul class="tabs tabs-transparent" style="margin-top: 8px">
+                <li class="tab"><a class="active" href="#test1">PRODUTOS</a></li>
+                <li class="tab disabled"><a href="#test2">CARROS</a></li>
+                <li class="tab disabled"><a href="#test3">IMÓVEIS</a></li>
+              </ul>
+            </div>
+            <div class="col s1 m1 l1" style="padding: 0; margin: 0;">
+              <ul class="right">
+                <li><a href="#"><i class="material-icons">more_vert</i></a></li>
+              </ul>
+            </div>
           </div>
-        </div>
 
-        <div class="col s12 m12 l1 offset-l1">
-          <ul id="nav-mobile">
-            @if (Auth::check())  <!-- facebook(Auth::user()->name)['picture_480'] -->
-              <li><a href="#"><img src="{{ facebook(Auth::user()->id)['picture_480'] }}" alt="" class="circle responsive-img"><br> {{ Auth::user()->name }}</a></li>
-            @else
-              <li><a href="{{ route('login') }}">Entre</a></li>
-            @endif
-          </ul>
+          <form method="POST" action="{!! route('postSearch') !!}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <div class="input-field">
+              <input name="product" id="search" type="search" value="" required>
+              <label for="search"><i class="material-icons">search</i></label>
+              <i class="material-icons">close</i>
+            </div>
+          </form>
         </div>
-
       </div>
       <!--
                 <div class="col s1 m1 l1" style="padding: 0; margin: 0;">

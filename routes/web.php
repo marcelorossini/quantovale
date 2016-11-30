@@ -42,5 +42,5 @@ Route::get('product/{id?}/images/{filename?}','ImageController@index')->name('ge
 Route::get('/category','CategoryController@update')->name('getCategory');
 
 // facebook
-Route::get('/redirect', 'SocialAuthController@redirect');
-Route::get('/callback', 'SocialAuthController@callback');
+Route::get('/facebook/redirect', 'SocialAuthController@redirect')->name('getFacebookRedirect');
+Route::get('/facebook/callback', 'SocialAuthController@callback')->name('getFacebookCallback');

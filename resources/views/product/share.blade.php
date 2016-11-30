@@ -87,34 +87,61 @@
     </div>
 
     <div class="row">
-      <div class="col s12 m4 l4">
-        <div class="card">
-          <div class="card-content black-text">
-            <span class="card-title">Lojas físicas</span>
-            <div class="flow-text center" style="font-size: 2.3em;">R$ {{ $nValor[0] }}</div>
+      <div class="col s12 m4 l3">
+        <div class="card divValores">
+          <div class="red darken-1 valign-wrapper" style="height: 80px">
+            <div class="flow-text center white-text center" style="width: 100%; font-size: 2.3em;">R$ {{ $nValor[0] }}</div>
+          </div>
+          <div class="card-action">
+            <a href="#" class="black-text">Lojas Físicas</a>
           </div>
         </div>
       </div>
 
-      <div class="col s12 m4 l4">
-        <div class="card">
-          <div class="card-content black-text">
-            <span class="card-title">Lojas virtuais</span>
-            <div class="flow-text center" style="font-size: 2.3em;">R$ {{ $nValor[1] }}</div>
+      <div class="col s12 m4 l3">
+        <div class="card divValores">
+          <div class="orange darken-1 valign-wrapper" style="height: 80px">
+            <div class="flow-text center white-text center" style="width: 100%; font-size: 2.3em;">R$ {{ $nValor[1] }}</div>
+          </div>
+          <div class="card-action">
+            <a href="#" class="black-text">Lojas virtuais</a>
           </div>
         </div>
       </div>
 
-      <div class="col s12 m4 l4">
-        <div class="card">
-          <div class="card-content black-text">
-            <span class="card-title">Valor de {{ strtok($tabUsuario->name,' ') }}</span>
-            <div class="flow-text center" style="font-size: 2.3em;">R$ {{ $nValor[2] }}</div>
+      <div class="col s12 m4 l3">
+        <div class="card divValores">
+          <div class="green accent-4 valign-wrapper" style="height: 80px">
+            <div class="flow-text center white-text center" style="width: 100%; font-size: 2.3em;">R$ {{ $nValor[2] }}</div>
+          </div>
+          <div class="card-action">
+            <a href="#" class="black-text">Valor de {{ strtok($tabUsuario->name,' ') }}</a>
           </div>
         </div>
       </div>
+
+      <div class="col s12 m4 l3">
+        <div class="card">
+          <div>
+            <div class="col l4 indigo valign-wrapper">
+              <div class="flow-text center white-text center" style="width: 100%; font-size: 2.3em;"><i class="mdi mdi-facebook"></i></div>
+            </div>
+            <div class="col l8 valign-wrapper">
+              <a href="{{ $aFacebook['profile'] }}" class="black-text">ENVIE UMA MENSAGEM PARA {{ strtoupper(strtok($tabUsuario->name,' ')) }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </main>
+
+  <!-- Corrige o tamanho do grafico-->
+  <script>
+  $(document).ready(function(){
+    $('.divValores').matchHeight();
+  });
+  </script>
 
   <footer class="grey darken-3">
     <div class="container">

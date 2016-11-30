@@ -38,6 +38,6 @@ return [
     'facebook' => [
         'client_id' => '689783111181648',
         'client_secret' => '4261d800b6a90a784de1cecd2fd0972d',
-        'redirect' => 'http://quantovale.tk/callback',
+        'redirect' => 'http://'.$_SERVER['HTTP_HOST'].'/facebook/callback',
     ],
 ];

@@ -19,8 +19,9 @@ var nResult = 0;
 <div class="card-panel">
   <div class="row">
     <!-- Imagem do produto -->
-    <div class="col s12 m6 offset-m3 l4" id="produto_img">
+    <div class="col s12 m6 offset-m3 l4 center" id="produto_img">
       <img style="width: 100%;" src="{{ $image }}">
+      *Imagem meramente ilustrativa
     </div>
     <!-- Dados do produto -->
     <div class="col s12 m12 l8">
@@ -225,13 +226,21 @@ var nResult = 0;
                 });
                 </script>
               </div>
-              <div class="col s4 m4 l1">
+              <div class="col s4 m4 l1 hide-on-large-only">
                 <a href="#"><i class="mdi mdi-whatsapp color-whatsapp"></i><br><span>WhatsApp</span></a>
+              </div>
+              <div class="col s4 m4 l1">
+                <a href="#" id="aVerPagina"><i class="mdi mdi-logout"></i><br><span>Ver página</span></a>
+                <script>
+                  $('#aVerPagina').click(function() {
+                    this.href = ('{{ route("getShare","nResult") }}').replace('nResult',nResult);
+                  });
+                </script>
               </div>
             </div>
           </div>
           <div class="modal-footer">
-            <a href="#" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
+            <a href="{{ route("getShare") }}/" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
           </div>
         </div>
         <script>
