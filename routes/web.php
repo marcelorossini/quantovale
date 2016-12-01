@@ -44,3 +44,6 @@ Route::get('/category','CategoryController@update')->name('getCategory');
 // facebook
 Route::get('/facebook/redirect', 'SocialAuthController@redirect')->name('getFacebookRedirect');
 Route::get('/facebook/callback', 'SocialAuthController@callback')->name('getFacebookCallback');
+
+// Teste
+Route::get('/product/atualizar/buscape', 'ProductController@atualizaBuscape')->name('getAtualizarBuscape');

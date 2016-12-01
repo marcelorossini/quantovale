@@ -167,4 +167,9 @@ class ProductController extends Controller
 
 		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => [$nMenorValor,$nMaiorValor,$nValorUser], 'aFacebook' => $aFacebook]);
 	}
+
+	public function atualizaBuscape() {
+ 		dbAtualizaBuscape();
+		return '';
+	}
 }
