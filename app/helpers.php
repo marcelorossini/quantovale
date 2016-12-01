@@ -167,6 +167,9 @@ function dbAtualizaBuscape() {
             // Código do produto no sistema
             $idProduct = 0;
             if (count($nProviderCod) == 0) {
+              if ( date('Y-m-d',strtotime($product->created_at)) == date('Y-m-d') ) {
+                continue;
+              }
               $product = new \App\Product();
               $product->id_provider  = 1;
               $product->provider_cod = $aProduct->product->id;
@@ -179,6 +182,9 @@ function dbAtualizaBuscape() {
               // Se já existir
             } else {
               $idProduct = $nProviderCod->toArray()[0]['id'];
+              $product = \App\Product::find($idProduct);
+              $product->created_at = date("Y-m-d H:i:s");
+              $product->save();
             }
 
             // Verifica se o produto já está com o preço cadastrado no dia
