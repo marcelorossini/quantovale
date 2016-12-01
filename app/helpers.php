@@ -142,8 +142,6 @@ function dbAtualizaBuscape() {
   ->select('provider_category')
   ->get();
 
-  //dd($tabCategories);
-
   foreach ($tabCategories as $aCategory) {
       // Contador de oáginas
       $totalpages = 1;
@@ -227,6 +225,7 @@ function dbAtualizaBuscape() {
           }
         }
       } catch (\Exception $e) {
+        Storage::disk('local')->put('logs/log'.date("YmdHis").'txt',$e);
         return false;
       }
     }
