@@ -170,8 +170,8 @@ function dbAtualizaBuscape() {
               $product = new \App\Product();
               $product->id_provider  = 1;
               $product->provider_cod = $aProduct->product->id;
-              $product->name         = $aProduct->product->productname;
-              $product->short_name   = $aProduct->product->productshortname ?: '';
+              $product->name         = ( isset($aProduct->product->productname) ? $aProduct->product->productname : '' );
+              $product->short_name   = ( isset($aProduct->product->productshortname) ? $aProduct->product->productshortname : '' );
               $product->id_category  = $aProduct->product->categoryid;
               $product->created_at   = date("Y-m-d H:i:s");
               $product->save();
@@ -185,8 +185,8 @@ function dbAtualizaBuscape() {
             $tabProductHist = DB::table('products_hist')
                                 ->select('id')
                                 ->where('id_product',$idProduct)
-                                ->where('price_min',$aProduct->product->pricemin ?: 0)
-                                ->where('price_max',$aProduct->product->pricemax ?: 0)
+                                ->where('price_min',( isset($aProduct->product->pricemin) ? $aProduct->product->pricemin : 0 ))
+                                ->where('price_max',( isset($aProduct->product->pricemax) ? $aProduct->product->pricemax : 0 ))
                                 ->first();
 
             // Grava o valor no produto
@@ -194,8 +194,8 @@ function dbAtualizaBuscape() {
               $productHist = new \App\ProductHist();
               $productHist->id_product = $idProduct;
               $productHist->date       = date("Y-m-d");
-              $productHist->price_min = $aProduct->product->pricemin ?: 0;
-              $productHist->price_max = $aProduct->product->pricemax ?: 0;
+              $productHist->price_min = ( isset($aProduct->product->pricemin) ? $aProduct->product->pricemin : 0 );
+              $productHist->price_max = ( isset($aProduct->product->pricemax) ? $aProduct->product->pricemax : 0 );
               $productHist->save();
             }
 
@@ -225,7 +225,7 @@ function dbAtualizaBuscape() {
           }
         }
       } catch (\Exception $e) {
-        Storage::disk('local')->put('logs/log'.date("YmdHis").'txt',$e);
+        Storage::disk('local')->put('logs/log'.date("YmdHis").'.txt',$e);
         return false;
       }
     }
