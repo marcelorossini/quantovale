@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             dbAtualizaBuscape();
-        })->dailyAt('02:00');;
+        })->dailyAt('02:00');
     }
 
     /**
