@@ -226,10 +226,8 @@ function dbAtualizaBuscape() {
         }
       } catch (\Exception $e) {
         Storage::disk('local')->put('logs/log'.date("YmdHis").'.txt',$e);
-        return false;
       }
     }
   }
-  return true;
-
+  return '';
 }
