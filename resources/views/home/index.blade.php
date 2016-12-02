@@ -35,25 +35,53 @@
   <!--
   <script src="{{ asset("/js/requirejs/require.js") }}"></script>
   <script src="{{ asset("/js/chart.js/chart.js") }}"></script>
-  -->
-  <!-- Grafico -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.js"></script>
+-->
+<!-- Grafico -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.6/Chart.js"></script>
 </head>
 <body id="main" class="grey lighten-4">
-  <nav class="nav red lighten-1">
-      <div class="row">
-        <div class="col s12 m12 l2">
-        </div>
-        <div class="col s12 m12 l2">
-          <ul id="nav-mobile">
-            <li><a href="sass.html">PRODUTOS</a></li>
-            <li><a href="badges.html">CARROS</a></li>
-            <li><a href="collapsible.html">IMÓVEIS</a></li>
-          </ul>
-        </div>
 
-        <div class="col s12 m12 l6">
-          <div class="nav-wrapper">
+  @if (Agent::isMobile())  <!-- facebook(Auth::user()->name)['picture_480'] -->
+  <ul id="slide-out" class="side-nav">
+    <li><div class="userView">
+      <div class="background">
+        <img src="">
+      </div>
+      <a href="#!user"><img class="circle" src=""></a>
+      <a href="#!name"><span class="white-text name">John Doe</span></a>
+      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+    </div></li>
+    <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
+    <li><a href="#!">Second Link</a></li>
+    <li><div class="divider"></div></li>
+    <li><a class="subheader">Subheader</a></li>
+    <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+  </ul>
+  <script>
+  $(document).ready(function(){
+    $("#btnNav").sideNav();
+  });
+  </script>
+
+  <nav class="nav-extended red lighten-1">
+    <div style="padding: 0; margin: 0;">
+      <div class="col s12 m12 l8 offset-l2">
+        <div class="nav-wrapper">
+          <div class="row" style="padding: 0; margin: 0;">
+            <div class="col s1 m1 l1" style="padding: 0; margin: 0;">
+              <ul class="center">
+                <li><a href="#" id="btnNav" data-activates="slide-out"><i class="material-icons">menu</i></a></li>
+              </ul>
+            </div>
+            <div class="col s11 m11 l11" style="padding: 0; margin: 0;">
+              <ul class="tabs tabs-fixed-width tabs-transparent" style="margin-top: 8px">
+                <li class="tab"><a class="active" href="#test1">PRODUTOS</a></li>
+                <li class="tab disabled"><a href="#test2">CARROS</a></li>
+                <li class="tab disabled"><a href="#test3">IMÓVEIS</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="container">
             <form method="POST" action="{!! route('postSearch') !!}">
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
               <div class="input-field">
@@ -64,36 +92,47 @@
             </form>
           </div>
         </div>
-
-        <div class="col s12 m12 l1 offset-l1">
-          <ul id="nav-mobile">
-            @if (Auth::check())  <!-- facebook(Auth::user()->name)['picture_480'] -->
-              <li><a href="#"><img src="{{ facebook(Auth::user()->id)['picture_480'] }}" alt="" class="circle responsive-img"><br> {{ Auth::user()->name }}</a></li>
-            @else
-              <li><a href="{{ route('login') }}">Entre</a></li>
-            @endif
-          </ul>
-        </div>
-
       </div>
-      <!--
-                <div class="col s1 m1 l1" style="padding: 0; margin: 0;">
-                  <ul class="right">
-                    <li><a href="#"><i class="material-icons">more_vert</i></a></li>
-                  </ul>
-                </div>
-      <div class="col l2">
-        <a href="{{ url('/logout') }}"
-            onclick="event.preventDefault();
-                     document.getElementById('logout-form').submit();">
-            Logout
-        </a>
-        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-        </form>
-      </div>
-    -->
+    </div>
   </nav>
+  @else
+  <nav class="nav red lighten-1">
+    <div class="row">
+      <div class="col s12 m12 l2">
+      </div>
+      <div class="col s12 m12 l2">
+        <ul id="nav-mobile">
+          <li><a href="sass.html">PRODUTOS</a></li>
+          <li><a href="badges.html">CARROS</a></li>
+          <li><a href="collapsible.html">IMÓVEIS</a></li>
+        </ul>
+      </div>
+
+      <div class="col s12 m12 l6">
+        <div class="nav-wrapper">
+          <form method="POST" action="{!! route('postSearch') !!}">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <div class="input-field">
+              <input name="product" id="search" type="search" value="" required>
+              <label for="search"><i class="material-icons">search</i></label>
+              <i class="material-icons">close</i>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="col s12 m12 l1 offset-l1">
+        <ul id="nav-mobile">
+          @if (Auth::check())  <!-- facebook(Auth::user()->name)['picture_480'] -->
+          <li><a href="#"><img src="{{ facebook(Auth::user()->id)['picture_480'] }}" alt="" class="circle responsive-img"><br> {{ Auth::user()->name }}</a></li>
+          @else
+          <li><a href="{{ route('login') }}">Entre</a></li>
+          @endif
+        </ul>
+      </div>
+    </div>
+  </nav>
+  @endif
 
   <main>
     <div class="container">
@@ -126,12 +165,12 @@
   </footer>
 
   <script>
-        $('select').material_select();
+  $('select').material_select();
 
-        $('.datepicker').pickadate({
-          selectMonths: true, // Creates a dropdown to control month
-          selectYears: 15 // Creates a dropdown of 15 years to control year
-        });
+  $('.datepicker').pickadate({
+    selectMonths: true, // Creates a dropdown to control month
+    selectYears: 15 // Creates a dropdown of 15 years to control year
+  });
   </script>
 </body>
 </html>

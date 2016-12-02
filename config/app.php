@@ -181,6 +181,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         // Socialite
         Laravel\Socialite\SocialiteServiceProvider::class,
+        // Agent
+        Jenssegers\Agent\AgentServiceProvider::class,
 
     ],
 
@@ -234,6 +236,8 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         // Socialite
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        // Agent
+        'Agent' => 'Jenssegers\Agent\Facades\Agent',
     ],
 
 ];
