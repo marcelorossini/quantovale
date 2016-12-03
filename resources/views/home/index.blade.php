@@ -44,18 +44,30 @@
   @if (Agent::isMobile())  <!-- facebook(Auth::user()->name)['picture_480'] -->
   <ul id="slide-out" class="side-nav">
     <li><div class="userView">
-      <div class="background">
-        <img src="">
+      <div class="background red lighten-1">
+
       </div>
-      <a href="#!user"><img class="circle" src=""></a>
-      <a href="#!name"><span class="white-text name">John Doe</span></a>
-      <a href="#!email"><span class="white-text email">jdandturk@gmail.com</span></a>
+      @if (Auth::check())
+      <a href="#!user"><img class="circle" src="{{ facebook(Auth::user()->id)['picture_480'] }}"></a>
+      <a href="#!name"><span class="white-text name">{{ Auth::user()->name }}</span></a>
+      <a href="#!email"><span class="white-text email">{{ Auth::user()->email }}</span></a>
+      @endif
     </div></li>
+    @if (Auth::check())
+    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+    </form>
+    <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="material-icons"><i class="mdi mdi-logout-variant"></i></i> Logout</a></li>
+    <!--
     <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
     <li><a href="#!">Second Link</a></li>
     <li><div class="divider"></div></li>
     <li><a class="subheader">Subheader</a></li>
     <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+  -->
+    @else
+    <li><a href="{{ route('login') }}"><i class="material-icons">cloud</i>Entrar</a></li>
+    @endif
   </ul>
   <script>
   $(document).ready(function(){

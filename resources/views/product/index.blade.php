@@ -172,6 +172,28 @@ var nResult = 0;
         @endforeach
         <button type="submit" id="btnFormCalcular" style="display: none;"></button>
       </form>
+      <!-- AJAX para enviar o formulário -->
+      <script>
+      $(document).ready(function() {
+        $('#formFilters').ajaxForm({
+          dataType:  'json',
+          success:   processJson
+        });
+      });
+
+      // Função de tratamento do retorno do JSON
+      function processJson(data) {
+        $("#btnCalcular").hide();
+        $("#divFilters").hide();
+        $("#divCalculo").removeClass("l8");
+        $("#divCalculo").addClass("l12");
+        $("#divRetornoCalculo").show();
+        $('#divValorCalculado').html('R$ '+(data.valor).formatMoney(2, ',', '.'));
+
+        //Atualiza variável de resultado
+        nResult = data.result;
+      }
+      </script>
     </div>
     <div class="col s12 m12 l8 filcal valign-wrapper center-align" id="divCalculo">
       <div class="col s12 m12 l12" style="">
@@ -180,6 +202,7 @@ var nResult = 0;
             Seu produto vale:
             <div id="divValorCalculado"></div>
           </div>
+          @if (Auth::check())
           <!-- SALVAR -->
           <a class="tooltipped" id="btnFormResultSave" data-position="bottom" data-delay="50" data-tooltip="Gostei <3"><i class="mdi mdi-heart"></i>  <!-- bell --></a>
           <script>
@@ -207,49 +230,52 @@ var nResult = 0;
           <a class="tooltipped" onclick="$('#btnFormResultSave').trigger('click')" href="#modalCompartilhar" data-position="bottom" data-delay="50" data-tooltip="Compartilhar"><i class="mdi mdi-share"></i></a>
           <!-- RESTART -->
           <a class="tooltipped" onclick="location.reload()" data-position="bottom" data-delay="50" data-tooltip="Recalcular"><i class="mdi mdi-reload"></i></a>
-        </div>
 
-        <!-- Modal Structure -->
-        <div id="modalCompartilhar" class="modal bottom-sheet">
-          <div class="modal-content">
-            <h4>Compartilhar</h4>
-            <hr>
-            <div class="row">
-              <div class="col s4 m4 l1">
-                <a id="facebook_share"><i class="mdi mdi-facebook-box color-facebook"></i><br><span>Facebook</span></a>
-                <script>
-                $('#facebook_share').click(function() {
-                  FB.ui({
-                    method: 'share',
-                    href: ('{{ route("getShare","nResult") }}').replace('nResult',nResult)
-                  }, function(response){});
-                });
-                </script>
-              </div>
-              <div class="col s4 m4 l1 hide-on-large-only">
-                <a href="#"><i class="mdi mdi-whatsapp color-whatsapp"></i><br><span>WhatsApp</span></a>
-              </div>
-              <div class="col s4 m4 l1">
-                <a href="#" id="aVerPagina"><i class="mdi mdi-logout"></i><br><span>Ver página</span></a>
-                <script>
-                  $('#aVerPagina').click(function() {
-                    this.href = ('{{ route("getShare","nResult") }}').replace('nResult',nResult);
+          <!-- Modal Structure -->
+          <div id="modalCompartilhar" class="modal bottom-sheet">
+            <div class="modal-content">
+              <h4>Compartilhar</h4>
+              <hr>
+              <div class="row">
+                <div class="col s4 m4 l1">
+                  <a id="facebook_share"><i class="mdi mdi-facebook-box color-facebook"></i><br><span>Facebook</span></a>
+                  <script>
+                  $('#facebook_share').click(function() {
+                    FB.ui({
+                      method: 'share',
+                      href: ('{{ route("getShare","nResult") }}').replace('nResult',nResult)
+                    }, function(response){});
                   });
-                </script>
+                  </script>
+                </div>
+                <div class="col s4 m4 l1 hide-on-large-only">
+                  <a href="#"><i class="mdi mdi-whatsapp color-whatsapp"></i><br><span>WhatsApp</span></a>
+                </div>
+                <div class="col s4 m4 l1">
+                  <a href="#" id="aVerPagina"><i class="mdi mdi-logout"></i><br><span>Ver página</span></a>
+                  <script>
+                    $('#aVerPagina').click(function() {
+                      this.href = ('{{ route("getShare","nResult") }}').replace('nResult',nResult);
+                    });
+                  </script>
+                </div>
               </div>
             </div>
+            <div class="modal-footer">
+              <a href="{{ route("getShare") }}/" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
+            </div>
           </div>
-          <div class="modal-footer">
-            <a href="{{ route("getShare") }}/" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
-          </div>
+          <script>
+          // Chama o modal de compartilhamento
+          $(document).ready(function(){
+            $('.modal').modal();
+            $('.tooltipped').tooltip({delay: 50});
+          });
+          </script>
+          @else
+          <div class="flow-text"><a href="{{ route('login') }}" style="font-size: 1em; font-weight: bold;">Entre</a> para ter as opções de compartilhamento</div>
+          @endif
         </div>
-        <script>
-        // Chama o modal de compartilhamento
-        $(document).ready(function(){
-          $('.modal').modal();
-          $('.tooltipped').tooltip({delay: 50});
-        });
-        </script>
         <label class="waves-effect waves-light btn-large" for="btnFormCalcular" id="btnCalcular">Calcular</label>
       </div>
     </div>
@@ -260,27 +286,5 @@ var nResult = 0;
     });
     </script>
   </div>
-  <!-- AJAX para enviar o formulário -->
-  <script>
-  $(document).ready(function() {
-    $('#formFilters').ajaxForm({
-      dataType:  'json',
-      success:   processJson
-    });
-  });
-
-  // Função de tratamento do retorno do JSON
-  function processJson(data) {
-    $("#btnCalcular").hide();
-    $("#divFilters").hide();
-    $("#divCalculo").removeClass("l8");
-    $("#divCalculo").addClass("l12");
-    $("#divRetornoCalculo").show();
-    $('#divValorCalculado').html('R$ '+(data.valor).formatMoney(2, ',', '.'));
-
-    //Atualiza variável de resultado
-    nResult = data.result;
-  }
-  </script>
 </div>
 @endsection
