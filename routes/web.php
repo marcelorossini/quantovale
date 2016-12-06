@@ -29,9 +29,9 @@ Route::post('/search/product', [
           return redirect(route('getSearch',$request->product));
        }]);
 
-Route::get('/search/product/{keyword?}','SearchController@index')->name('getSearch');
+Route::get('/search/{keyword?}','SearchController@index')->name('getSearch');
 
-Route::get('/product/{idProduct?}','ProductController@index')->name('getProduct');
+Route::get('/product/{idProduct?}-{nameProduct?}','ProductController@index')->name('getProduct');
 Route::post('/product/{idProduct?}/result','ProductController@result')->name('postResult');
 Route::post('/product/{idProduct?}/result/{idResult?}/save/{bTrueFalse?}','ProductController@resultSave')->name('postResultSave');
 

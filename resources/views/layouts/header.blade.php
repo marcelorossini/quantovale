@@ -14,7 +14,7 @@
   </div></li>
   @if (Auth::check())
   <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-      {{ csrf_field() }}
+    {{ csrf_field() }}
   </form>
   <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="mdi mdi-logout-variant"  style="font-size: 2em;"></i> Logout</a></li>
   <!--
@@ -24,9 +24,9 @@
   <li><a class="subheader">Subheader</a></li>
   <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
 -->
-  @else
-  <li><a href="{{ route('login') }}"><i class="mdi mdi-login" style="font-size: 2em;"></i> Entrar</a></li>
-  @endif
+@else
+<li><a href="{{ route('login') }}"><i class="mdi mdi-login" style="font-size: 2em;"></i> Entrar</a></li>
+@endif
 </ul>
 <script>
 $(document).ready(function(){
@@ -53,10 +53,9 @@ $(document).ready(function(){
           </div>
         </div>
         <div class="container">
-          <form method="POST" action="{!! route('postSearch') !!}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+          <form method="GET" action="{!! route('getSearch') !!}">
             <div class="input-field">
-              <input name="product" id="search" type="search" value="" required>
+              <input name="product" id="search" type="search" value="{{ isset($_GET['product']) ? $_GET['product'] : '' }}" required>
               <label for="search"><i class="material-icons">search</i></label>
               <i class="material-icons">close</i>
             </div>
@@ -73,18 +72,17 @@ $(document).ready(function(){
     </div>
     <div class="col s12 m12 l2">
       <ul id="nav-mobile">
-        <li><a href="sass.html">PRODUTOS</a></li>
-        <li><a href="badges.html">CARROS</a></li>
-        <li><a href="collapsible.html">IMÓVEIS</a></li>
+        <li><a style="border-bottom: 2px solid white;" href="sass.html">PRODUTOS</a></li>
+        <li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="badges.html">CARROS</a></li>
+        <li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="collapsible.html">IMÓVEIS</a></li>
       </ul>
     </div>
 
     <div class="col s12 m12 l6">
       <div class="nav-wrapper">
-        <form method="POST" action="{!! route('postSearch') !!}">
-          <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <form method="GET" action="{!! route('getSearch') !!}">
           <div class="input-field">
-            <input name="product" id="search" type="search" value="" required>
+            <input name="product" id="search" type="search" value="{{ isset($_GET['product']) ? $_GET['product'] : '' }}" required>
             <label for="search"><i class="material-icons">search</i></label>
             <i class="material-icons">close</i>
           </div>
@@ -92,10 +90,21 @@ $(document).ready(function(){
       </div>
     </div>
 
-    <div class="col s12 m12 l1 offset-l1">
+    <div class="col s12 m12 l2">
       <ul id="nav-mobile">
         @if (Auth::check())  <!-- facebook(Auth::user()->name)['picture_480'] -->
-        <li><a href="#"><img src="{{ !is_null($aFacebook) ? $aFacebook['picture_480'] : '' }}" alt="" class="circle responsive-img"><br> {{ Auth::user()->name }}</a></li>
+        <li>
+          <a href="#">
+            <div class="row valign-wrapper">
+              <div class="col l3 valign-wrapper">
+                <img src="{{ !is_null($aFacebook) ? $aFacebook['picture_480'] : '' }}" alt="" class="circle responsive-img">
+              </div>
+              <div class="col l9 valign-wrapper">
+                {{ Auth::user()->name }}
+              </div>
+            </div>
+          </a>
+        </li>
         @else
         <li><a href="{{ route('login') }}">Entre</a></li>
         @endif

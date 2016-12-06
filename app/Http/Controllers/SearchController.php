@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 use DB;
 use Storage;
@@ -14,8 +15,11 @@ use App\Category;
 
 class SearchController extends Controller
 {
-	public function index($keyword)
+	public function index($keyword = null)
 	{
+		if (is_null($keyword)) {
+			$keyword = Input::get('product');
+		}
 		//Grava pesquisa e usuário que pesquisou caso logado
 		$input = new InputTable();
 		$input->text = $keyword;

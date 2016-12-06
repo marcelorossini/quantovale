@@ -12,7 +12,7 @@
 						@forelse ($products as $product)
 						<tr style="display: block;">
 							<td width="90"><img height="90" src="{{ route('getProductImage',[$product->id,'bcp_600x600.jpg']) }}"></td>
-							<td><h5><a href="{{ route('getProduct',$product->id) }}">{{ $product->name }}</a></h5></td>
+							<td><h5><a href="{{ route('getProduct',[$product->id,$product->name]) }}">{{ $product->name }}</a></h5></td>
 							<td></td>
 						</tr>
 						@empty

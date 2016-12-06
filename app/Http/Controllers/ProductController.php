@@ -80,14 +80,16 @@ class ProductController extends Controller
 														$q->where('price_min','<>',0)->orWhere('price_max','<>',0);
 													})
 		                      ->get();
-
+				$aLabels = [];
+				$aMenorPreço = [];
+				$aMaiorPreco = [];
 				foreach($tabProductHist as $aProductItem)	{
 			  		$aLabels[] = date('d/m/y',strtotime(str_replace('-','/', $aProductItem->date)));
 						$aMenorPreço[] = $aProductItem->price_min;
-						$aMaiorPReco[] = $aProductItem->price_max;
+						$aMaiorPreco[] = $aProductItem->price_max;
 				}
 
-				return [$aLabels,$aMenorPreço,$aMaiorPReco];
+				return [$aLabels,$aMenorPreço,$aMaiorPreco];
 		}
 
 	// Cria os filtros na tela
