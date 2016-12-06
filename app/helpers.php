@@ -121,7 +121,7 @@ function facebook($idUser) {
   ->where('sa.user_id',$idUser)
   ->where('sa.provider','facebook')
   ->first();
-  $aDados = [];
+  $aDados = null;
   if (!is_null($tabSocialAccount)) {
     $aDados = [
       'id' => $tabSocialAccount->provider_user_id,

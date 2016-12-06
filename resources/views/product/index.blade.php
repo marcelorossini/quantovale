@@ -265,13 +265,6 @@ var nResult = 0;
               <a href="{{ route("getShare") }}/" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
             </div>
           </div>
-          <script>
-          // Chama o modal de compartilhamento
-          $(document).ready(function(){
-            $('.modal').modal();
-            $('.tooltipped').tooltip({delay: 50});
-          });
-          </script>
           @else
           <div class="flow-text"><a href="{{ route('login') }}" style="font-size: 1em; font-weight: bold;">Entre</a> para ter as opções de compartilhamento</div>
           @endif

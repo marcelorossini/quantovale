@@ -1,82 +1,72 @@
-@extends('layouts.app')
+@extends("auth.app")
 
-@section('content')
+@section("content")
 <div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
-                <div class="panel-body">
-                    <form class="form-horizontal" role="form" method="POST" action="{{ url('/register') }}">
-                        {{ csrf_field() }}
+  <div class="z-depth-1 white row" style="padding: 1.5em;">
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
-
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
-
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
-
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('password_confirmation') ? ' has-error' : '' }}">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-
-                                @if ($errors->has('password_confirmation'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password_confirmation') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <form class="col s12" role="form" method="POST" action="{{ url('/register') }}">
+      {{ csrf_field() }}
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+          @if ($errors->has('name'))
+              <span class="help-block">
+                  <strong>{{ $errors->first('name') }}</strong>
+              </span>
+          @endif
+          <label for="email">Nome</label>
         </div>
-    </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
+          @if ($errors->has('email'))
+              <span class="help-block">
+                  <strong>{{ $errors->first('email') }}</strong>
+              </span>
+          @endif
+          <label for="email">E-mail</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password" type="password" class="form-control" name="password" required>
+          @if ($errors->has('password'))
+              <span class="help-block">
+                  <strong>{{ $errors->first('password') }}</strong>
+              </span>
+          @endif
+          <label for="email">Senha</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+          @if ($errors->has('password_confirmation'))
+              <span class="help-block">
+                  <strong>{{ $errors->first('password_confirmation') }}</strong>
+              </span>
+          @endif
+          <label for="email">Confirme a senha</label>
+        </div>
+      </div>
+
+      <br />
+      <center>
+        <div class="row">
+          <button type="submit" name="btn_login" class="col s12 btn btn-large waves-effect red lighten-1">Continuar</button>
+        </div>
+        <div class="row">
+          <a href="{{ route('getFacebookRedirect') }}" class="col s12 btn btn-large waves-effect indigo"><i class="mdi mdi-facebook-box"></i> Facebook Login</a>
+        </div>
+      </center>
+    </form>
+  </div>
 </div>
+<center>
+  <a href="{{ url('/login') }}">Faça o login</a>
+</center>
 @endsection
