@@ -149,7 +149,7 @@ function dbAtualizaBuscape() {
       for ($pages = 1; $pages <= $totalpages; $pages++) {
         try {
           // Busca produtos
-          $opts = array('http'=>array('header' => "User-Agent:MyAgent/1.0\r\n"));
+          $opts = ['http'=>['header' => "User-Agent:MyAgent/1.0\r\n"]];
           $context = stream_context_create($opts);
           $json = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/buscape/3949646a646c52444374413d/BR/?sourceId=35648701&categoryId='.urlencode($aCategory->provider_category).'&results=100&format=json'.($pages>1?'&page='.$pages:''),false,$context);
           $obj = json_decode($json);
@@ -212,6 +212,9 @@ function dbAtualizaBuscape() {
 
               // Procura thumbnail com melhor resolução
               for ($nRes = 6;$nRes >=0;$nRes--) {
+				// Variável da imagem
+				$bImagem = null;
+				
                 $cRes = (string)($nRes*100).'x'.(string)($nRes*100);
                 try {
                   $sUrl = str_replace(["100x100","200x200","300x300","400x400","500x500"],$cRes,$sUrl);
