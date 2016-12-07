@@ -16,7 +16,9 @@
   <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
     {{ csrf_field() }}
   </form>
-  <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="mdi mdi-logout-variant"  style="font-size: 2em;"></i> Logout</a></li>
+  <li><a href="{{ route('getUsersFavorites') }}"><i class="mdi mdi-heart" style="font-size: 2em;"></i> Favoritos</a></li>
+  <li><div class="divider"></div></li>
+  <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="mdi mdi-logout-variant" style="font-size: 2em;"></i> Logout</a></li>
   <!--
   <li><a href="#!"><i class="material-icons">cloud</i>First Link With Icon</a></li>
   <li><a href="#!">Second Link</a></li>

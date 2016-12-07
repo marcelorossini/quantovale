@@ -33,15 +33,19 @@ var nResult = 0;
             {{ $tag }}
           </div>
           @endforeach
-
+          <div style="padding:.5em;"></div>
           <!--<div style="position: absolute; bottom: 20%;">-->
-          <div>
-            <div class="flow-text">Valor novo: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
+          <div class="hide-on-small-only center">
+            <div class="flow-text">Valor atual: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
           </div>
         </div>
 
         <div id="produto_gra" style="width: 100%;">
           <canvas id="grafico_linha"></canvas>
+        </div>
+
+        <div class="hide-on-med-and-up center">
+          <div class="flow-text" style="font-size: 1.5em;">Valor atual: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
         </div>
 
         <!-- Corrige o tamanho do grafico-->

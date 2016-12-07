@@ -47,3 +47,6 @@ Route::get('/facebook/callback', 'SocialAuthController@callback')->name('getFace
 
 // Teste
 Route::get('/product/atualizar/buscape', 'ProductController@atualizaBuscape')->name('getAtualizarBuscape');
+
+// Telas do usuário
+Route::get('/user/favorites', 'UserController@favorites')->middleware('auth')->name('getUsersFavorites');
