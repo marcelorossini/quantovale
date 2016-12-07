@@ -67,7 +67,9 @@ class ProductController extends Controller
 				*/
 				$sUrlImage = Route("getProductImage",[$id,"bcp_600x600.jpg"]);
 
-				return view('product.index',['aProduct' => $tabProduct,'marca' => $tabMarca,'nValorNovo' => $valor,'aTags' => $aTags,'image' => $sUrlImage,'aChart' => $tabProductHist,'aFilters' => $aFilters]);
+				$aFacebook = facebook(\Auth::user()->id);
+
+				return view('product.index',['aProduct' => $tabProduct,'marca' => $tabMarca,'nValorNovo' => $valor,'aTags' => $aTags,'image' => $sUrlImage,'aChart' => $tabProductHist,'aFilters' => $aFilters,'aFacebook' => $aFacebook]);
 		}
 
 	// Retorna dados para uso no grafico

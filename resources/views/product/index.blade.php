@@ -297,7 +297,10 @@ var grafico_linha = new Chart(ctx, {
           <a class="tooltipped" onclick="$('#btnFormResultSave').trigger('click')" href="#modalCompartilhar" data-position="bottom" data-delay="50" data-tooltip="Compartilhar"><i class="mdi mdi-share"></i></a>
           <!-- RESTART -->
           <a class="tooltipped" onclick="location.reload()" data-position="bottom" data-delay="50" data-tooltip="Recalcular"><i class="mdi mdi-reload"></i></a>
-
+          <br>
+          @if (Auth::check() && is_null($aFacebook) )
+          Conecte seu facebook
+          @endif
           <!-- Modal Structure -->
           <div id="modalCompartilhar" class="modal bottom-sheet">
             <div class="modal-content">
