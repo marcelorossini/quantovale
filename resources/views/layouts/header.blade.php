@@ -1,6 +1,5 @@
 <?php $aFacebook = ( Auth::check() ? facebook(Auth::user()->id) : null ) ?>
 
-@if (Agent::isMobile())  <!-- facebook(Auth::user()->name)['picture_480'] -->
 <ul id="slide-out" class="side-nav">
   <li><div class="userView">
     <div class="background red lighten-1">
@@ -16,6 +15,8 @@
   <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
     {{ csrf_field() }}
   </form>
+  <li><a href="{{ route('getHome') }}"><i class="mdi mdi-home" style="font-size: 2em;"></i> Home</a></li>
+  <li><a href="{{ route('getUsersShared') }}"><i class="mdi mdi-share" style="font-size: 2em;"></i> Compartilhados</a></li>
   <li><a href="{{ route('getUsersFavorites') }}"><i class="mdi mdi-heart" style="font-size: 2em;"></i> Favoritos</a></li>
   <li><div class="divider"></div></li>
   <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="mdi mdi-logout-variant" style="font-size: 2em;"></i> Logout</a></li>
@@ -26,9 +27,9 @@
   <li><a class="subheader">Subheader</a></li>
   <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
 -->
-@else
-<li><a href="{{ route('login') }}"><i class="mdi mdi-login" style="font-size: 2em;"></i> Entrar</a></li>
-@endif
+  @else
+  <li><a href="{{ route('login') }}"><i class="mdi mdi-login" style="font-size: 2em;"></i> Entrar</a></li>
+  @endif
 </ul>
 <script>
 $(document).ready(function(){
@@ -36,7 +37,7 @@ $(document).ready(function(){
 });
 </script>
 
-<nav class="nav-extended red lighten-1">
+<nav class="nav-extended red lighten-1 hide-on-large-only">
   <div style="padding: 0; margin: 0;">
     <div class="col s12 m12 l8 offset-l2">
       <div class="nav-wrapper">
@@ -50,7 +51,7 @@ $(document).ready(function(){
             <ul class="tabs tabs-fixed-width tabs-transparent" style="margin-top: 8px">
               <li class="tab"><a class="active" href="#test1">PRODUTOS</a></li>
               <li class="tab disabled"><a href="#test2">CARROS</a></li>
-              <li class="tab disabled"><a href="#test3">IMÓVEIS</a></li>
+              <!--<li class="tab disabled"><a href="#test3">IMÓVEIS</a></li>-->
             </ul>
           </div>
         </div>
@@ -67,8 +68,8 @@ $(document).ready(function(){
     </div>
   </div>
 </nav>
-@else
-<nav class="nav red lighten-1">
+
+<nav class="nav red lighten-1 hide-on-med-and-down">
   <div class="row">
     <div class="col s12 m12 l2">
     </div>
@@ -76,7 +77,7 @@ $(document).ready(function(){
       <ul id="nav-mobile">
         <li><a style="border-bottom: 2px solid white;" href="sass.html">PRODUTOS</a></li>
         <li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="badges.html">CARROS</a></li>
-        <li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="collapsible.html">IMÓVEIS</a></li>
+        <!--<li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="collapsible.html">IMÓVEIS</a></li>-->
       </ul>
     </div>
 
@@ -114,4 +115,3 @@ $(document).ready(function(){
     </div>
   </div>
 </nav>
-@endif

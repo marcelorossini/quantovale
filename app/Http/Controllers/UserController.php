@@ -21,4 +21,16 @@ class UserController extends Controller
 
 		return view('user.favorites',['aResults' => $tabResults]);
   }
+
+  public function shared()
+  {
+    $tabResults = DB::table('results as r')
+                    ->join('products as p', 'p.id', '=', 'r.id_product')
+                    ->select(DB::raw('p.id, p.name, r.id as id_result, r.created_at'))
+                    ->where('id_user',\Auth::user()->id)
+                    ->orderBy('p.created_at')
+                    ->get();
+
+    return view('user.shared',['aResults' => $tabResults]);
+  }
 }

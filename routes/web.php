@@ -22,7 +22,7 @@ Route::group(['middleware' => ['web']], function() {
 */
 Auth::routes();
 
-Route::get('/','HomeController@index');
+Route::get('/','HomeController@index')->name('getHome');
 
 Route::post('/search/product', [
        'as' => 'postSearch', function (Request $request) {
@@ -50,3 +50,4 @@ Route::get('/product/atualizar/buscape', 'ProductController@atualizaBuscape')->n
 
 // Telas do usuário
 Route::get('/user/favorites', 'UserController@favorites')->middleware('auth')->name('getUsersFavorites');
+Route::get('/user/shared', 'UserController@shared')->middleware('auth')->name('getUsersShared');

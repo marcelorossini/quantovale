@@ -21,7 +21,6 @@ var nResult = 0;
     <!-- Imagem do produto -->
     <div class="col s12 m6 offset-m3 l4 center" id="produto_img">
       <img style="width: 100%;" src="{{ $image }}">
-      *Imagem meramente ilustrativa
     </div>
     <!-- Dados do produto -->
     <div class="col s12 m12 l8">
@@ -298,7 +297,7 @@ var grafico_linha = new Chart(ctx, {
           <!-- RESTART -->
           <a class="tooltipped" onclick="location.reload()" data-position="bottom" data-delay="50" data-tooltip="Recalcular"><i class="mdi mdi-reload"></i></a>
           <br>
-          @if (Auth::check() && is_null($aFacebook) )
+          @if (is_null($aFacebook) )
           Conecte seu facebook
           @endif
           <!-- Modal Structure -->

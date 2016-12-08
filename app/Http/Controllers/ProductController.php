@@ -66,8 +66,7 @@ class ProductController extends Controller
 				}
 				*/
 				$sUrlImage = Route("getProductImage",[$id,"bcp_600x600.jpg"]);
-
-				$aFacebook = facebook(\Auth::user()->id);
+				$aFacebook = ( \Auth::check() ? facebook(\Auth::user()->id) : null );
 
 				return view('product.index',['aProduct' => $tabProduct,'marca' => $tabMarca,'nValorNovo' => $valor,'aTags' => $aTags,'image' => $sUrlImage,'aChart' => $tabProductHist,'aFilters' => $aFilters,'aFacebook' => $aFacebook]);
 		}
