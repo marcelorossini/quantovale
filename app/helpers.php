@@ -175,7 +175,11 @@ function dbAtualizaBuscape() {
       for ($pages = 1; $pages <= $totalpages; $pages++) {
         try {
           // Busca produtos
-          $opts = ['http'=>['header' => "User-Agent:MyAgent/1.0\r\n"]];
+          $opts = [
+		     'http'=>['header' => "User-Agent:MyAgent/1.0\r\n",
+			          'timeout'=> 30
+			 ]
+		  ];
           $context = stream_context_create($opts);
           $json = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/buscape/3949646a646c52444374413d/BR/?sourceId=35648701&categoryId='.urlencode($aCategory->provider_category).'&results=100&format=json'.($pages>1?'&page='.$pages:''),false,$context);
           $obj = json_decode($json);
