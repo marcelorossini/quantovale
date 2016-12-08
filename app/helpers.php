@@ -136,9 +136,14 @@ function facebook($idUser) {
 }
 
 
-function dbAtualizaBuscape() { //date('Y-m-d')
+function dbAtualizaBuscape() {
+  // Remove limite da memoria
+  Ini_set ('memory_limit', '-1');
+
+  // Tabela de manutenção
   $tabMaintenance = DB::table('maintenance')->select('*')->where('name','atualiza:buscape')->where('date',date('Y-m-d'))->first();
 
+  // Se manutenção já feita, não executa
   if ( count($tabMaintenance)>0 && $tabMaintenance->completed == true ) {
     return '';
   }
