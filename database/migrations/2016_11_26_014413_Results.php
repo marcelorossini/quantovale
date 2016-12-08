@@ -14,6 +14,8 @@ class Results extends Migration
           $table->integer('id_product')->unsigned();
           $table->integer('id_user')->unsigned()->nullable();
           $table->boolean('save')->default(false);
+          $table->boolean('shared')->default(false);
+          $table->integer('views')->unsigned();
           $table->dateTime('created_at');
       });
     }

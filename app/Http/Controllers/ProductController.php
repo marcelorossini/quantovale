@@ -137,6 +137,15 @@ class ProductController extends Controller
 		return '';
 	}
 
+	// Marca registro como compartilhado, para aparecer no menu de usuário
+	public function resultShared($idProduct, $idResult) {
+		$tabResult = Result::find($idResult);
+		$tabResult->shared = true;
+		$tabResult->save();
+
+		return '';
+	}
+
 	// Monta pagina de
 	public function share($idResult) {
 		// Dados do resultado
@@ -167,6 +176,12 @@ class ProductController extends Controller
 		$nMaiorValor = number_format(end($tabProductHist[1]),2,",",".");
 		$nMenorValor = number_format(end($tabProductHist[2]),2,",",".");
 		$nValorUser = number_format(calculaResult($idResult),2,",",".");
+
+		// Usuário não logado ou diferente do atual
+		if ( !\Auth::check() || ( \Auth::check() && ( $tabResult->id_user != \Auth::user()->id ) ) ){
+			$tabResult->views = $tabResult->views+1;
+			$tabResult->save();
+		}
 
 		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => [$nMenorValor,$nMaiorValor,$nValorUser], 'aFacebook' => $aFacebook]);
 	}

@@ -17,7 +17,7 @@ class Products extends Migration
            $table->string('short_name');
            $table->integer('id_category')->unsigned();
            //$table->foreign('id_category')->references('id')->on('categories');
-           $table->dateTime('created_at');
+           $table->timestamps();
         });
     }
 

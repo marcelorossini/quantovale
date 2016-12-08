@@ -10,5 +10,4 @@ class Product extends Model
   protected $fillable = [
       'name','short_name','id_category','provider_cod'
   ];
-  public $timestamps = false;
 }

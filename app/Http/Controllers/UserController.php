@@ -13,7 +13,7 @@ class UserController extends Controller
   {
     $tabResults = DB::table('results as r')
                     ->join('products as p', 'p.id', '=', 'r.id_product')
-                    ->select(DB::raw('p.id, p.name, r.id as id_result'))
+                    ->select(DB::raw('p.id, p.name, r.id as id_result, r.created_at'))
                     ->where('id_user',\Auth::user()->id)
                     ->where('save',true)
                     ->orderBy('p.created_at')
@@ -26,8 +26,9 @@ class UserController extends Controller
   {
     $tabResults = DB::table('results as r')
                     ->join('products as p', 'p.id', '=', 'r.id_product')
-                    ->select(DB::raw('p.id, p.name, r.id as id_result, r.created_at'))
+                    ->select(DB::raw('p.id, p.name, r.id as id_result, r.created_at, r.views'))
                     ->where('id_user',\Auth::user()->id)
+                    ->where('shared',true)
                     ->orderBy('p.created_at')
                     ->get();
 

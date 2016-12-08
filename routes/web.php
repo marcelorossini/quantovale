@@ -34,6 +34,7 @@ Route::get('/search/{keyword?}','SearchController@index')->name('getSearch');
 Route::get('/product/{idProduct?}-{nameProduct?}','ProductController@index')->name('getProduct');
 Route::post('/product/{idProduct?}/result','ProductController@result')->name('postResult');
 Route::post('/product/{idProduct?}/result/{idResult?}/save/{bTrueFalse?}','ProductController@resultSave')->name('postResultSave');
+Route::post('/product/{idProduct?}/result/{idResult?}/shared','ProductController@resultShared')->name('postResultShared');
 
 Route::get('/product/share/{id?}','ProductController@share')->name('getShare');
 

@@ -50,7 +50,7 @@ $(document).ready(function(){
           <div class="col s11 m11 l11" style="padding: 0; margin: 0;">
             <ul class="tabs tabs-fixed-width tabs-transparent" style="margin-top: 8px">
               <li class="tab"><a class="active" href="#test1">PRODUTOS</a></li>
-              <li class="tab disabled"><a href="#test2">CARROS</a></li>
+              <li class="tab disabled"><a href="#test2">VEÍCULOS</a></li>
               <!--<li class="tab disabled"><a href="#test3">IMÓVEIS</a></li>-->
             </ul>
           </div>
@@ -76,7 +76,7 @@ $(document).ready(function(){
     <div class="col s12 m12 l2">
       <ul id="nav-mobile">
         <li><a style="border-bottom: 2px solid white;" href="sass.html">PRODUTOS</a></li>
-        <li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="badges.html">CARROS</a></li>
+        <li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="badges.html">VEÍCULOS</a></li>
         <!--<li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="collapsible.html">IMÓVEIS</a></li>-->
       </ul>
     </div>

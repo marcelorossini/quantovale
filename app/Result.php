@@ -8,7 +8,7 @@ class Result extends Model
 {
   protected $table = 'results';
   protected $fillable = [
-      'result','id_product','id_user','save'
+      'result','id_product','id_user','save','shared'
   ];
   public $timestamps = false;
 }

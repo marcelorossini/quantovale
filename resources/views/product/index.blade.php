@@ -293,7 +293,19 @@ var grafico_linha = new Chart(ctx, {
           });
           </script>
           <!-- COMPARTILHAR -->
-          <a class="tooltipped" onclick="$('#btnFormResultSave').trigger('click')" href="#modalCompartilhar" data-position="bottom" data-delay="50" data-tooltip="Compartilhar"><i class="mdi mdi-share"></i></a>
+          <a class="tooltipped" id="btnFormResultShared" href="#modalCompartilhar" data-position="bottom" data-delay="50" data-tooltip="Compartilhar"><i class="mdi mdi-share"></i></a>
+          <script>
+          $('#btnFormResultShared').click(function() {
+            Materialize.toast('Adicionado aos compartilhados!', 3000);
+            var url = ('{!! route('postResultShared',[$aProduct->id,"nResult"]) !!}').replace('nResult',nResult);
+            var values = {'_token': '{{ csrf_token() }}'};
+            $.ajax({
+              url: url,
+              type: "POST",
+              data: values,
+            });
+          });
+          </script>
           <!-- RESTART -->
           <a class="tooltipped" onclick="location.reload()" data-position="bottom" data-delay="50" data-tooltip="Recalcular"><i class="mdi mdi-reload"></i></a>
           <br>
