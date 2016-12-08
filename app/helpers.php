@@ -168,10 +168,10 @@ function dbAtualizaBuscape() {
     $idMaintenance = $tabMaintenance->id;
   }
 
-  $bar = $this->output->createProgressBar(count($tabCategories));
+  //$bar = $this->output->createProgressBar(count($tabCategories));
 
   foreach ($tabCategories as $aCategory) {
-    $this->performTask($aCategory);
+    //$this->performTask($aCategory);
 
     // Contador de oáginas
     $totalpages = 1;
@@ -273,13 +273,13 @@ function dbAtualizaBuscape() {
     $tabMaintenance = \App\Maintenance::find($idMaintenance);
     $tabMaintenance->auxliar = $aCategory->provider_category;
     $tabMaintenance->save();
-    $bar->advance();
+    //$bar->advance();
   }
 }
 
 $tabMaintenance = \App\Maintenance::find($idMaintenance);
 $tabMaintenance->completed = true;
 $tabMaintenance->save();
-$bar->finish();
+//$bar->finish();
 return '';
 }
