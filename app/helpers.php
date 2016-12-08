@@ -136,11 +136,32 @@ function facebook($idUser) {
 }
 
 
-function dbAtualizaBuscape() {
+function dbAtualizaBuscape() { //date('Y-m-d')
+  $tabMaintenance = DB::table('maintenance')->select('*')->where('name','atualiza:buscape')->where('date',date('Y-m-d'))->first();
+
+  if ( count($tabMaintenance)>0 && $tabMaintenance->completed == true ) {
+    return '';
+  }
+
   // Verifica se o produto já está com o preço cadastrado no dia
   $tabCategories = DB::table('categories')
   ->select('provider_category')
+  ->where('id_provider',1)
+  ->where('provider_category','>=', ( count($tabMaintenance)>0 ? $tabMaintenance->auxliar : 0 ) )
+  ->orderBy('provider_category')
   ->get();
+
+  // Verifica se existe ou cria uma nova manutenção
+  $idMaintenance = 0;
+  if ( count($tabMaintenance)>0 ) {
+     $idMaintenance = $tabMaintenance->id;
+  } else {
+    $tabMaintenance = new \App\Maintenance;
+    $tabMaintenance->name = 'atualiza:buscape';
+    $tabMaintenance->date = date('Y-m-d');
+    $tabMaintenance->save();
+    $idMaintenance = $tabMaintenance->id;
+  }
 
   foreach ($tabCategories as $aCategory) {
       // Contador de oáginas
@@ -212,9 +233,9 @@ function dbAtualizaBuscape() {
 
               // Procura thumbnail com melhor resolução
               for ($nRes = 6;$nRes >=0;$nRes--) {
-				// Variável da imagem
-				$bImagem = null;
-				
+        				// Variável da imagem
+        				$bImagem = null;
+
                 $cRes = (string)($nRes*100).'x'.(string)($nRes*100);
                 try {
                   $sUrl = str_replace(["100x100","200x200","300x300","400x400","500x500"],$cRes,$sUrl);
@@ -231,6 +252,10 @@ function dbAtualizaBuscape() {
               $cNomArq = 'bcp_'.$cRes.'.jpg';
               Storage::disk('local')->put('product/images/'.$idProduct.'/'.$cNomArq,$bImagem);
             }
+
+            $tabMaintenance = \App\Maintenance::find($idMaintenance);
+            $tabMaintenance->auxliar = $aCategory->provider_category;
+            $tabMaintenance->save();
           }
         }
       } catch (\Exception $e) {
@@ -238,5 +263,9 @@ function dbAtualizaBuscape() {
       }
     }
   }
+
+  $tabMaintenance = \App\Maintenance::find($idMaintenance);
+  $tabMaintenance->completed = true;
+  $tabMaintenance->save();
   return '';
 }
