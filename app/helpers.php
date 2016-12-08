@@ -159,7 +159,7 @@ function dbAtualizaBuscape() {
   // Verifica se existe ou cria uma nova manutenção
   $idMaintenance = 0;
   if ( count($tabMaintenance)>0 ) {
-     $idMaintenance = $tabMaintenance->id;
+    $idMaintenance = $tabMaintenance->id;
   } else {
     $tabMaintenance = new \App\Maintenance;
     $tabMaintenance->name = 'atualiza:buscape';
@@ -168,113 +168,118 @@ function dbAtualizaBuscape() {
     $idMaintenance = $tabMaintenance->id;
   }
 
-  foreach ($tabCategories as $aCategory) {
-      // Contador de oáginas
-      $totalpages = 1;
-      // E inicia a brincadeira
-      for ($pages = 1; $pages <= $totalpages; $pages++) {
-        try {
-          // Busca produtos
-          $opts = [
-		     'http'=>['header' => "User-Agent:MyAgent/1.0\r\n",
-			          'timeout'=> 30
-			 ]
-		  ];
-          $context = stream_context_create($opts);
-          $json = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/buscape/3949646a646c52444374413d/BR/?sourceId=35648701&categoryId='.urlencode($aCategory->provider_category).'&results=100&format=json'.($pages>1?'&page='.$pages:''),false,$context);
-          $obj = json_decode($json);
+  $bar = $this->output->createProgressBar(count($tabCategories));
 
-          // Quantidade de páginas
-          if (isset($obj->totalpages)) {
-            $totalpages = $obj->totalpages;
+  foreach ($tabCategories as $aCategory) {
+    $this->performTask($aCategory);
+
+    // Contador de oáginas
+    $totalpages = 1;
+    // E inicia a brincadeira
+    for ($pages = 1; $pages <= $totalpages; $pages++) {
+      try {
+        // Busca produtos
+        $opts = [
+          'http'=>['header' => "User-Agent:MyAgent/1.0\r\n",
+          'timeout'=> 30
+        ]
+      ];
+      $context = stream_context_create($opts);
+      $json = file_get_contents('http://sandbox.buscape.com.br/service/findProductList/buscape/3949646a646c52444374413d/BR/?sourceId=35648701&categoryId='.urlencode($aCategory->provider_category).'&results=100&format=json'.($pages>1?'&page='.$pages:''),false,$context);
+      $obj = json_decode($json);
+
+      // Quantidade de páginas
+      if (isset($obj->totalpages)) {
+        $totalpages = $obj->totalpages;
+      }
+
+      // Se houver resultados
+      if ($obj->totalresultsreturned > 0) {
+        foreach($obj->product as $aProduct) {
+          // Código do produto do buscapé
+          $nProviderCod = \App\Product::where('provider_cod',$aProduct->product->id)->get();
+          // Código do produto no sistema
+          $idProduct = 0;
+          if (count($nProviderCod) == 0) {
+            if ( date('Y-m-d',strtotime($product->created_at)) == date('Y-m-d') ) {
+              continue;
+            }
+            $product = new \App\Product();
+            $product->id_provider  = 1;
+            $product->provider_cod = $aProduct->product->id;
+            $product->name         = ( isset($aProduct->product->productname) ? $aProduct->product->productname : '' );
+            $product->short_name   = ( isset($aProduct->product->productshortname) ? $aProduct->product->productshortname : '' );
+            $product->id_category  = $aProduct->product->categoryid;
+            $product->created_at   = date("Y-m-d H:i:s");
+            $product->save();
+            $idProduct = $product->id;
+            // Se já existir
+          } else {
+            $idProduct = $nProviderCod->toArray()[0]['id'];
+            $product = \App\Product::find($idProduct);
+            $product->created_at = date("Y-m-d H:i:s");
+            $product->save();
           }
 
-          // Se houver resultados
-          if ($obj->totalresultsreturned > 0) {
-            foreach($obj->product as $aProduct) {
-            // Código do produto do buscapé
-            $nProviderCod = \App\Product::where('provider_cod',$aProduct->product->id)->get();
-            // Código do produto no sistema
-            $idProduct = 0;
-            if (count($nProviderCod) == 0) {
-              if ( date('Y-m-d',strtotime($product->created_at)) == date('Y-m-d') ) {
-                continue;
+          // Verifica se o produto já está com o preço cadastrado no dia
+          $tabProductHist = DB::table('products_hist')
+          ->select('id')
+          ->where('id_product',$idProduct)
+          ->where('price_min',( isset($aProduct->product->pricemin) ? $aProduct->product->pricemin : 0 ))
+          ->where('price_max',( isset($aProduct->product->pricemax) ? $aProduct->product->pricemax : 0 ))
+          ->first();
+
+          // Grava o valor no produto
+          if ($tabProductHist == null) {
+            $productHist = new \App\ProductHist();
+            $productHist->id_product = $idProduct;
+            $productHist->date       = date("Y-m-d");
+            $productHist->price_min = ( isset($aProduct->product->pricemin) ? $aProduct->product->pricemin : 0 );
+            $productHist->price_max = ( isset($aProduct->product->pricemax) ? $aProduct->product->pricemax : 0 );
+            $productHist->save();
+          }
+
+          // Grava imagem
+          if (isset($aProduct->product->thumbnail->url) && count(Storage::files('product/images/'.$idProduct.'/')) == 0) {
+            // Url da thumbnail
+            $sUrl = $aProduct->product->thumbnail->url;
+
+            // Procura thumbnail com melhor resolução
+            for ($nRes = 6;$nRes >=0;$nRes--) {
+              // Variável da imagem
+              $bImagem = null;
+
+              $cRes = (string)($nRes*100).'x'.(string)($nRes*100);
+              try {
+                $sUrl = str_replace(["100x100","200x200","300x300","400x400","500x500"],$cRes,$sUrl);
+                $bImagem = file_get_contents($sUrl);
+
+              } catch (\Exception $e) {
               }
-              $product = new \App\Product();
-              $product->id_provider  = 1;
-              $product->provider_cod = $aProduct->product->id;
-              $product->name         = ( isset($aProduct->product->productname) ? $aProduct->product->productname : '' );
-              $product->short_name   = ( isset($aProduct->product->productshortname) ? $aProduct->product->productshortname : '' );
-              $product->id_category  = $aProduct->product->categoryid;
-              $product->created_at   = date("Y-m-d H:i:s");
-              $product->save();
-              $idProduct = $product->id;
-              // Se já existir
-            } else {
-              $idProduct = $nProviderCod->toArray()[0]['id'];
-              $product = \App\Product::find($idProduct);
-              $product->created_at = date("Y-m-d H:i:s");
-              $product->save();
-            }
-
-            // Verifica se o produto já está com o preço cadastrado no dia
-            $tabProductHist = DB::table('products_hist')
-                                ->select('id')
-                                ->where('id_product',$idProduct)
-                                ->where('price_min',( isset($aProduct->product->pricemin) ? $aProduct->product->pricemin : 0 ))
-                                ->where('price_max',( isset($aProduct->product->pricemax) ? $aProduct->product->pricemax : 0 ))
-                                ->first();
-
-            // Grava o valor no produto
-            if ($tabProductHist == null) {
-              $productHist = new \App\ProductHist();
-              $productHist->id_product = $idProduct;
-              $productHist->date       = date("Y-m-d");
-              $productHist->price_min = ( isset($aProduct->product->pricemin) ? $aProduct->product->pricemin : 0 );
-              $productHist->price_max = ( isset($aProduct->product->pricemax) ? $aProduct->product->pricemax : 0 );
-              $productHist->save();
-            }
-
-            // Grava imagem
-            if (isset($aProduct->product->thumbnail->url) && count(Storage::files('product/images/'.$idProduct.'/')) == 0) {
-              // Url da thumbnail
-              $sUrl = $aProduct->product->thumbnail->url;
-
-              // Procura thumbnail com melhor resolução
-              for ($nRes = 6;$nRes >=0;$nRes--) {
-        				// Variável da imagem
-        				$bImagem = null;
-
-                $cRes = (string)($nRes*100).'x'.(string)($nRes*100);
-                try {
-                  $sUrl = str_replace(["100x100","200x200","300x300","400x400","500x500"],$cRes,$sUrl);
-                  $bImagem = file_get_contents($sUrl);
-
-                } catch (\Exception $e) {
-                }
-                if (!is_null($bImagem)) {
-                  break;
-                }
+              if (!is_null($bImagem)) {
+                break;
               }
-
-              // Grava na pasta
-              $cNomArq = 'bcp_'.$cRes.'.jpg';
-              Storage::disk('local')->put('product/images/'.$idProduct.'/'.$cNomArq,$bImagem);
             }
 
-            $tabMaintenance = \App\Maintenance::find($idMaintenance);
-            $tabMaintenance->auxliar = $aCategory->provider_category;
-            $tabMaintenance->save();
+            // Grava na pasta
+            $cNomArq = 'bcp_'.$cRes.'.jpg';
+            Storage::disk('local')->put('product/images/'.$idProduct.'/'.$cNomArq,$bImagem);
           }
         }
-      } catch (\Exception $e) {
-        Storage::disk('local')->put('logs/log'.date("YmdHis").'.txt',$e);
       }
+    } catch (\Exception $e) {
+      Storage::disk('local')->put('logs/log'.date("YmdHis").'.txt',$e);
     }
+    $tabMaintenance = \App\Maintenance::find($idMaintenance);
+    $tabMaintenance->auxliar = $aCategory->provider_category;
+    $tabMaintenance->save();
+    $bar->advance();
   }
+}
 
-  $tabMaintenance = \App\Maintenance::find($idMaintenance);
-  $tabMaintenance->completed = true;
-  $tabMaintenance->save();
-  return '';
+$tabMaintenance = \App\Maintenance::find($idMaintenance);
+$tabMaintenance->completed = true;
+$tabMaintenance->save();
+$bar->finish();
+return '';
 }
