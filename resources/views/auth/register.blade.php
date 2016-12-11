@@ -1,6 +1,12 @@
 @extends("auth.app")
 
 @section("content")
+<center>
+  <img class="responsive-img" style="width: 250px;" src="" />
+
+  <h5 class="red-text">Preencha os dados abaixo</h5>
+
+</center>
 <div class="container">
   <div class="z-depth-1 white row" style="padding: 1.5em;">
 

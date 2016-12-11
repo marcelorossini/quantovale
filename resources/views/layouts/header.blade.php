@@ -49,8 +49,8 @@ $(document).ready(function(){
           </div>
           <div class="col s11 m11 l11" style="padding: 0; margin: 0;">
             <ul class="tabs tabs-fixed-width tabs-transparent" style="margin-top: 8px">
-              <li class="tab"><a class="active" href="#test1">PRODUTOS</a></li>
-              <li class="tab disabled"><a href="#test2">VEÍCULOS</a></li>
+              <li class="tab"><a class="active" href="{{ route('getHome') }}">PRODUTOS</a></li>
+              <li class="tab disabled"><a href="#">VEÍCULOS</a></li>
               <!--<li class="tab disabled"><a href="#test3">IMÓVEIS</a></li>-->
             </ul>
           </div>
@@ -75,7 +75,7 @@ $(document).ready(function(){
     </div>
     <div class="col s12 m12 l2">
       <ul id="nav-mobile">
-        <li><a style="border-bottom: 2px solid white;" href="sass.html">PRODUTOS</a></li>
+        <li><a style="border-bottom: 2px solid white;" href="{{ route('getHome') }}">PRODUTOS</a></li>
         <li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="badges.html">VEÍCULOS</a></li>
         <!--<li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="collapsible.html">IMÓVEIS</a></li>-->
       </ul>
@@ -94,10 +94,18 @@ $(document).ready(function(){
     </div>
 
     <div class="col s12 m12 l2">
+      <!-- Dropdown Structure -->
+      <ul id="dropdown1" class="dropdown-content">
+        <li><a href="{{ route('getHome') }}">Home</a></li>
+        <li><a href="{{ route('getUsersShared') }}">Compartilhados</a></li>
+        <li><a href="{{ route('getUsersFavorites') }}">Favoritos</a></li>
+        <li class="divider"></li>
+        <li><a href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+      </ul>
       <ul id="nav-mobile">
         @if (Auth::check())  <!-- facebook(Auth::user()->name)['picture_480'] -->
         <li>
-          <a href="#">
+          <a class="dropdown-button" href="#!" data-activates="dropdown1">
             <div class="row valign-wrapper">
               <div class="col l3 valign-wrapper">
                 <img src="{{ !is_null($aFacebook) ? $aFacebook['picture_480'] : '' }}" alt="" class="circle responsive-img">

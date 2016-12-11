@@ -32,8 +32,9 @@
     <div class="card-panel">
       <div class="row">
         <!-- Imagem do produto -->
-        <div class="col s12 m6 offset-m3 l3" id="produto_img">
+        <div class="col s12 m6 offset-m3 l3 center" id="produto_img">
           <img style="width: 100%;" src="{{ route('getProductImage',[$tabProduct->id,'bcp_600x600.jpg']) }}">
+          *Imagem meramente ilustrativa
         </div>
         <!-- Dados do produto -->
         <div class="col s12 m12 l9">
@@ -109,6 +110,6 @@
   </script>
 
   @include('layouts.footer')
-  
+
 </body>
 </html>

@@ -35,7 +35,7 @@ var nResult = 0;
           <div style="padding:.5em;"></div>
           <!--<div style="position: absolute; bottom: 20%;">-->
           <div class="hide-on-small-only center">
-            <div class="flow-text">Valor atual: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
+            <div class="flow-text">Valor médio: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
           </div>
         </div>
 
@@ -44,7 +44,7 @@ var nResult = 0;
         </div>
 
         <div class="hide-on-med-and-up center">
-          <div class="flow-text" style="font-size: 1.5em;">Valor atual: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
+          <div class="flow-text" style="font-size: 1.5em;">Valor médio: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
         </div>
 
         <!-- Corrige o tamanho do grafico-->
@@ -341,9 +341,6 @@ var grafico_linha = new Chart(ctx, {
                   </script>
                 </div>
               </div>
-            </div>
-            <div class="modal-footer">
-              <a href="{{ route("getShare") }}/" class=" modal-action modal-close waves-effect waves-green btn-flat">CANCELAR</a>
             </div>
           </div>
           @else

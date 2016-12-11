@@ -16,9 +16,9 @@
         <div class="input-field col s12">
           <input class="validate" type="email" name="email" id="email"  value="{{ old('email') }}" required autofocus/>
           @if ($errors->has('email'))
-              <span class="help-block">
-                  <strong>{{ $errors->first('email') }}</strong>
-              </span>
+          <span class="help-block">
+            <strong>{{ $errors->first('email') }}</strong>
+          </span>
           @endif
 
           <label for="email">E-mail</label>
@@ -29,9 +29,9 @@
         <div class="input-field col s12">
           <input class="validate" type="password" name="password" id="password" required/>
           @if ($errors->has('password'))
-              <span class="help-block">
-                  <strong>{{ $errors->first('password') }}</strong>
-              </span>
+          <span class="help-block">
+            <strong>{{ $errors->first('password') }}</strong>
+          </span>
           @endif
 
           <label for="password">Senha</label>

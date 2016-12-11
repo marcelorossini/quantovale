@@ -45,10 +45,13 @@ hr {
   cursor: pointer;
 }
 #modalCompartilhar a span {
+  position: relative;
+  top: -40px;
+  font-size: .4em;
   color: black;
 }
 #modalCompartilhar a i {
-  font-size: 4em;
+  font-size: 2em;
 }
 .color-facebook {
   color: #3b5998;
