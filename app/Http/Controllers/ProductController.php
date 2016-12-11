@@ -22,34 +22,8 @@ class ProductController extends Controller
 											->where('p.id',$id)
 											->first();
 
-				// Marca
-				if (isset($tabProduct->id_category)){
-						$tabMarca = DB::table('manufacturers as m')
-						            ->select('m.name')
-												->where('m.provider_category',$tabProduct->id_category)
-												->whereRaw('find_in_set(m.name,replace(?," ",","))',$tabProduct->name)
-												->first();
-						if (isset($tabMarca)) {
-								$tabMarca = $tabMarca->name;
-						}
-				}
-
 				// Tags
-				$aTags = [];
-				if (isset($tabMarca) && !is_null($tabMarca)) {
-						$aTags[] = $tabMarca;
-				}
-				if (isset($tabProduct->id_category)){
-						$auxCategoria = $tabProduct->id_category;
-						while ($auxCategoria!=null) {
-								$tabCategory = DB::table('categories as c')
-															->select('c.name','c.id_parent')
-															->where('c.provider_category',$auxCategoria)
-															->first();
-								$aTags[] = $tabCategory->name;
-								$auxCategoria = $tabCategory->id_parent;
-						}
-				}
+				$aTags = $this->tags($id, isset($tabProduct->id_category) ? $tabProduct->id_category : 0 );
 
 				// Chart
 				$tabProductHist = $this->products_hist($id);
@@ -68,12 +42,32 @@ class ProductController extends Controller
 				$sUrlImage = Route("getProductImage",[$id,"bcp_600x600.jpg"]);
 				$aFacebook = ( \Auth::check() ? facebook(\Auth::user()->id) : null );
 
-				return view('product.index',['aProduct' => $tabProduct,'marca' => $tabMarca,'nValorNovo' => $valor,'aTags' => $aTags,'image' => $sUrlImage,'aChart' => $tabProductHist,'aFilters' => $aFilters,'aFacebook' => $aFacebook]);
+				return view('product.index',['aProduct' => $tabProduct,'nValorNovo' => $valor,'aTags' => $aTags,'image' => $sUrlImage,'aChart' => $tabProductHist,'aFilters' => $aFilters,'aFacebook' => $aFacebook]);
+		}
+
+		// Retorna dados para uso no grafico
+		public function tags($id, $idCategory) {
+			// Marca
+			$tabMarca = marcaProduct($id);
+
+			$aTags = [];
+			if (isset($tabMarca) && !is_null($tabMarca)) {
+					$aTags[] = $tabMarca;
+			}
+			$auxCategoria = $idCategory;
+			while ($auxCategoria!=null) {
+					$tabCategory = DB::table('categories as c')
+												->select('c.name','c.id_parent')
+												->where('c.provider_category',$auxCategoria)
+												->first();
+					$aTags[] = $tabCategory->name;
+					$auxCategoria = $tabCategory->id_parent;
+			}
+			return $aTags;
 		}
 
 	// Retorna dados para uso no grafico
-	public function products_hist($id)
-		{
+	public function products_hist($id) {
 				$tabProductHist = DB::table('products_hist')
 		                      ->select('date','price_min','price_max')
 		                      ->where('id_product',$id)
@@ -88,6 +82,12 @@ class ProductController extends Controller
 			  		$aLabels[] = date('d/m/y',strtotime(str_replace('-','/', $aProductItem->date)));
 						$aMenorPreço[] = $aProductItem->price_min;
 						$aMaiorPreco[] = $aProductItem->price_max;
+						// Para o grafico não ficar com 1 ponto
+						if ( count($tabProductHist)==1 ) {
+							$aLabels[] = date('d/m/y',strtotime(str_replace('-','/', $aProductItem->date)));
+							$aMenorPreço[] = $aProductItem->price_min;
+							$aMaiorPreco[] = $aProductItem->price_max;
+						}
 				}
 
 				return [$aLabels,$aMenorPreço,$aMaiorPreco];
@@ -153,6 +153,7 @@ class ProductController extends Controller
 		if (is_null($tabResult->id_user))  {
 			abort(403, 'Unauthorized action.');
 		}
+
 		// Usuário
 		$tabUsuario = User::find($tabResult->id_user);
 		$aFacebook = facebook($tabResult->id_user);
@@ -161,12 +162,20 @@ class ProductController extends Controller
 		$aResult = unserialize($tabResult->result);
 		// Tabela de produtos
 		$tabProduct = Product::find($tabResult->id_product);
+		// Tags
+		$aTags = $this->tags($tabResult->id_product, isset($tabProduct->id_category) ? $tabProduct->id_category : 0 );
+
 		// Gera um array com os filtros e os valores
 		$aFiltres = [];
 		while ($sKey = key($aResult)) {
 				$sValue = trim(current($aResult));
 				if (strlen($sValue)>0) {
+					  $sType = explode('_',$sKey)[0];
 						$nFilter = explode('_',$sKey)[1];
+
+						if ($sType == 'check') {
+							$sValue = $sValue=='on' ? 'Sim' : 'Não';
+						}
 						$aFiltres[] = [Filter::find($nFilter)->name,$sValue];
 				}
 				next($aResult);
@@ -183,7 +192,7 @@ class ProductController extends Controller
 			$tabResult->save();
 		}
 
-		return view('product.share',['tabProduct' => $tabProduct,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => [$nMenorValor,$nMaiorValor,$nValorUser], 'aFacebook' => $aFacebook]);
+		return view('product.share',['tabProduct' => $tabProduct,'aTags' => $aTags,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => [$nMenorValor,$nMaiorValor,$nValorUser], 'aFacebook' => $aFacebook]);
 	}
 
 	public function atualizaBuscape() {

@@ -208,7 +208,7 @@ var grafico_linha = new Chart(ctx, {
         @if ($filter->type === 'date')
         <div class="col s12 m12 l12">
           <label for="{{ $sNameField }}" style="position: relative; top: 8px;">{{ $filter->name }}</label>
-          <input type="date" name="{{ $sNameField }}" id="{{ $sNameField }}" class="datepicker">
+          <input type="date" name="{{ $sNameField }}" id="{{ $sNameField }}" class="datepicker picker__input picker__input--active">
         </div>
         @elseif ($filter->type === 'range')
         <div class="col s12 m12 l12">
@@ -220,7 +220,8 @@ var grafico_linha = new Chart(ctx, {
         @elseif ($filter->type === 'check')
         <div class="col s12 m12 l12">
           <p>
-            <input type="checkbox" name="{{ $sNameField }}" {{ $filter->default }} id="{{ $sNameField }}"/>
+            <input type="hidden"   name="{{ $sNameField }}" value="off"/>
+            <input type="checkbox" name="{{ $sNameField }}" id="{{ $sNameField }}" {{ $filter->default }}/>
             <label for="{{ $sNameField }}" style="display: block;">{{ $filter->name }}</label>
           </p>
         </div>
@@ -263,7 +264,7 @@ var grafico_linha = new Chart(ctx, {
     </div>
     <div class="col s12 m12 l8 filcal valign-wrapper center-align" id="divCalculo">
       <div class="col s12 m12 l12" style="">
-        <div id="divRetornoCalculo" style="display: none;">
+        <div id="divRetornoCalculo" style="display: none; margin-top: 20px;">
           <div class="flow-text">
             Seu produto vale:
             <div id="divValorCalculado"></div>

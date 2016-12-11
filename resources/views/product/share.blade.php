@@ -39,6 +39,11 @@
         <!-- Dados do produto -->
         <div class="col s12 m12 l9">
           <h4>{{ $tabProduct->name }}</h4>
+          @foreach ($aTags as $tag)
+          <div class="chip">
+            {{ $tag }}
+          </div>
+          @endforeach          
           <ul class="">
             @foreach ($aFiltres as $sFilter)
             <li class="">{{ $sFilter[0] }}: {{ $sFilter[1] }}</li>
@@ -53,7 +58,7 @@
     </div>
 
     <div class="row">
-      <div class="col s12 m4 l3">
+      <div class="col s12 m4 l4">
         <div class="card divValores">
           <div class="red darken-1 valign-wrapper" style="height: 80px">
             <div class="flow-text center white-text center" style="width: 100%; font-size: 2.3em;">R$ {{ $nValor[0] }}</div>
@@ -64,7 +69,7 @@
         </div>
       </div>
 
-      <div class="col s12 m4 l3">
+      <div class="col s12 m4 l4">
         <div class="card divValores">
           <div class="orange darken-1 valign-wrapper" style="height: 80px">
             <div class="flow-text center white-text center" style="width: 100%; font-size: 2.3em;">R$ {{ $nValor[1] }}</div>
@@ -75,7 +80,7 @@
         </div>
       </div>
 
-      <div class="col s12 m4 l3">
+      <div class="col s12 m4 l4">
         <div class="card divValores">
           <div class="green accent-4 valign-wrapper" style="height: 80px">
             <div class="flow-text center white-text center" style="width: 100%; font-size: 2.3em;">R$ {{ $nValor[2] }}</div>
@@ -85,21 +90,26 @@
           </div>
         </div>
       </div>
-
-      <div class="col s12 m4 l3">
-        <div class="card">
-          <div>
-            <div class="col l4 indigo valign-wrapper">
-              <div class="flow-text center white-text center" style="width: 100%; font-size: 2.3em;"><i class="mdi mdi-facebook"></i></div>
-            </div>
-            <div class="col l8 valign-wrapper">
-              <a href="{{ $aFacebook['profile'] }}" class="black-text">ENVIE UMA MENSAGEM PARA {{ strtoupper(strtok($tabUsuario->name,' ')) }}</a>
+    </div>
+    <div class="row">
+      <div class="col s12 m12 l4 offset-l8 right-align">
+        <a href="{{ $aFacebook['profile'] }}" class="waves-effect waves-light btn indigo" style="width: 100%;"><i class="mdi mdi-facebook"></i> ENVIE UMA MENSAGEM PARA {{ strtoupper(strtok($tabUsuario->name,' ')) }}</a>
+      </div>
+    </div>
+    <!--
+          <div class="col s12 m4 l3">
+            <div class="card">
+              <div>
+                <div class="col l4 indigo valign-wrapper">
+                  <div class="flow-text center white-text center" style="width: 100%; font-size: 2.3em;"><i class="mdi mdi-facebook"></i></div>
+                </div>
+                <div class="col l8 valign-wrapper">
+                  <a href="{{ $aFacebook['profile'] }}" class="black-text">ENVIE UMA MENSAGEM PARA {{ strtoupper(strtok($tabUsuario->name,' ')) }}</a>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-
-    </div>
+    -->
   </main>
 
   <!-- Corrige o tamanho do grafico-->

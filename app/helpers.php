@@ -49,6 +49,29 @@ function Mes($nMes) {
 
   return $sMes;
 }
+// Marca produto
+function marcaProduct($idProduct) {
+  // Dados produto
+  $tabProduct = DB::table('products as p')
+                ->select('p.*')
+                ->where('p.id',$idProduct)
+                ->first();
+
+  // Marca
+  $tabMarca = '';
+  if (isset($tabProduct->id_category)){
+      $tabMarca = DB::table('manufacturers as m')
+                  ->select('m.name')
+                  ->where('m.provider_category',$tabProduct->id_category)
+                  ->whereRaw('find_in_set(m.name,replace(?," ",","))',$tabProduct->name)
+                  ->first();
+      if (isset($tabMarca)) {
+          $tabMarca = $tabMarca->name;
+      }
+  }
+
+  return $tabMarca;
+}
 
 // Calcula o valor do produto
 function calculaResult($idResult) {
@@ -85,11 +108,13 @@ function calculaResult($idResult) {
   // Cálcula os dados de acordo com o filtro
   while ($sKey = key($aResult)) {
     $sValue = trim(current($aResult));
-    if (strlen($sValue)>0) {
-      $sType = explode('_',$sKey)[0];
-      $id_filter = explode('_',$sKey)[1];
+    $sType = explode('_',$sKey)[0];
+    $id_filter = explode('_',$sKey)[1];
 
+    if (strlen($sValue)>0) {
       $nAuxPer = DB::table('percentage_list')->select('percent')->where('id_filter',$id_filter)->orderBy('date','desc')->first();
+      $sDefault = DB::table('categories_filters')->select('default')->where('id',$id_filter)->first();
+
       if (isset($nAuxPer->percent)) {
         $nAuxPer = $nAuxPer->percent;
       }
@@ -101,7 +126,13 @@ function calculaResult($idResult) {
         $aPorcentage[] = $nAuxPer;
 
       } elseif ($sType == 'check') {
-        $aPorcentage[] = $nAuxPer;
+        $bCalcula = ( $sValue=="on" ? true : false );
+        if ( !empty($sDefault) ) {
+          $bCalcula = !$bCalcula;
+        }
+        if ( $bCalcula ) {
+          $aPorcentage[] = $nAuxPer;
+        }
 
       } elseif ($sType == 'select') {
 
