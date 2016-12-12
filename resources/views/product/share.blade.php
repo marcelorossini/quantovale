@@ -90,8 +90,7 @@
     </div>
     <div class="row">
       <div class="col s12 m12 l4 offset-l8 right-align">
-        <div class="fb-send" data-href="http://quantovale.tk/product/share/13"></div>
-        <!--<a href="{{ $aFacebook['profile'] }}" class="waves-effect waves-light btn indigo" style="width: 100%;"><i class="mdi mdi-facebook"></i> ENVIE UMA MENSAGEM PARA {{ strtoupper(strtok($tabUsuario->name,' ')) }}</a>-->
+        <a href="#" id="sendMessenger" class="waves-effect waves-light btn indigo" style="width: 100%;"><i class="mdi mdi-facebook"></i> ENVIE UMA MENSAGEM PARA {{ strtoupper(strtok($tabUsuario->name,' ')) }}</a>
       </div>
     </div>
     <!--
