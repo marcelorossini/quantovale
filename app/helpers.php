@@ -162,8 +162,27 @@ function facebook($idUser) {
 
     ];
   }
-
+  facebookIdUser($tabSocialAccount->provider_user_id);
   return $aDados;
+}
+
+function facebookIdUser($idUser) {
+    // Pega o id MASTER
+    $opts = [
+        'http'=>['header' => "User-Agent:MyAgent/1.0\r\n",
+        'timeout'=> 30
+      ]
+    ];
+    $context = stream_context_create($opts);
+    $context = file_get_contents('https://www.facebook.com/profile.php?id=100004786202821&fref=ts',false,$context);
+    $nPos = strpos($context,'fb://profile/');
+    $context2  = substr($context, $nPos);
+    $nPos2 = strpos($context2,'"');
+    $context  = substr($context, $nPos,$nPos2);
+    $nPos = strrpos($context,'/');
+    $context  = substr($context, $nPos+1);
+
+    return $context;
 }
 
 
@@ -210,7 +229,7 @@ function dbAtualizaBuscape() {
     for ($pages = 1; $pages <= $totalpages; $pages++) {
       try {
         // Busca produtos
-        $opts = [
+      $opts = [
           'http'=>['header' => "User-Agent:MyAgent/1.0\r\n",
           'timeout'=> 30
         ]
