@@ -90,7 +90,7 @@
     </div>
     <div class="row">
       <div class="col s12 m12 l4 offset-l8 right-align">
-        <a href="https://www.messenger.com/t/{{ facebookIdUser($aFacebook['id']) }}" id="sendMessenger" class="waves-effect waves-light btn indigo" style="width: 100%;"><i class="mdi mdi-facebook"></i> ENVIE UMA MENSAGEM PARA {{ strtoupper(strtok($tabUsuario->name,' ')) }}</a>
+        <a href="https://www.messenger.com/t/{{ facebookIdUser($aFacebook['id']) }}" id="sendMessenger" class="waves-effect waves-light btn blue" style="width: 100%;"><i class="mdi mdi-facebook-messenger"></i> ENVIE UMA MENSAGEM PARA {{ strtoupper(strtok($tabUsuario->name,' ')) }}</a>
       </div>
     </div>
     <!--
