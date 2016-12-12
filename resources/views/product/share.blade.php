@@ -16,7 +16,6 @@
 
 <main class="grey lighten-4 valign-wrapper">
   <div class="container">
-
     <div class="row valign-wrapper" style="padding-top: 1em;">
       <div class="col s3 m4 l1">
         <img src="{{ $aFacebook['picture_480'] }}" alt="" class="circle responsive-img" style="border: 1px solid #bdbdbd;"> <!-- notice the "circle" class -->
@@ -43,15 +42,13 @@
           <div class="chip">
             {{ $tag }}
           </div>
-          @endforeach          
-          <ul class="">
-            @foreach ($aFiltres as $sFilter)
-            <li class="">{{ $sFilter[0] }}: {{ $sFilter[1] }}</li>
-            @endforeach
-          </ul>
-
+          @endforeach
           <div class="flow-text">
-
+            <ul class="">
+              @foreach ($aFiltres as $sFilter)
+              <li class="">{{ $sFilter[0] }}: {{ $sFilter[1] }}</li>
+              @endforeach
+            </ul>
           </div>
         </div>
       </div>

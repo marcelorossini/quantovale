@@ -200,7 +200,7 @@ var grafico_linha = new Chart(ctx, {
   <hr>
   <!-- Filtros -->
   <div class="row">
-    <div class="col s12 m12 l4 filcal" id="divFilters">
+    <div class="col s12 m12 l4 filcal" id="divFilters"  style="min-height: 200px;">
       <form method="POST" action="{!! route('postResult',$aProduct->id) !!}" id="formFilters">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
         @foreach ($aFilters as $filter)
@@ -264,7 +264,7 @@ var grafico_linha = new Chart(ctx, {
     </div>
     <div class="col s12 m12 l8 filcal valign-wrapper center-align" id="divCalculo">
       <div class="col s12 m12 l12" style="">
-        <div id="divRetornoCalculo" style="display: none; margin-top: 20px;">
+        <div id="divRetornoCalculo" style="display: none;">
           <div class="flow-text">
             Seu produto vale:
             <div id="divValorCalculado"></div>

@@ -14,7 +14,7 @@ use App\Filter;
 
 class ProductController extends Controller
 {
-	public function index($id)
+	public function index($id, $nameProduct)
 		{
 				// Dados produto
 				$tabProduct = DB::table('products as p')
@@ -22,6 +22,9 @@ class ProductController extends Controller
 											->where('p.id',$id)
 											->first();
 
+				if ( $nameProduct=='sem-nome123123123123' ) {
+					return redirect()->route('getProduct',[$id,$tabProduct->name]);
+				}
 				// Tags
 				$aTags = $this->tags($id, isset($tabProduct->id_category) ? $tabProduct->id_category : 0 );
 
