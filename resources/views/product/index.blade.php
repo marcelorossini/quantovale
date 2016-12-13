@@ -32,12 +32,67 @@ var nResult = 0;
 
         <div id="produto_gra" style="width: 100%;">
           <canvas id="grafico_linha"></canvas>
+          <!--  Script do grafico -->
+          <script>
+          var ctx = document.getElementById("grafico_linha");
+          var grafico_linha = new Chart(ctx, {
+            type: 'line',
+            data: {
+              labels: JSON.parse('{!! json_encode($aChart[0]) !!}'),
+              datasets: [
+                {
+                  label: "Menor preço",
+                  fill: true,
+                  lineTension: 0.1,
+                  backgroundColor: "rgba(79,195,247,0.4)",
+                  borderColor: "rgba(79,195,247,1)",
+                  borderCapStyle: 'butt',
+                  borderDash: [],
+                  borderDashOffset: 0.0,
+                  borderJoinStyle: 'miter',
+                  pointBorderColor: "rgba(79,195,247,1)",
+                  pointBackgroundColor: "rgba(79,195,247,1)",
+                  pointBorderWidth: 5,
+                  pointHoverRadius: 5,
+                  pointHoverBackgroundColor: "rgba(79,195,247,1)",
+                  pointHoverBorderColor: "rgba(79,195,247,1)",
+                  pointHoverBorderWidth: 2,
+                  pointRadius: 1,
+                  pointHitRadius: 10,
+                  data: JSON.parse('{!! json_encode($aChart[1]) !!}'),
+                  spanGaps: false,
+                }
+              ]
+            },
+            options: {
+              scales: {
+                yAxes: [{
+                  display: true,
+                  ticks: {
+                    beginAtZero:true
+                  },
+                  gridLines: {
+                      display:false
+                  }
+                }],
+              xAxes: [{
+                ticks: {
+                  maxTicksLimit:8
+                },
+                gridLines: {
+                    display:false
+                }
+              }]
+              },
+              legend: {
+                  display: false
+              },
+              responsive: true,
+              maintainAspectRatio: false,
+            }
+          });
+          </script>
         </div>
-
-        <div class="hide-on-med-and-up center">
-          <div class="flow-text" style="font-size: 1.5em;">Valor médio: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
-        </div>
-
         <!-- Corrige o tamanho do grafico-->
         <script>
         function resize_chart() {
@@ -55,136 +110,9 @@ var nResult = 0;
         });
         </script>
 
-        <!--  Script do grafico -->
-        <script>
-        var ctx = document.getElementById("grafico_linha");
-        var grafico_linha = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: JSON.parse('{!! json_encode($aChart[0]) !!}'),
-            datasets: [
-              {
-                label: "Menor preço",
-                fill: true,
-                lineTension: 0.1,
-                backgroundColor: "rgba(79,195,247,0.4)",
-                borderColor: "rgba(79,195,247,1)",
-                borderCapStyle: 'butt',
-                borderDash: [],
-                borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
-                pointBorderColor: "rgba(79,195,247,1)",
-                pointBackgroundColor: "rgba(79,195,247,1)",
-                pointBorderWidth: 5,
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: "rgba(79,195,247,1)",
-                pointHoverBorderColor: "rgba(79,195,247,1)",
-                pointHoverBorderWidth: 2,
-                pointRadius: 1,
-                pointHitRadius: 10,
-                data: JSON.parse('{!! json_encode($aChart[1]) !!}'),
-                spanGaps: false,
-              }
-            ]
-          },
-          options: {
-            scales: {
-              yAxes: [{
-                display: true,
-                ticks: {
-                  beginAtZero:true
-                },
-                gridLines: {
-                    display:false
-                }
-              }],
-            xAxes: [{
-              ticks: {
-                maxTicksLimit:8
-              },
-              gridLines: {
-                  display:false
-              }
-            }]
-            },
-            legend: {
-                display: false
-            },
-            responsive: true,
-            maintainAspectRatio: false,
-          }
-        });
-
-/*
-var ctx = document.getElementById("grafico_linha");
-var grafico_linha = new Chart(ctx, {
-  type: 'line',
-  data: {
-    labels: JSON.parse('{!! json_encode($aChart[0]) !!}'),
-    datasets: [
-      {
-        label: "Menor preço",
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: "rgba(79,195,247,0.4)",
-        borderColor: "rgba(79,195,247,1)",
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderColor: "rgba(79,195,247,1)",
-        pointBackgroundColor: "rgba(79,195,247,1)",
-        pointBorderWidth: 5,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(79,195,247,1)",
-        pointHoverBorderColor: "rgba(79,195,247,1)",
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-        data: JSON.parse('{!! json_encode($aChart[1]) !!}'),
-        spanGaps: false,
-      },
-      {
-        label: "Maior preço",
-        fill: false,
-        lineTension: 0.1,
-        backgroundColor: "rgba(239,83,80,0.4)",
-        borderColor: "rgba(239,83,80,1)",
-        borderCapStyle: 'butt',
-        borderDash: [],
-        borderDashOffset: 0.0,
-        borderJoinStyle: 'miter',
-        pointBorderColor: "rgba(239,83,80,1)",
-        pointBackgroundColor: "rgba(239,83,80,1)",
-        pointBorderWidth: 5,
-        pointHoverRadius: 5,
-        pointHoverBackgroundColor: "rgba(239,83,80,1)",
-        pointHoverBorderColor: "rgba(239,83,80,1)",
-        pointHoverBorderWidth: 2,
-        pointRadius: 1,
-        pointHitRadius: 10,
-        data: JSON.parse('{!! json_encode($aChart[2]) !!}'),
-        spanGaps: false,
-      }
-    ]
-  },
-  options: {
-    scales: {
-      yAxes: [{
-        display: true,
-        ticks: {
-          beginAtZero:true
-        }
-      }]
-    },
-    responsive: true,
-    maintainAspectRatio: false
-  }
-});
-*/
-
-
-        </script>
+        <div class="hide-on-med-and-up center">
+          <div class="flow-text" style="font-size: 1.5em;">Valor médio: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
+        </div>
       </div>
     </div>
   </div>
