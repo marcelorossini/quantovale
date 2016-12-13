@@ -24,13 +24,15 @@ class SocialAccountService
             $user = User::whereEmail($providerUser->getEmail())->first();
 
             if (!$user) {
-
-                $user = User::create([
-                    'email' => $providerUser->getEmail(),
-                    'name' => $providerUser->getName(),
-                ]);
+                if ( !\Auth::check() ) {
+                  $user = User::create([
+                      'email' => $providerUser->getEmail(),
+                      'name' => $providerUser->getName(),
+                  ]);
+                } else {
+                  $user = User::whereId(\Auth::user()->id)->first();
+                }
             }
-
             $account->user()->associate($user);
             $account->save();
 

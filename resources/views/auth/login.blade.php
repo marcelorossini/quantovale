@@ -47,7 +47,7 @@
           <button type="submit" name="btn_login" class="col s12 btn btn-large waves-effect red lighten-1">Login</button>
         </div>
         <div class="row">
-          <a href="{{ route('getFacebookRedirect') }}" class="col s12 btn btn-large waves-effect indigo"><i class="mdi mdi-facebook-box"></i> Facebook Login</a>
+          <a href="{{ route('getFacebookRedirect').'?url='.Illuminate\Support\Facades\Input::get('url') }}" class="col s12 btn btn-large waves-effect indigo"><i class="mdi mdi-facebook-box"></i> Facebook Login</a>
         </div>
       </center>
     </form>

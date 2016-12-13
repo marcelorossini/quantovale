@@ -52,3 +52,7 @@ Route::get('/product/atualizar/buscape', 'ProductController@atualizaBuscape')->n
 // Telas do usuário
 Route::get('/user/favorites', 'UserController@favorites')->middleware('auth')->name('getUsersFavorites');
 Route::get('/user/shared', 'UserController@shared')->middleware('auth')->name('getUsersShared');
+
+Route::get('teste', [function () {
+          return view('facebook.teste');
+       }]);

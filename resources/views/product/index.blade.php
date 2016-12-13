@@ -302,7 +302,7 @@ var grafico_linha = new Chart(ctx, {
           <a class="tooltipped" onclick="location.reload()" data-position="bottom" data-delay="50" data-tooltip="Recalcular"><i class="mdi mdi-reload"></i></a>
           <br>
           @if (is_null($aFacebook) )
-          Conecte seu facebook
+          <a style="font-size: 1em;" href="{{ route('getFacebookRedirect').'?url=http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] }}" ><b>Conecte seu facebook</b> para opçẽos de compartilhamento</a>
           @endif
           <!-- Modal Structure -->
           <div id="modalCompartilhar" class="modal bottom-sheet">
@@ -336,7 +336,7 @@ var grafico_linha = new Chart(ctx, {
             </div>
           </div>
           @else
-          <div class="flow-text"><a href="{{ route('login') }}" style="font-size: 1em; font-weight: bold;">Entre</a> para ter as opções de compartilhamento</div>
+          <div class="flow-text"><a href="{{ route('login').'?url=http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] }}" style="font-size: 1em; font-weight: bold;">Entre</a> para ter as opções de compartilhamento</div>
           @endif
         </div>
         <label class="waves-effect waves-light btn-large" for="btnFormCalcular" id="btnCalcular">Calcular</label>

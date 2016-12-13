@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Illuminate\Support\Facades\Input;
 
 use App\SocialAccountService;
 use Socialite;
 
 class SocialAuthController extends Controller
 {
-    public function redirect()
+    public function redirect(Request $request)
     {
+        $url = Input::get('url');
+        session(['facebookRedirect' => $url]);
         return Socialite::driver('facebook')->redirect();
     }
 
@@ -21,6 +24,8 @@ class SocialAuthController extends Controller
 
         auth()->login($user);
 
-        return redirect()->to('/');
+        $url = session('facebookRedirect');
+        $url = ( !is_null($url) ? $url : '/' );
+        return redirect()->to($url);
     }
 }

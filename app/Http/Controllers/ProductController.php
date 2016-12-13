@@ -160,6 +160,7 @@ class ProductController extends Controller
 		// Usuário
 		$tabUsuario = User::find($tabResult->id_user);
 		$aFacebook = facebook($tabResult->id_user);
+		$aMessenger = messenger($tabResult->id_user);
 
 		// Array com os filtros serializados
 		$aResult = unserialize($tabResult->result);
@@ -195,7 +196,7 @@ class ProductController extends Controller
 			$tabResult->save();
 		}
 
-		return view('product.share',['tabProduct' => $tabProduct,'aTags' => $aTags,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => [$nMenorValor,$nMaiorValor,$nValorUser], 'aFacebook' => $aFacebook]);
+		return view('product.share',['tabProduct' => $tabProduct,'aTags' => $aTags,'aFiltres' => $aFiltres,'tabUsuario' => $tabUsuario,'nValor' => [$nMenorValor,$nMaiorValor,$nValorUser], 'aFacebook' => $aFacebook, 'aMessenger' => $aMessenger]);
 	}
 
 	public function atualizaBuscape() {
