@@ -119,6 +119,13 @@ function calculaResult($idResult) {
         $nAuxPer = $nAuxPer->percent;
       }
       if ($sType == 'date') {
+        // Usa a função strtotime() e pega o timestamp das duas datas:
+        $dDataCompra = strtotime(str_replace('/', '-',$sValue));
+        $dDataAtual = strtotime($tabResult->created_at);
+        // Calcula a diferença de dias
+        $nDiferenca = (int)floor( ($dDataAtual - $dDataCompra) / (60 * 60 * 24)); // 225 dias
+        // Quanto mais velho, menos vale
+        $aPorcentage[] = $nDiferenca*$nAuxPer;
 
       } elseif ($sType == 'range') {
         //$nAuxPer = (10-intval($sValue));
@@ -162,11 +169,11 @@ function facebook($idUser) {
 
     ];
   }
-  facebookIdUser($tabSocialAccount->provider_user_id);
+
   return $aDados;
 }
 
-function facebookIdUser($idUser) {
+function facebookIdUser() {
     // Pega o id MASTER
     $opts = [
         'http'=>['header' => "User-Agent:MyAgent/1.0\r\n",
@@ -174,7 +181,7 @@ function facebookIdUser($idUser) {
       ]
     ];
     $context = stream_context_create($opts);
-    $context = file_get_contents('https://www.facebook.com/profile.php?id=100004786202821&fref=ts',false,$context);
+    $context = file_get_contents('https://www.facebook.com',false,$context);
     $nPos = strpos($context,'fb://profile/');
     $context2  = substr($context, $nPos);
     $nPos2 = strpos($context2,'"');

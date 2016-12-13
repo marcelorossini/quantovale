@@ -22,7 +22,7 @@ class ProductController extends Controller
 											->where('p.id',$id)
 											->first();
 
-				if ( $nameProduct=='sem-nome123123123123' ) {
+				if ( $nameProduct=='____SEMNOME____' ) {
 					return redirect()->route('getProduct',[$id,$tabProduct->name]);
 				}
 				// Tags
