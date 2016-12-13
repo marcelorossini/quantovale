@@ -72,20 +72,20 @@ var nResult = 0;
                     beginAtZero:true
                   },
                   gridLines: {
-                    display:false
+                      display:false
                   }
                 }],
-                xAxes: [{
-                  ticks: {
-                    maxTicksLimit:8
-                  },
-                  gridLines: {
+              xAxes: [{
+                ticks: {
+                  maxTicksLimit:8
+                },
+                gridLines: {
                     display:false
-                  }
-                }]
+                }
+              }]
               },
               legend: {
-                display: false
+                  display: false
               },
               responsive: true,
               maintainAspectRatio: false,
@@ -104,11 +104,12 @@ var nResult = 0;
           $("#produto_gra").css("height",height_chart);
         }
 
+        resize_chart();
         $(document).ready(function() {
           resize_chart();
-          $( window ).resize(function() {
-            resize_chart();
-          });
+        });
+        $( window ).resize(function() {
+          resize_chart();
         });
         </script>
 
@@ -257,9 +258,9 @@ var nResult = 0;
                 <div class="col s4 m4 l1">
                   <a href="#" id="aVerPagina"><i class="mdi mdi-logout"></i><br><span>Ver página</span></a>
                   <script>
-                  $('#aVerPagina').click(function() {
-                    this.href = ('{{ route("getShare","nResult") }}').replace('nResult',nResult);
-                  });
+                    $('#aVerPagina').click(function() {
+                      this.href = ('{{ route("getShare","nResult") }}').replace('nResult',nResult);
+                    });
                   </script>
                 </div>
               </div>
