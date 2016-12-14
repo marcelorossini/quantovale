@@ -104,13 +104,15 @@ var nResult = 0;
               height_chart = 200;
             }
             $("#produto_gra").css("height",height_chart);
-            grafico_linha.destroy();
+            try {
+              grafico_linha.destroy();
+            } catch(err) {
+              
+            }
             create_chart();
           }
 
-          $(document).ready(function() {
-            resize_chart();
-          });
+          resize_chart();
           $( window ).resize(function() {
             resize_chart();
           });
