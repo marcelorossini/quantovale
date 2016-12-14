@@ -41,7 +41,7 @@ class SearchController extends Controller
 		                 ->join('categories as c', 'p.id_category', '=', 'c.provider_category')
 		                 ->select('p.*')
 										 ->where(function($q) use ($keyword, $tabCategory) {
-		 									 $q->where('p.name', 'like', '%'.$keyword.'%')->orWhere('p.id_category', ( !is_null($tabCategory) ? $tabCategory : 0 ) );
+		 									 $q->where('p.name', 'like', '%'.$keyword.'%')->orWhere('p.id_category', ( isset($tabCategory->provider_category) ? $tabCategory->provider_category : 0 ) );
 										 })
 										 ->where('ph.price_min', '<>', 0)
 										 ->groupBy('p.id')
