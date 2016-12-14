@@ -34,7 +34,9 @@ class SearchController extends Controller
 		$tabCategory = DB::table('categories as c')
 									->select('c.provider_category')
 									->where('c.name', 'like', '%'.$keyword.'%')
-									->get();
+									->get()->toArray();
+
+									dd($tabCategory);
 
 		$tabProducts = DB::table('products as p')
 		                 ->join('products_hist as ph', 'p.id', '=', 'ph.id_product')
