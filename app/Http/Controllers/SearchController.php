@@ -34,14 +34,21 @@ class SearchController extends Controller
 		$tabCategory = DB::table('categories as c')
 									->select('c.provider_category')
 									->where('c.name', 'like', '%'.$keyword.'%')
-									->get()->toArray();
-									dd(array_values($tabCategory));
+									->get();
+
+		// Gambiarra
+		$aCategories = [];
+		foreach($tabCategory as $object)
+		{
+		    $aCategories[] = $object->provider_category;
+		}
+
 		$tabProducts = DB::table('products as p')
 		                 ->join('products_hist as ph', 'p.id', '=', 'ph.id_product')
 		                 ->join('categories as c', 'p.id_category', '=', 'c.provider_category')
 		                 ->select('p.*')
 										 ->where(function($q) use ($keyword, $tabCategory) {
-		 									 $q->where('p.name', 'like', '%'.$keyword.'%')->orWhereIn('p.id_category', ( count($tabCategory)>0 ? array_values($tabCategory) : 0 ) );
+		 									 $q->where('p.name', 'like', '%'.$keyword.'%')->orWhereIn('p.id_category', ( count($aCategories)>0 ? $aCategories : 0 ) );
 										 })
 										 ->where('ph.price_min', '<>', 0)
 										 ->groupBy('p.id')
