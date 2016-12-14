@@ -48,9 +48,9 @@ class SearchController extends Controller
 		->join('categories as c', 'p.id_category', '=', 'c.provider_category')
 		->select('p.*')
 		->where(function($q) use ($keyword, $aCategories) {
-			$q->where('p.name', 'like', '%'.$keyword.'%')
+			$q->where('p.name', 'like', '%'.$keyword.'%');
 			if ( count($aCategories)>0 ) {
-				$q->orWhereIn('p.id_category', $aCategories); 
+				$q->orWhereIn('p.id_category', $aCategories);
 			}
 		})
 		->where('ph.price_min', '<>', 0)
