@@ -93,7 +93,6 @@ var nResult = 0;
               }
             });
           }
-          create_chart();
           </script>
           <script>
           // Corrige o tamanho do grafico
