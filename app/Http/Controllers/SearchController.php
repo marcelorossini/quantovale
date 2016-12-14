@@ -32,28 +32,31 @@ class SearchController extends Controller
 
 	public function result_page($keyword) {
 		$tabCategory = DB::table('categories as c')
-									->select('c.provider_category')
-									->where('c.name', 'like', '%'.$keyword.'%')
-									->get();
+		->select('c.provider_category')
+		->where('c.name', 'like', '%'.$keyword.'%')
+		->get();
 
 		// Gambiarra
 		$aCategories = [];
 		foreach($tabCategory as $object)
 		{
-		    $aCategories[] = $object->provider_category;
+			$aCategories[] = $object->provider_category;
 		}
 
 		$tabProducts = DB::table('products as p')
-		                 ->join('products_hist as ph', 'p.id', '=', 'ph.id_product')
-		                 ->join('categories as c', 'p.id_category', '=', 'c.provider_category')
-		                 ->select('p.*')
-										 ->where(function($q) use ($keyword, $aCategories) {
-		 									 $q->where('p.name', 'like', '%'.$keyword.'%')->orWhereIn('p.id_category', ( count($aCategories)>0 ? $aCategories : 0 ) );
-										 })
-										 ->where('ph.price_min', '<>', 0)
-										 ->groupBy('p.id')
-										 ->limit(50)
-										 ->get();
+		->join('products_hist as ph', 'p.id', '=', 'ph.id_product')
+		->join('categories as c', 'p.id_category', '=', 'c.provider_category')
+		->select('p.*')
+		->where(function($q) use ($keyword, $aCategories) {
+			$q->where('p.name', 'like', '%'.$keyword.'%')
+			if ( count($aCategories)>0 ) {
+				$q->orWhereIn('p.id_category', $aCategories); 
+			}
+		})
+		->where('ph.price_min', '<>', 0)
+		->groupBy('p.id')
+		->limit(50)
+		->get();
 
 		return view('search.product', ['products' => $tabProducts,'keyword' => $keyword]);
 	}
