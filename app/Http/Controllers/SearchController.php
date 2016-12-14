@@ -35,7 +35,7 @@ class SearchController extends Controller
 		                 ->join('products_hist as ph', 'p.id', '=', 'ph.id_product')
 		                 ->join('categories as c', 'p.id_category', '=', 'c.provider_category')
 		                 ->select('p.*')
-										 ->where(function($q) {
+										 ->where(function($q) use ($keyword) {
 		 									 $q->where('p.name', 'like', '%'.$keyword.'%')->orWhere('c.name', 'like', '%'.$keyword.'%');
 										 })
 										 ->where('ph.price_min', '<>', 0)
