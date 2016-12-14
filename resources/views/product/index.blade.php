@@ -108,14 +108,15 @@ var nResult = 0;
             } catch(err) {
 
             }
-            create_chart();
           }
 
           $( document ).ready(function() {
             resize_chart();
+            create_chart();
           });
           $( window ).resize(function() {
             resize_chart();
+            create_chart();
           });
           </script>
         </div>
