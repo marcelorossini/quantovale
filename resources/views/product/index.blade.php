@@ -34,85 +34,88 @@ var nResult = 0;
           <canvas id="grafico_linha"></canvas>
           <!--  Script do grafico -->
           <script>
-          var ctx = document.getElementById("grafico_linha");
-          var grafico_linha = new Chart(ctx, {
-            type: 'line',
-            data: {
-              labels: JSON.parse('{!! json_encode($aChart[0]) !!}'),
-              datasets: [
-                {
-                  label: "Menor preço",
-                  fill: true,
-                  lineTension: 0.1,
-                  backgroundColor: "rgba(79,195,247,0.4)",
-                  borderColor: "rgba(79,195,247,1)",
-                  borderCapStyle: 'butt',
-                  borderDash: [],
-                  borderDashOffset: 0.0,
-                  borderJoinStyle: 'miter',
-                  pointBorderColor: "rgba(79,195,247,1)",
-                  pointBackgroundColor: "rgba(79,195,247,1)",
-                  pointBorderWidth: 5,
-                  pointHoverRadius: 5,
-                  pointHoverBackgroundColor: "rgba(79,195,247,1)",
-                  pointHoverBorderColor: "rgba(79,195,247,1)",
-                  pointHoverBorderWidth: 2,
-                  pointRadius: 1,
-                  pointHitRadius: 10,
-                  data: JSON.parse('{!! json_encode($aChart[1]) !!}'),
-                  spanGaps: false,
-                }
-              ]
-            },
-            options: {
-              scales: {
-                yAxes: [{
-                  display: true,
-                  ticks: {
-                    beginAtZero:true
-                  },
-                  gridLines: {
-                      display:false
+          var grafico_linha;
+          // Cria grafico
+          function create_chart() {
+            ctx = $("#grafico_linha");
+            grafico_linha = new Chart(ctx, {
+              type: 'line',
+              data: {
+                labels: JSON.parse('{!! json_encode($aChart[0]) !!}'),
+                datasets: [
+                  {
+                    label: "Menor preço",
+                    fill: true,
+                    lineTension: 0.1,
+                    backgroundColor: "rgba(79,195,247,0.4)",
+                    borderColor: "rgba(79,195,247,1)",
+                    borderCapStyle: 'butt',
+                    borderDash: [],
+                    borderDashOffset: 0.0,
+                    borderJoinStyle: 'miter',
+                    pointBorderColor: "rgba(79,195,247,1)",
+                    pointBackgroundColor: "rgba(79,195,247,1)",
+                    pointBorderWidth: 5,
+                    pointHoverRadius: 5,
+                    pointHoverBackgroundColor: "rgba(79,195,247,1)",
+                    pointHoverBorderColor: "rgba(79,195,247,1)",
+                    pointHoverBorderWidth: 2,
+                    pointRadius: 1,
+                    pointHitRadius: 10,
+                    data: JSON.parse('{!! json_encode($aChart[1]) !!}'),
+                    spanGaps: false,
                   }
-                }],
-              xAxes: [{
-                ticks: {
-                  maxTicksLimit:8
+                ]
+              },
+              options: {
+                scales: {
+                  yAxes: [{
+                    display: true,
+                    ticks: {
+                      beginAtZero:true
+                    },
+                    gridLines: {
+                      display:false
+                    }
+                  }],
+                  xAxes: [{
+                    ticks: {
+                      maxTicksLimit:8
+                    },
+                    gridLines: {
+                      display:false
+                    }
+                  }]
                 },
-                gridLines: {
-                    display:false
-                }
-              }]
-              },
-              legend: {
+                legend: {
                   display: false
-              },
-              responsive: true,
-              maintainAspectRatio: false,
+                },
+                responsive: true,
+                maintainAspectRatio: false,
+              }
+            });
+          }
+
+          // Corrige o tamanho do grafico
+          function resize_chart() {
+            if ($(window).width()>992) {
+              height_chart = $("#produto_img").height()-$("#produto_cab").height()-20;
+            } else {
+              height_chart = 200;
             }
+            $("#produto_gra").css("height",height_chart);
+            grafico_linha.destroy();
+            create_chart();
+          }
+
+          $(document).ready(function() {
+            resize_chart();
+          });
+          $( window ).resize(function() {
+            resize_chart();
           });
           </script>
         </div>
-        <!-- Corrige o tamanho do grafico-->
-        <script>
-        function resize_chart() {
-          if ($(window).width()>992) {
-            height_chart = $("#produto_img").height()-$("#produto_cab").height()-20;
-          } else {
-            height_chart = 200;
-          }
-          $("#produto_gra").css("height",height_chart);
-        }
-
-        resize_chart();
-        $(document).ready(function() {
-          resize_chart();
-        });
-        $( window ).resize(function() {
-          resize_chart();
-        });
-        </script>
-
         <div class="hide-on-med-and-up center">
           <div class="flow-text" style="font-size: 1.5em;">Valor médio: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
         </div>
@@ -258,9 +261,9 @@ var nResult = 0;
                 <div class="col s4 m4 l1">
                   <a href="#" id="aVerPagina"><i class="mdi mdi-logout"></i><br><span>Ver página</span></a>
                   <script>
-                    $('#aVerPagina').click(function() {
-                      this.href = ('{{ route("getShare","nResult") }}').replace('nResult',nResult);
-                    });
+                  $('#aVerPagina').click(function() {
+                    this.href = ('{{ route("getShare","nResult") }}').replace('nResult',nResult);
+                  });
                   </script>
                 </div>
               </div>
