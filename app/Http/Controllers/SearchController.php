@@ -34,14 +34,14 @@ class SearchController extends Controller
 		$tabCategory = DB::table('categories as c')
 									->select('c.provider_category')
 									->where('c.name', 'like', '%'.$keyword.'%')
-									->first();
+									->get();
 
 		$tabProducts = DB::table('products as p')
 		                 ->join('products_hist as ph', 'p.id', '=', 'ph.id_product')
 		                 ->join('categories as c', 'p.id_category', '=', 'c.provider_category')
 		                 ->select('p.*')
 										 ->where(function($q) use ($keyword, $tabCategory) {
-		 									 $q->where('p.name', 'like', '%'.$keyword.'%')->orWhere('p.id_category', ( isset($tabCategory->provider_category) ? $tabCategory->provider_category : 0 ) );
+		 									 $q->where('p.name', 'like', '%'.$keyword.'%')->orWhereIn('p.id_category', ( isset($tabCategory->provider_category) ? $tabCategory->provider_category : 0 ) );
 										 })
 										 ->where('ph.price_min', '<>', 0)
 										 ->groupBy('p.id')
