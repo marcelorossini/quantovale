@@ -107,12 +107,15 @@ var nResult = 0;
             try {
               grafico_linha.destroy();
             } catch(err) {
-              
+
             }
             create_chart();
           }
 
-          resize_chart();
+          $( document ).ready(function() {
+            resize_chart();
+          });
+
           $( window ).resize(function() {
             resize_chart();
           });
