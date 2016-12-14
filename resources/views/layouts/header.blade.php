@@ -71,11 +71,12 @@ $(document).ready(function(){
 
 <nav class="nav red lighten-1 hide-on-med-and-down">
   <div class="row">
-    <div class="col s12 m12 l2">
+    <div class="col s12 m12 l1">
     </div>
-    <div class="col s12 m12 l2">
+    <div class="col s12 m12 l3">
       <ul id="nav-mobile">
-        <li><a style="border-bottom: 2px solid white;" href="{{ route('getHome') }}">PRODUTOS</a></li>
+        <li><a href="{{ route('getHome') }}">HOME</a></li>
+        <li><a href="{{ route('getHome') }}">PRODUTOS</a></li>
         <li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="badges.html">VEÍCULOS</a></li>
         <!--<li><a style="pointer-events: none; cursor: default; color:#eeeeee" href="collapsible.html">IMÓVEIS</a></li>-->
       </ul>
@@ -96,7 +97,6 @@ $(document).ready(function(){
     <div class="col s12 m12 l2">
       <!-- Dropdown Structure -->
       <ul id="dropdown1" class="dropdown-content">
-        <li><a href="{{ route('getHome') }}">Home</a></li>
         <li><a href="{{ route('getUsersShared') }}">Compartilhados</a></li>
         <li><a href="{{ route('getUsersFavorites') }}">Favoritos</a></li>
         <li class="divider"></li>

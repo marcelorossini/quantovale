@@ -112,7 +112,7 @@ var nResult = 0;
             create_chart();
           }
 
-          $( document ).ready(function() {  
+          $( document ).ready(function() {
             resize_chart();
           });
           $( window ).resize(function() {
@@ -260,11 +260,14 @@ var nResult = 0;
                   </script>
                 </div>
                 <div class="col s4 m4 l1 hide-on-large-only">
-                  <a href="#"><i class="mdi mdi-whatsapp color-whatsapp"></i><br><span>WhatsApp</span></a>
+                  <a href="#" id="aWhatsApp"><i class="mdi mdi-whatsapp color-whatsapp"></i><br><span>WhatsApp</span></a>
                 </div>
                 <div class="col s4 m4 l1">
                   <a href="#" id="aVerPagina"><i class="mdi mdi-logout"></i><br><span>Ver página</span></a>
                   <script>
+                  $('#aWhatsApp').click(function() {
+                    this.href = 'whatsapp://send?text='+('{{ route("getShare","nResult") }}').replace('nResult',nResult);
+                  });
                   $('#aVerPagina').click(function() {
                     this.href = ('{{ route("getShare","nResult") }}').replace('nResult',nResult);
                   });
