@@ -97,26 +97,30 @@ var nResult = 0;
           <script>
           // Corrige o tamanho do grafico
           function resize_chart() {
-            if ($(window).width()>992) {
-              height_chart = $("#produto_img").height()-$("#produto_cab").height()-20;
-            } else {
-              height_chart = 200;
+            height_chart = 0;
+            do {
+              if ($(window).width()>992) {
+                height_chart = $("#produto_img").height()-$("#produto_cab").height()-20;
+              } else {
+                height_chart = 200;
+              }
             }
+            while (height_chart==0);
             $("#produto_gra").css("height",height_chart);
+
             try {
               grafico_linha.destroy();
             } catch(err) {
 
             }
+            create_chart();
           }
 
           $( document ).ready(function() {
             resize_chart();
-            create_chart();
           });
           $( window ).resize(function() {
             resize_chart();
-            create_chart();
           });
           </script>
         </div>
