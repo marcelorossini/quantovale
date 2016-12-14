@@ -34,8 +34,6 @@ var nResult = 0;
           <canvas id="grafico_linha"></canvas>
           <!--  Script do grafico -->
           <script>
-          var grafico_linha;
-          // Cria grafico
           function create_chart() {
             ctx = $("#grafico_linha");
             grafico_linha = new Chart(ctx, {
@@ -95,7 +93,9 @@ var nResult = 0;
               }
             });
           }
-
+          create_chart();
+          </script>
+          <script>
           // Corrige o tamanho do grafico
           function resize_chart() {
             if ($(window).width()>992) {
@@ -115,7 +115,6 @@ var nResult = 0;
           $( document ).ready(function() {
             resize_chart();
           });
-
           $( window ).resize(function() {
             resize_chart();
           });
