@@ -33,10 +33,14 @@ class SearchController extends Controller
 	public function result_page($keyword) {
 		$tabProducts = DB::table('products as p')
 		                 ->join('products_hist as ph', 'p.id', '=', 'ph.id_product')
+		                 ->join('categories as c', 'p.id_category', '=', 'c.provider_category')
 		                 ->select('p.*')
-										 ->where('p.name', 'like', '%'.$keyword.'%')
+										 ->where(function($q) {
+		 									 $q->where('p.name', 'like', '%'.$keyword.'%')->orWhere('c.name', 'like', '%'.$keyword.'%');
+										 })
 										 ->where('ph.price_min', '<>', 0)
 										 ->groupBy('p.id')
+										 ->limit(50)
 										 ->get();
 
 		return view('search.product', ['products' => $tabProducts,'keyword' => $keyword]);
