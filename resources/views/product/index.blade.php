@@ -32,97 +32,6 @@ var nResult = 0;
 
         <div id="produto_gra" style="width: 100%;">
           <canvas id="grafico_linha"></canvas>
-          <!--  Script do grafico -->
-          <script>
-          function create_chart() {
-            ctx = $("#grafico_linha");
-            grafico_linha = new Chart(ctx, {
-              type: 'line',
-              data: {
-                labels: JSON.parse('{!! json_encode($aChart[0]) !!}'),
-                datasets: [
-                  {
-                    label: "Menor preço",
-                    fill: true,
-                    lineTension: 0.1,
-                    backgroundColor: "rgba(79,195,247,0.4)",
-                    borderColor: "rgba(79,195,247,1)",
-                    borderCapStyle: 'butt',
-                    borderDash: [],
-                    borderDashOffset: 0.0,
-                    borderJoinStyle: 'miter',
-                    pointBorderColor: "rgba(79,195,247,1)",
-                    pointBackgroundColor: "rgba(79,195,247,1)",
-                    pointBorderWidth: 5,
-                    pointHoverRadius: 5,
-                    pointHoverBackgroundColor: "rgba(79,195,247,1)",
-                    pointHoverBorderColor: "rgba(79,195,247,1)",
-                    pointHoverBorderWidth: 2,
-                    pointRadius: 1,
-                    pointHitRadius: 10,
-                    data: JSON.parse('{!! json_encode($aChart[1]) !!}'),
-                    spanGaps: false,
-                  }
-                ]
-              },
-              options: {
-                scales: {
-                  yAxes: [{
-                    display: true,
-                    ticks: {
-                      beginAtZero:true
-                    },
-                    gridLines: {
-                      display:false
-                    }
-                  }],
-                  xAxes: [{
-                    ticks: {
-                      maxTicksLimit:8
-                    },
-                    gridLines: {
-                      display:false
-                    }
-                  }]
-                },
-                legend: {
-                  display: false
-                },
-                responsive: true,
-                maintainAspectRatio: false,
-              }
-            });
-          }
-          </script>
-          <script>
-          // Corrige o tamanho do grafico
-          function resize_chart() {
-            height_chart = 0;
-            do {
-              if ($(window).width()>992) {
-                height_chart = $("#produto_img").height()-$("#produto_cab").height()-20;
-              } else {
-                height_chart = 200;
-              }
-            }
-            while (height_chart==0);
-            $("#produto_gra").css("height",height_chart);
-
-            try {
-              grafico_linha.destroy();
-            } catch(err) {
-
-            }
-            create_chart();
-          }
-
-          $( document ).ready(function() {
-            resize_chart();
-          });
-          $( window ).resize(function() {
-            resize_chart();
-          });
-          </script>
         </div>
         <div class="hide-on-med-and-up center">
           <div class="flow-text" style="font-size: 1.5em;">Valor médio: R$ {{ number_format($nValorNovo,2,",",".") }}</div>
@@ -172,28 +81,6 @@ var nResult = 0;
         @endforeach
         <button type="submit" id="btnFormCalcular" style="display: none;"></button>
       </form>
-      <!-- AJAX para enviar o formulário -->
-      <script>
-      $(document).ready(function() {
-        $('#formFilters').ajaxForm({
-          dataType:  'json',
-          success:   processJson
-        });
-      });
-
-      // Função de tratamento do retorno do JSON
-      function processJson(data) {
-        $("#btnCalcular").hide();
-        $("#divFilters").hide();
-        $("#divCalculo").removeClass("l8");
-        $("#divCalculo").addClass("l12");
-        $("#divRetornoCalculo").show();
-        $('#divValorCalculado').html('R$ '+(data.valor).formatMoney(2, ',', '.'));
-
-        //Atualiza variável de resultado
-        nResult = data.result;
-      }
-      </script>
     </div>
     <div class="col s12 m12 l8 filcal valign-wrapper center-align" id="divCalculo">
       <div class="col s12 m12 l12" style="">
@@ -287,8 +174,109 @@ var nResult = 0;
     <!-- Corrige o tamanho do grafico-->
     <script>
     $(document).ready(function(){
+      // AJAX para enviar o formulário
+      $('#formFilters').ajaxForm({
+        dataType:  'json',
+        success:   processJson
+      });
+
+      // Corrige o tamanho dos cards
       $('.filcal').matchHeight();
+
+      // Corrige tamanho do grafico
+      resize_chart();
+      debugger;
     });
+
+    // Função de tratamento do retorno do JSON
+    function processJson(data) {
+      $("#btnCalcular").hide();
+      $("#divFilters").hide();
+      $("#divCalculo").removeClass("l8");
+      $("#divCalculo").addClass("l12");
+      $("#divRetornoCalculo").show();
+      $('#divValorCalculado').html('R$ '+(data.valor).formatMoney(2, ',', '.'));
+
+      //Atualiza variável de resultado
+      nResult = data.result;
+    }
+
+    // Cria o grafico
+    function create_chart() {
+      ctx = $("#grafico_linha");
+      grafico_linha = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: JSON.parse('{!! json_encode($aChart[0]) !!}'),
+          datasets: [
+            {
+              label: "Menor preço",
+              fill: true,
+              lineTension: 0.1,
+              backgroundColor: "rgba(79,195,247,0.4)",
+              borderColor: "rgba(79,195,247,1)",
+              borderCapStyle: 'butt',
+              borderDash: [],
+              borderDashOffset: 0.0,
+              borderJoinStyle: 'miter',
+              pointBorderColor: "rgba(79,195,247,1)",
+              pointBackgroundColor: "rgba(79,195,247,1)",
+              pointBorderWidth: 5,
+              pointHoverRadius: 5,
+              pointHoverBackgroundColor: "rgba(79,195,247,1)",
+              pointHoverBorderColor: "rgba(79,195,247,1)",
+              pointHoverBorderWidth: 2,
+              pointRadius: 1,
+              pointHitRadius: 10,
+              data: JSON.parse('{!! json_encode($aChart[1]) !!}'),
+              spanGaps: false,
+            }
+          ]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              display: true,
+              ticks: {
+                beginAtZero:true
+              },
+              gridLines: {
+                display:false
+              }
+            }],
+            xAxes: [{
+              ticks: {
+                maxTicksLimit:8
+              },
+              gridLines: {
+                display:false
+              }
+            }]
+          },
+          legend: {
+            display: false
+          },
+          responsive: true,
+          maintainAspectRatio: false,
+        }
+      });
+    }
+
+    // Corrige o tamanho do grafico
+    function resize_chart() {
+      if ($(window).width()>992) {
+        height_chart = $("#produto_img").height()-$("#produto_cab").height()-20;
+      } else {
+        height_chart = 200;
+      }
+      $("#produto_gra").css("height",height_chart);
+      try {
+        grafico_linha.destroy();
+      } catch(err) {
+
+      }
+      create_chart();
+    }
     </script>
   </div>
 </div>
